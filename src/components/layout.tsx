@@ -25,7 +25,7 @@ export default function Layout({ children }: any) {
       <div className="pt-6 px-10 text-sm">
         <div className="flex flex-col gap-6">
           <div className="flex">
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
               <Link href="/">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M20 4C8.8 4 11.6 16 4 16V20C15.2 20 12.4 8 20 8V4Z" fill="black" />
@@ -37,16 +37,16 @@ export default function Layout({ children }: any) {
                 <line x1="0.576001" y1="24.735" x2="15.576" y2="0.735002" stroke="#E2E8F0" />
               </svg>
               <Avatar className="h-6 w-6">
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarImage src="/customer-icon.png" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               Amazing Corp
             </div>
-            <div className="flex gap-4 text-slate-400 ml-auto">
+            <div className="flex gap-4 text-slate-400 ml-auto items-center">
               <Link href="/help">Help</Link>
               <Link href="/documentation">Docs</Link>
               <Avatar className="h-6 w-6">
-                <AvatarImage src="https://github.com/zaini.png" />
+                <AvatarImage src="/user-icon.png" />
                 <AvatarFallback>zaini</AvatarFallback>
               </Avatar>
             </div>
