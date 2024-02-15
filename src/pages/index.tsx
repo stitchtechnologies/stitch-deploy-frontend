@@ -21,7 +21,7 @@ export default function Organizations() {
         <div className="flex gap-2">
           <Input type="text" placeholder="Search" />
           <Select>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[200px]">
               <SelectValue placeholder="Sort by activity" />
             </SelectTrigger>
             <SelectContent>
