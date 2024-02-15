@@ -9,13 +9,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import Head from "next/head";
 
 export default function Organizations() {
   return (
     <Layout>
+      <Head>
+        <title>Stitch | Organizations</title>
+      </Head>
       <div className="flex flex-col gap-4 px-24 py-6">
         <div className="flex gap-2">
-          <Input type="text" placeholder="Search" className="" />
+          <Input type="text" placeholder="Search" />
           <Select>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Sort by activity" />

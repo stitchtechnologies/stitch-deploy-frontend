@@ -24,6 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import Head from "next/head";
 
 interface Environment {
     id: string;
@@ -107,6 +108,9 @@ export default function Organizations() {
 
     return (
         <Layout>
+            <Head>
+                <title>Stitch | {ORGANIZATION.organizationName}</title>
+            </Head>
             <div className="flex items-center border-b-[rgba(0,0,0,0.10)] px-24 border-b border-solid">
                 <div className="flex items-center gap-4 my-12">
                     <Avatar className="h-8 w-8">
