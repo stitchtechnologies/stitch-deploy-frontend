@@ -164,15 +164,21 @@ export default function Organizations() {
                                             secret: e.target["secret"].value,
                                         }))
                                         setDeploying(true)
-                                        fetch("https:localhost:3001/", {
+                                        fetch("http://localhost:3001/", {
                                             method: "POST",
+                                            headers: new Headers({
+                                                "Content-Type": "application/json",
+                                            }),
                                             body: JSON.stringify({
                                                 accessKey: e.target["access-key"].value,
                                                 secret: e.target["secret"].value,
                                             }),
                                         })
                                             .then((res) => res.json())
-                                            .then((res) => console.log(res))
+                                            .then((res) => {
+                                                console.log(res)
+                                                alert(res.url)
+                                            })
                                             .then(() => setDeploying(false))
                                             .catch((err) => console.error(err))
                                     }}>
