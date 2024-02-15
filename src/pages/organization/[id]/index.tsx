@@ -13,6 +13,16 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface Environment {
     id: string;
@@ -95,7 +105,7 @@ export default function Organizations() {
 
     return (
         <Layout>
-            <div className="flex">
+            <div className="flex items-center">
                 <div className="flex items-center gap-4 my-12">
                     <Avatar className="h-8 w-8">
                         <AvatarImage src={ORGANIZATION.imageUrl} />
@@ -134,9 +144,43 @@ export default function Organizations() {
                     <div className="text-4xl">
                         Environment
                     </div>
-                    <Button className="ml-auto">
-                        Create new
-                    </Button>
+
+                    <Dialog>
+                        <DialogTrigger className="ml-auto">
+                            <Button>
+                                Create new
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Enter credientials</DialogTitle>
+                                <DialogDescription>
+                                    <form className="flex flex-col gap-4 mt-2" onSubmit={(e: any) => {
+                                        e.preventDefault()
+                                        console.log("Deploying", JSON.stringify({
+                                            accessKey: e.target["access-key"].value,
+                                            secret: e.target["secret"].value,
+                                        }))
+                                        fetch("https:localhost:3001/", {
+                                            method: "POST",
+                                            body: JSON.stringify({
+                                                accessKey: e.target["access-key"].value,
+                                                secret: e.target["secret"].value,
+                                            }),
+                                        })
+                                            .then((res) => res.json())
+                                            .then((res) => console.log(res))
+                                    }}>
+                                        <Label htmlFor="access-key">Access key</Label>
+                                        <Input type="text" name="access-key" placeholder="fnkwejnfwkjnkwecew" />
+                                        <Label htmlFor="password">Secret</Label>
+                                        <Input type="password" name="secret" placeholder="Secret" />
+                                        <Button type={"submit"}>Deploy</Button>
+                                    </form>
+                                </DialogDescription>
+                            </DialogHeader>
+                        </DialogContent>
+                    </Dialog>
                 </div>
                 <div className="bg-white rounded shadow">
                     {ENVIRONMENTS.length === 0 ?
