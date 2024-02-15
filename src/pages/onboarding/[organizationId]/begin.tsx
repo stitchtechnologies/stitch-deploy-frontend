@@ -211,7 +211,7 @@ const AWSForm = () => {
                         htmlFor="terms"
                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
-                        Deploying the services will start immediatly after clicking the button below.
+                        Deploying the services will start immediately after clicking the button below.
                     </label>
                 </div>
             </div>
