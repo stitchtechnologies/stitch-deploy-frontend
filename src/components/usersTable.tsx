@@ -1,8 +1,6 @@
 import { useState } from "react"
 import { Button } from "./ui/button"
-import { Code, Eye, MinusCircle, MoreHorizontal, UserRound } from "lucide-react"
-import { Toggle } from "./ui/toggle"
-import { Input } from "./ui/input"
+import { MinusCircle, UserRound } from "lucide-react"
 
 export type User = {
     name: string;
@@ -11,6 +9,7 @@ export type User = {
 
 const UserRow = ({ user }: { user: User }) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+
     return (
         <div className="flex gap-4 py-4 px-6 items-center text-sm border-b-[rgba(0,0,0,0.10)] border-b border-solid">
             <div className="flex flex-1 gap-2 items-center"><UserRound width={14} height={14} /> {user.name} ({user.email})</div>
