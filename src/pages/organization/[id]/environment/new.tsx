@@ -17,6 +17,7 @@ import { ACME_ORG } from "@/components/createNewOrganizationDialog";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { ServicesTable } from "@/components/servicesTable";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function NewOrganizationEnvironment() {
     const router = useRouter();
@@ -79,7 +80,7 @@ export default function NewOrganizationEnvironment() {
                 <div className="flex flex-col gap-6">
                     <div>
                         <h2 className="text-sm">Environment name</h2>
-                        <div className="text-sm text-slate-400 mb-3">A short name for this environment</div>
+                        <div className="text-sm text-slate-400 mb-3">Enter a name under which this environment will appear. This name is not visible to outside of your organization.</div>
                         <Input type="text" name="access-key" placeholder="Enter name" />
                     </div>
                     <div>
@@ -109,6 +110,35 @@ export default function NewOrganizationEnvironment() {
                 </div>
                 <div className="flex items-center justify-center">
                     <ServicesTable />
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+                <div className="flex flex-col gap-2">
+                    <div className="text-2xl">Projected costs</div>
+                    <div className="text-sm text-slate-400 mb-3">You can inform the recipient about the projected cost of running the services. The costs should not include your license fees, but solely the storage and compute costs.</div>
+                </div>
+                <div className="flex items-center justify-center">
+                    <Textarea placeholder="Describe the projected costs of the services..." />
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+                <div className="flex flex-col gap-2">
+                    <div className="text-2xl">Environment variables</div>
+                </div>
+                <div className="flex items-center justify-center">
+                    imagine a table for environment variables
+                </div>
+            </div>
+
+            <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+                <div className="flex flex-col gap-2">
+                    <div className="text-2xl">Users</div>
+                    <div className="text-sm text-slate-400 mb-3">Enter the emails of you recipient contacts responsible for setting up the environment. Only users with access to that email can deploy your product. Additional email addresses can be added later on.</div>
+                </div>
+                <div className="flex items-center justify-center">
+                    imagine a table for users emails
                 </div>
             </div>
         </Layout>
