@@ -11,14 +11,25 @@ import { Label } from "@/components/ui/label";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { Organization } from "./organization";
 
-const CreateNewOrganization = () => {
-    const [creating, setCreating] = useState(false);
+export const ACME_ORG = {
+    id: "acme",
+    link: "/organization/acme",
+    imageUrl: "/acme.png",
+    fallbackName: "Acme Corporation",
+    organizationName: "Acme Corporation",
+    lastUpdated: "now",
+    badges: []
+}
+
+const CreateNewOrganization = ({ onCreated: handleCreated }: { onCreated: (org: Organization) => void }) => {
     const [open, setOpen] = useState(false);
+    const [creating, setCreating] = useState(false);
 
     return (
         <Dialog open={open}>
-            <DialogTrigger className="ml-auto">
+            <DialogTrigger className="ml-auto" asChild>
                 <Button className="px-6" onClick={() => setOpen(true)}>
                     Add new
                 </Button>
@@ -34,6 +45,7 @@ const CreateNewOrganization = () => {
                             setTimeout(() => {
                                 setCreating(false)
                                 setOpen(false)
+                                handleCreated(ACME_ORG)
                             }, 2000)
                         }}>
                             <div className="grid w-full items-center gap-1.5">

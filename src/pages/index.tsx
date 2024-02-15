@@ -10,8 +10,10 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import Head from "next/head";
+import { useState } from "react";
 
 export default function Organizations() {
+  const [organizations, setOrganizations] = useState(ORGANIZATIONS);
   return (
     <Layout>
       <Head>
@@ -30,10 +32,10 @@ export default function Organizations() {
               <SelectItem value="update">Sort by last update</SelectItem>
             </SelectContent>
           </Select>
-          <CreateNewOrganization />
+          <CreateNewOrganization onCreated={(org) => setOrganizations([...organizations, org])} />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {ORGANIZATIONS.map((org, index) => (
+          {organizations.map((org, index) => (
             <OrganizationCard
               key={org.id}
               link={org.link}
