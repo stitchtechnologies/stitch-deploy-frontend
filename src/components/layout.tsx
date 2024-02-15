@@ -26,11 +26,13 @@ export default function Layout({ children }: any) {
         <div className="flex flex-col gap-6">
           <div className="flex">
             <div className="flex gap-4">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 4C8.8 4 11.6 16 4 16V20C15.2 20 12.4 8 20 8V4Z" fill="black" />
-                <path d="M20 8V18C20 19.1046 19.1046 20 18 20H12V24H18C21.3137 24 24 21.3137 24 18V8L20 8Z" fill="black" />
-                <path d="M12 0V4H6C4.89543 4 4 4.89543 4 6V16L0 16V6C0 2.68629 2.68629 0 6 0H12Z" fill="black" />
-              </svg>
+              <Link href="/">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 4C8.8 4 11.6 16 4 16V20C15.2 20 12.4 8 20 8V4Z" fill="black" />
+                  <path d="M20 8V18C20 19.1046 19.1046 20 18 20H12V24H18C21.3137 24 24 21.3137 24 18V8L20 8Z" fill="black" />
+                  <path d="M12 0V4H6C4.89543 4 4 4.89543 4 6V16L0 16V6C0 2.68629 2.68629 0 6 0H12Z" fill="black" />
+                </svg>
+              </Link>
               <svg width="16" height="25" viewBox="0 0 16 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <line x1="0.576001" y1="24.735" x2="15.576" y2="0.735002" stroke="#E2E8F0" />
               </svg>

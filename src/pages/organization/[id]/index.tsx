@@ -8,25 +8,14 @@ import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useState } from "react";
 import Head from "next/head";
+import CreatenewEnvironmentDialog from "@/components/createNewEnvironmentDialog";
 
-interface Environment {
+export interface Environment {
     id: string;
     name: string;
     status: string;
@@ -67,7 +56,6 @@ const EnvironmentRow = ({ environment }: { environment: Environment }) => {
 
 export default function Organizations() {
     const router = useRouter();
-    const [deploying, setDeploying] = useState(false);
     const ORGANIZATION = ORGANIZATIONS.find((org) => org.id === router.query.id)!;
     const ENVIRONMENTS: Environment[] = [
         {
@@ -151,51 +139,8 @@ export default function Organizations() {
                         Environments
                     </div>
 
-                    <Dialog>
-                        <DialogTrigger className="ml-auto">
-                            <Button>
-                                Create new
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle>Enter credientials</DialogTitle>
-                                <DialogDescription>
-                                    <form className="flex flex-col gap-4 mt-2" onSubmit={(e: any) => {
-                                        e.preventDefault()
-                                        console.log("Deploying", JSON.stringify({
-                                            accessKey: e.target["access-key"].value,
-                                            secret: e.target["secret"].value,
-                                        }))
-                                        setDeploying(true)
-                                        fetch("http://localhost:3001/", {
-                                            method: "POST",
-                                            headers: new Headers({
-                                                "Content-Type": "application/json",
-                                            }),
-                                            body: JSON.stringify({
-                                                accessKey: e.target["access-key"].value,
-                                                secret: e.target["secret"].value,
-                                            }),
-                                        })
-                                            .then((res) => res.json())
-                                            .then((res) => {
-                                                console.log(res)
-                                                alert(res.url)
-                                            })
-                                            .then(() => setDeploying(false))
-                                            .catch((err) => console.error(err))
-                                    }}>
-                                        <Label htmlFor="access-key">Access key</Label>
-                                        <Input type="text" name="access-key" placeholder="fnkwejnfwkjnkwecew" />
-                                        <Label htmlFor="password">Secret</Label>
-                                        <Input type="password" name="secret" placeholder="Secret" />
-                                        <Button type={"submit"} disabled={deploying}>Deploy</Button>
-                                    </form>
-                                </DialogDescription>
-                            </DialogHeader>
-                        </DialogContent>
-                    </Dialog>
+                    <CreatenewEnvironmentDialog organization={ORGANIZATION} />
+
                 </div>
                 <div className="bg-white rounded shadow">
                     {ENVIRONMENTS.length === 0 ?

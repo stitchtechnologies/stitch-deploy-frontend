@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
-export interface OrganizationCard {
+export interface Organization {
     id: string;
     link: string;
     imageUrl: string;
@@ -12,7 +12,7 @@ export interface OrganizationCard {
     badges: { variant: "default" | "secondary" | "destructive" | "outline"; text: string; }[];
 }
 
-type OrganizationCardProps = Omit<OrganizationCard, "id">;
+type OrganizationCardProps = Omit<Organization, "id">;
 
 export const OrganizationCard: React.FC<OrganizationCardProps> = ({ link, imageUrl, fallbackName, organizationName, lastUpdated, badges }) => {
     return (
@@ -37,7 +37,7 @@ export const OrganizationCard: React.FC<OrganizationCardProps> = ({ link, imageU
 }
 
 // TODO use a DB for this
-export const ORGANIZATIONS: OrganizationCard[] = [
+export const ORGANIZATIONS: Organization[] = [
     {
         id: "apple",
         link: "/organization/apple",
