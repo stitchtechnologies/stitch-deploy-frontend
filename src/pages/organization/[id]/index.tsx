@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
 
 interface Environment {
     id: string;
@@ -65,6 +66,7 @@ const EnvironmentRow = ({ environment }: { environment: Environment }) => {
 
 export default function Organizations() {
     const router = useRouter();
+    const [deploying, setDeploying] = useState(false);
     const ORGANIZATION = ORGANIZATIONS.find((org) => org.id === router.query.id)!;
     const ENVIRONMENTS: Environment[] = [
         {
@@ -161,6 +163,7 @@ export default function Organizations() {
                                             accessKey: e.target["access-key"].value,
                                             secret: e.target["secret"].value,
                                         }))
+                                        setDeploying(true)
                                         fetch("https:localhost:3001/", {
                                             method: "POST",
                                             body: JSON.stringify({
@@ -170,12 +173,14 @@ export default function Organizations() {
                                         })
                                             .then((res) => res.json())
                                             .then((res) => console.log(res))
+                                            .then(() => setDeploying(false))
+                                            .catch((err) => console.error(err))
                                     }}>
                                         <Label htmlFor="access-key">Access key</Label>
                                         <Input type="text" name="access-key" placeholder="fnkwejnfwkjnkwecew" />
                                         <Label htmlFor="password">Secret</Label>
                                         <Input type="password" name="secret" placeholder="Secret" />
-                                        <Button type={"submit"}>Deploy</Button>
+                                        <Button type={"submit"} disabled={deploying}>Deploy</Button>
                                     </form>
                                 </DialogDescription>
                             </DialogHeader>
