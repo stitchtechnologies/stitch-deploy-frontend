@@ -18,10 +18,29 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { ServicesTable } from "@/components/servicesTable";
 import { Textarea } from "@/components/ui/textarea";
-import EnvironmentVariablesTable from "@/components/environmentVariablesTable";
+import EnvironmentVariablesTable, { EnvironmentVariable } from "@/components/environmentVariablesTable";
+import NewEnvironmentVariableDialog from "@/components/createNewEnvironmentVariableDialog";
+import { useState } from "react";
+import NewUserDialog from "@/components/createNewUserDialog";
+import UsersTable, { User } from "@/components/usersTable";
 
 export default function NewOrganizationEnvironment() {
     const router = useRouter();
+    const [envVariables, setEnvVariables] = useState<EnvironmentVariable[]>([{
+        key: "OPEN_AI_KEY",
+        value: "1234567890"
+    },
+    {
+        key: "ANTHROPIC_KEY",
+        value: "0987654321"
+    }]);
+    const [users, setUsers] = useState<User[]>([
+        {
+            name: "Sam Altman",
+            email: "sama@openai.com"
+        },
+    ])
+
     const ORGANIZATION = [...ORGANIZATIONS, ACME_ORG].find((org) => org.id === router.query.id)!;
     if (!ORGANIZATION) {
         return <div>Organization not found</div>
@@ -125,21 +144,25 @@ export default function NewOrganizationEnvironment() {
             </div>
 
             <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
-                <div className="flex flex-col gap-2">
+                <div className="flex">
                     <div className="text-2xl">Environment variables</div>
+                    <NewEnvironmentVariableDialog onCreated={(envVar) => setEnvVariables(prev => [...prev, envVar])} />
                 </div>
                 <div className="flex items-center justify-center">
-                    <EnvironmentVariablesTable />
+                    <EnvironmentVariablesTable environmentVariables={envVariables} />
                 </div>
             </div>
 
             <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
-                <div className="flex flex-col gap-2">
-                    <div className="text-2xl">Users</div>
-                    <div className="text-sm text-slate-400 mb-3">Enter the emails of you recipient contacts responsible for setting up the environment. Only users with access to that email can deploy your product. Additional email addresses can be added later on.</div>
+                <div className="flex">
+                    <div className="flex flex-col gap-2">
+                        <div className="text-2xl">Users</div>
+                        <div className="text-sm text-slate-400 mb-3">Enter the emails of you recipient contacts responsible for setting up the environment. Only users with access to that email can deploy your product. Additional email addresses can be added later on.</div>
+                    </div>
+                    <NewUserDialog onCreated={(user) => setUsers(prev => [...prev, user])} />
                 </div>
                 <div className="flex items-center justify-center">
-                    imagine a table for users emails
+                    <UsersTable users={users} />
                 </div>
             </div>
         </Layout>

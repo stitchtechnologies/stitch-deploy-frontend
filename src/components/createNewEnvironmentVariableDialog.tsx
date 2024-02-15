@@ -11,19 +11,9 @@ import { Label } from "@/components/ui/label";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { Organization } from "./organization";
+import { EnvironmentVariable } from "./environmentVariablesTable";
 
-export const ACME_ORG = {
-    id: "acme",
-    link: "/organization/acme",
-    imageUrl: "/acme.png",
-    fallbackName: "Acme Corporation",
-    organizationName: "Acme Corporation",
-    lastUpdated: "now",
-    badges: []
-}
-
-const CreateNewOrganization = ({ onCreated: handleCreated }: { onCreated: (org: Organization) => void }) => {
+const NewEnvironmentVariableDialog = ({ onCreated: handleCreated }: { onCreated: (envVar: EnvironmentVariable) => void }) => {
     const [open, setOpen] = useState(false);
     const [creating, setCreating] = useState(false);
 
@@ -31,12 +21,12 @@ const CreateNewOrganization = ({ onCreated: handleCreated }: { onCreated: (org: 
         <Dialog open={open}>
             <DialogTrigger className="ml-auto" asChild>
                 <Button className="px-6" onClick={() => setOpen(true)}>
-                    Create new
+                    Add
                 </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Create an organization</DialogTitle>
+                    <DialogTitle>Enter new environment variable</DialogTitle>
                     <DialogDescription>
                         <form className="flex flex-col gap-4 mt-2" onSubmit={(e: any) => {
                             e.preventDefault()
@@ -45,16 +35,19 @@ const CreateNewOrganization = ({ onCreated: handleCreated }: { onCreated: (org: 
                             setTimeout(() => {
                                 setCreating(false)
                                 setOpen(false)
-                                handleCreated(ACME_ORG)
+                                handleCreated({
+                                    key: e.target["key"].value,
+                                    value: e.target["value"].value
+                                })
                             }, 2000)
                         }}>
                             <div className="grid w-full items-center gap-1.5">
-                                <Label htmlFor="name">Organization name</Label>
-                                <Input type="text" name="name" placeholder="Acme Corporation" />
+                                <Label htmlFor="key">Key</Label>
+                                <Input type="text" name="key" placeholder="OPEN_AI_KEY" />
                             </div>
                             <div className="grid w-full items-center gap-1.5">
-                                <Label htmlFor="image">Image</Label>
-                                <Input name="image" type="file" />
+                                <Label htmlFor="value">Value</Label>
+                                <Input type="text" name="value" placeholder="sk-rjoir23iuf2o8fu23f" />
                             </div>
                             <Button type={"submit"} disabled={creating}>{creating ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Creating</> : "Create"}</Button>
                         </form>
@@ -65,4 +58,4 @@ const CreateNewOrganization = ({ onCreated: handleCreated }: { onCreated: (org: 
     )
 }
 
-export default CreateNewOrganization;
+export default NewEnvironmentVariableDialog;

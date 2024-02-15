@@ -4,7 +4,7 @@ import { Code, Eye, MoreHorizontal } from "lucide-react"
 import { Toggle } from "./ui/toggle"
 import { Input } from "./ui/input"
 
-type EnvironmentVariable = {
+export type EnvironmentVariable = {
     key: string
     value: string
 }
@@ -27,18 +27,7 @@ const EnvrionmentVariableRow = (props: { keyName: string, value: string }) => {
     )
 }
 
-export default function EnvironmentVariablesTable() {
-    const [environmentVariables, setEnvironmentVariables] = useState<EnvironmentVariable[]>([
-        {
-            key: "OPEN_AI_KEY",
-            value: "1234567890"
-        },
-        {
-            key: "ANTHROPIC_KEY",
-            value: "0987654321"
-        }
-    ])
-
+export default function EnvironmentVariablesTable({ environmentVariables }: { environmentVariables: EnvironmentVariable[] }) {
     return (
         <div className="bg-white rounded shadow w-full">
             {

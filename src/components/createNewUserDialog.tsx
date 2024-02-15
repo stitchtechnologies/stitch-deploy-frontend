@@ -11,19 +11,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { Organization } from "./organization";
 
-export const ACME_ORG = {
-    id: "acme",
-    link: "/organization/acme",
-    imageUrl: "/acme.png",
-    fallbackName: "Acme Corporation",
-    organizationName: "Acme Corporation",
-    lastUpdated: "now",
-    badges: []
-}
-
-const CreateNewOrganization = ({ onCreated: handleCreated }: { onCreated: (org: Organization) => void }) => {
+const NewUserDialog = ({ onCreated: handleCreated }: { onCreated: (user: any) => void }) => {
     const [open, setOpen] = useState(false);
     const [creating, setCreating] = useState(false);
 
@@ -31,12 +20,12 @@ const CreateNewOrganization = ({ onCreated: handleCreated }: { onCreated: (org: 
         <Dialog open={open}>
             <DialogTrigger className="ml-auto" asChild>
                 <Button className="px-6" onClick={() => setOpen(true)}>
-                    Create new
+                    Add
                 </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Create an organization</DialogTitle>
+                    <DialogTitle>Enter new user details</DialogTitle>
                     <DialogDescription>
                         <form className="flex flex-col gap-4 mt-2" onSubmit={(e: any) => {
                             e.preventDefault()
@@ -45,16 +34,19 @@ const CreateNewOrganization = ({ onCreated: handleCreated }: { onCreated: (org: 
                             setTimeout(() => {
                                 setCreating(false)
                                 setOpen(false)
-                                handleCreated(ACME_ORG)
+                                handleCreated({
+                                    name: e.target["name"].value,
+                                    email: e.target["email"].value
+                                })
                             }, 2000)
                         }}>
                             <div className="grid w-full items-center gap-1.5">
-                                <Label htmlFor="name">Organization name</Label>
-                                <Input type="text" name="name" placeholder="Acme Corporation" />
+                                <Label htmlFor="name">Name</Label>
+                                <Input type="text" name="name" placeholder="Sam Altman" />
                             </div>
                             <div className="grid w-full items-center gap-1.5">
-                                <Label htmlFor="image">Image</Label>
-                                <Input name="image" type="file" />
+                                <Label htmlFor="email">Email</Label>
+                                <Input type="email" name="email" placeholder="sama@openai.com" />
                             </div>
                             <Button type={"submit"} disabled={creating}>{creating ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Creating</> : "Create"}</Button>
                         </form>
@@ -65,4 +57,4 @@ const CreateNewOrganization = ({ onCreated: handleCreated }: { onCreated: (org: 
     )
 }
 
-export default CreateNewOrganization;
+export default NewUserDialog;
