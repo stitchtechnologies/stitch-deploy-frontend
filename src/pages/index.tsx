@@ -13,7 +13,7 @@ import {
 export default function Organizations() {
   return (
     <Layout>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 px-24 py-6">
         <div className="flex gap-2">
           <Input type="text" placeholder="Search" className="" />
           <Select>

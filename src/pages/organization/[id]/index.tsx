@@ -38,25 +38,25 @@ interface Environment {
 
 const EnvironmentRow = ({ environment }: { environment: Environment }) => {
     return (
-        <div className="flex gap-4 py-4 px-6 items-center justify-between">
+        <div className="flex gap-4 py-4 px-6 items-center justify-between text-sm border-b-[rgba(0,0,0,0.10)] border-b border-solid">
             <div className="flex flex-col w-[320px]">
                 <div className="flex gap-2">
                     <div>{environment.name}</div>
-                    <div className="text-slate-400">{environment.id}</div>
+                    <div className="text-slate-500">{environment.id}</div>
                 </div>
-                <div className="text-slate-400 text-sm">{environment.provider} {environment.region}</div>
+                <div className="text-slate-500 text-sm">{environment.provider} {environment.region}</div>
             </div>
             <div className="flex gap-2 items-center">
                 <svg width="17" height="19" viewBox="0 0 17 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="0.5" y="1.5" width="16" height="16" rx="8" fill="#C0FFD2" />
                 </svg>
-                <div className="flex flex-col text-slate-400">
+                <div className="flex flex-col text-slate-500">
                     <div>Healthy</div>
                     <div className="font-thin">2m ago</div>
                 </div>
             </div>
-            <div className="text-slate-400">{environment.productsToUpgrade} product(s) to upgrade</div>
-            <div className="text-slate-400">{environment.lastUpdate}</div>
+            <div className="text-slate-500 font-thin">{environment.productsToUpgrade} deployed services</div>
+            <div className="text-slate-500 font-thin">{environment.lastUpdate}</div>
             <Button variant="ghost" size="icon">
                 <ChevronRight className="h-4 w-4" />
             </Button>
@@ -107,7 +107,7 @@ export default function Organizations() {
 
     return (
         <Layout>
-            <div className="flex items-center">
+            <div className="flex items-center border-b-[rgba(0,0,0,0.10)] px-24 border-b border-solid">
                 <div className="flex items-center gap-4 my-12">
                     <Avatar className="h-8 w-8">
                         <AvatarImage src={ORGANIZATION.imageUrl} />
@@ -141,10 +141,10 @@ export default function Organizations() {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-6 my-12">
+            <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
                 <div className="flex">
-                    <div className="text-4xl">
-                        Environment
+                    <div className="text-2xl">
+                        Environments
                     </div>
 
                     <Dialog>
