@@ -78,7 +78,7 @@ const AWSForm = () => {
     const [time, setTime] = useState<Time | undefined>(undefined)
 
     return (
-        <div className="flex flex-col gap-6">
+        <form className="flex flex-col gap-6">
             <div>
                 <h2 className="text-sm">AWS key</h2>
                 <div className="text-sm text-slate-400 mb-3">The key will not be shared with OpenAI and is encrypted before its stored.</div>
@@ -215,7 +215,7 @@ const AWSForm = () => {
                     </label>
                 </div>
             </div>
-            <Button className="w-full">Deploy services</Button>
-        </div>
+            <Button className="w-full" type="submit">Deploy services</Button>
+        </form>
     )
 }
