@@ -13,7 +13,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Head from "next/head";
-import CreatenewEnvironmentDialog from "@/components/createNewEnvironmentDialog";
+import CreateNewEnvironmentDialog from "@/components/createNewEnvironmentDialog";
 
 export interface Environment {
     id: string;
@@ -139,7 +139,7 @@ export default function Organizations() {
                         Environments
                     </div>
 
-                    <CreatenewEnvironmentDialog organization={ORGANIZATION} />
+                    <CreateNewEnvironmentDialog organization={ORGANIZATION} />
 
                 </div>
                 <div className="bg-white rounded shadow">

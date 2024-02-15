@@ -13,7 +13,7 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Organization } from "./organization";
 
-const CreatenewEnvironmentDialog = ({ organization }: { organization: Organization }) => {
+const CreateNewEnvironmentDialog = ({ organization }: { organization: Organization }) => {
     const [deploying, setDeploying] = useState(false);
 
     return (
@@ -69,4 +69,4 @@ const CreatenewEnvironmentDialog = ({ organization }: { organization: Organizati
     )
 }
 
-export default CreatenewEnvironmentDialog;
+export default CreateNewEnvironmentDialog;

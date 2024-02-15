@@ -1,6 +1,6 @@
+import CreateNewOrganization from "@/components/createNewOrganizationDialog";
 import Layout from "@/components/layout";
 import { ORGANIZATIONS, OrganizationCard } from "@/components/organization";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -30,7 +30,7 @@ export default function Organizations() {
               <SelectItem value="update">Sort by last update</SelectItem>
             </SelectContent>
           </Select>
-          <Button className="px-6">Add new</Button>
+          <CreateNewOrganization />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {ORGANIZATIONS.map((org, index) => (
