@@ -70,7 +70,7 @@ export default function Layout({ children }: any) {
           </div>
         </div>
       </div>
-      <main className="bg-slate-100 px-24 py-6 h-[100vh] shadow-inner">
+      <main className="bg-[#00000005] px-24 py-6 h-[100vh] shadow-inner">
         {children}
       </main>
     </div>
