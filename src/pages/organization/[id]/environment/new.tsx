@@ -165,6 +165,11 @@ export default function NewOrganizationEnvironment() {
                     <UsersTable users={users} />
                 </div>
             </div>
+
+            <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+                <Button variant={"outline"} disabled={true}>Preview deployment form</Button>
+                <Button>Send environment creation request</Button>
+            </div>
         </Layout>
     );
 }

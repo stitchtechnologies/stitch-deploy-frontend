@@ -28,7 +28,7 @@ const CreateNewOrganization = ({ onCreated: handleCreated }: { onCreated: (org: 
     const [creating, setCreating] = useState(false);
 
     return (
-        <Dialog open={open}>
+        <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
             <DialogTrigger className="ml-auto" asChild>
                 <Button className="px-6" onClick={() => setOpen(true)}>
                     Create new
