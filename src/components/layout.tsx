@@ -74,6 +74,13 @@ export default function Layout({ children }: any) {
       </div>
       <main className="bg-[#00000005] min-h-[100vh] shadow-inner">
         {children}
+        <footer className="flex gap-10 text-sm text-slate-500 font-normal justify-center py-4">
+          <Link href={"/privacy-policy"}>Privacy Policy</Link>
+          <Link href={"/documentation"}>Documentation</Link>
+          <Link href={"/legal"}>Legal</Link>
+          <Link href={"/pricing"}>Pricing</Link>
+          <Link href={"/help"}>Help</Link>
+        </footer>
       </main>
     </div>
   );
