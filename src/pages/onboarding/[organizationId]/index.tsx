@@ -23,7 +23,9 @@ export default function OrganizationOnboarding() {
 
             <div className="flex flex-col gap-4 w-[280px] items-center">
                 <Input type="password" placeholder="Enter your passkey" />
-                <Button className="w-full">Start deployment</Button>
+                <Link href={`/onboarding/${organizationId}/begin`} className="w-full">
+                    <Button className="w-full">Start deployment</Button>
+                </Link>
                 <Link href={"/no-key"} className="text-blue-600 text-sm hover:text-blue-700">Did not recieve a passkey?</Link>
                 <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
                 <Link href={`/onboarding/${organizationId}/begin`} className="text-slate-400 text-sm flex gap-1 items-center">Learn more about deployments <ExternalLink className="h-4 w-4" /></Link>
