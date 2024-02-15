@@ -18,6 +18,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { ServicesTable } from "@/components/servicesTable";
 import { Textarea } from "@/components/ui/textarea";
+import EnvironmentVariablesTable from "@/components/environmentVariablesTable";
 
 export default function NewOrganizationEnvironment() {
     const router = useRouter();
@@ -128,7 +129,7 @@ export default function NewOrganizationEnvironment() {
                     <div className="text-2xl">Environment variables</div>
                 </div>
                 <div className="flex items-center justify-center">
-                    imagine a table for environment variables
+                    <EnvironmentVariablesTable />
                 </div>
             </div>
 
