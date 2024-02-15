@@ -21,6 +21,7 @@ const config = {
     extend: {
       fontFamily: {
         inter: ['var(--font-inter)', ...fontFamily.sans],
+        robotomono: ['var(--font-roboto-mono)', ...fontFamily.mono],
       },
       colors: {
         border: "hsl(var(--border))",

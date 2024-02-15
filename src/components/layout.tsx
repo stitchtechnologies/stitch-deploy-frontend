@@ -72,7 +72,7 @@ export default function Layout({ children }: any) {
           </div>
         </div>
       </div>
-      <main className="bg-[#00000005] h-[100vh] shadow-inner">
+      <main className="bg-[#00000005] min-h-[100vh] shadow-inner">
         {children}
       </main>
     </div>
