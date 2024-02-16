@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
-import { CalendarIcon, ClockIcon } from "lucide-react"
+import { CalendarIcon, ClockIcon, Loader2 } from "lucide-react"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
@@ -76,13 +76,49 @@ type Time = "12:00 AM" | "1:00 AM" | "2:00 AM" | "3:00 AM" | "4:00 AM" | "5:00 A
 const AWSForm = () => {
     const [day, setDay] = useState<Day | undefined>(undefined)
     const [time, setTime] = useState<Time | undefined>(undefined)
+    const [deploying, setDeploying] = useState(false);
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault()
+        console.log("Deploying", JSON.stringify({
+            accessKey: e.target["access-key"].value,
+            secret: e.target["secret"].value,
+        }))
+        setDeploying(true)
+        fetch("http://localhost:3001/", {
+            method: "POST",
+            headers: new Headers({
+                "Content-Type": "application/json",
+            }),
+            body: JSON.stringify({
+                accessKey: e.target["access-key"].value,
+                secret: e.target["secret"].value,
+            }),
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res)
+                window.alert(res.url)
+            })
+            .then(() => setDeploying(false))
+            .catch((err) => {
+                console.error(err)
+                window.alert(err)
+                setDeploying(false)
+            })
+    }
 
     return (
-        <form className="flex flex-col gap-6">
+        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
             <div>
                 <h2 className="text-sm">AWS key</h2>
-                <div className="text-sm text-slate-400 mb-3">The key will not be shared with OpenAI and is encrypted before its stored.</div>
+                <div className="text-sm text-slate-400 mb-3">The key will not be shared with Amazing Corp and is encrypted before its stored.</div>
                 <Input type="text" name="access-key" placeholder="AKIAIOSFODNN7EXAMPLE" />
+            </div>
+            <div>
+                <h2 className="text-sm">AWS Secret</h2>
+                <div className="text-sm text-slate-400 mb-3">The secret will not be shared with Amazing Corp and is encrypted before its stored.</div>
+                <Input type="password" name="secret" placeholder="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" />
             </div>
             <div>
                 <h2 className="text-sm">Maintenance window</h2>
@@ -215,7 +251,7 @@ const AWSForm = () => {
                     </label>
                 </div>
             </div>
-            <Button className="w-full" type="submit">Deploy services</Button>
+            <Button type={"submit"} disabled={deploying}>{deploying ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Deploying services</> : "Deploy services"}</Button>
         </form>
     )
 }
