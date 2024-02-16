@@ -24,9 +24,9 @@ type Service = {
     badges: { variant: "default" | "secondary" | "destructive" | "outline"; text: string; }[];
 }
 
-const SERVICES: Service[] = [
+export const SERVICES: Service[] = [
     {
-        id: "1",
+        id: "supabase",
         link: "/service/supabase",
         imageUrl: "/supabase.svg",
         fallbackName: "Supabase",
