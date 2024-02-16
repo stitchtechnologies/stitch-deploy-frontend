@@ -5,7 +5,7 @@ import Head from "next/head"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CalendarIcon, ClockIcon, Code, Eye, Loader2 } from "lucide-react"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
@@ -19,6 +19,8 @@ export default function OrganizationOnboarding() {
     const router = useRouter()
     const { organizationId } = router.query
 
+    const [showProgess, setShowProgress] = useState(false);
+    const [id, setId] = useState("");
     return (
         <div className="flex flex-row items-center h-screen overscroll-none overflow-hidden">
             <Head>
@@ -40,34 +42,69 @@ export default function OrganizationOnboarding() {
             </div>
 
             {/* Right view */}
-            <div className="flex flex-col flex-1 bg-[#00000005] h-screen px-6 pt-12 overflow-y-auto overscroll-none">
-                <div>
-                    <h1 className="text-3xl font-medium mb-12">Deploy Aperture Science to Acme Corp.</h1>
-                    <div className="mb-3 text-sm">Select Platform</div>
-                    <Tabs defaultValue="aws" className="w-full">
-                        <TabsList className="w-full justify-between">
-                            <TabsTrigger value="aws" className="w-full flex gap-2"><Image src={"/aws.png"} alt={"aws"} width={14} height={14} />AWS</TabsTrigger>
-                            <TabsTrigger value="azure" className="w-full flex gap-2"><Image src={"/azure.png"} alt={"azure"} width={14} height={14} />Azure</TabsTrigger>
-                            <TabsTrigger value="gcp" className="w-full flex gap-2"><Image src={"/gcp.png"} alt={"gcp"} width={14} height={14} />GCP</TabsTrigger>
-                            <TabsTrigger value="custom" className="w-full">Custom</TabsTrigger>
-                        </TabsList>
-                        <hr className="w-full my-6 h-[1px] bg-[#E2E8F0] border-0" />
-                        <TabsContent value="aws">
-                            <AWSForm />
-                        </TabsContent>
-                        <TabsContent value="azure">Azure support coming really soon...</TabsContent>
-                        <TabsContent value="gcp">GCP support coming soon...</TabsContent>
-                        <TabsContent value="custom">Custom support coming sooner than you would think!</TabsContent>
-                    </Tabs>
+            {!showProgess &&
+                <div className="flex flex-col flex-1 bg-[#00000005] h-screen px-6 pt-12 overflow-y-auto overscroll-none">
+                    <div>
+                        <h1 className="text-3xl font-medium mb-12">Deploy Aperture Science to Acme Corp.</h1>
+                        <div className="mb-3 text-sm">Select Platform</div>
+                        <Tabs defaultValue="aws" className="w-full">
+                            <TabsList className="w-full justify-between">
+                                <TabsTrigger value="aws" className="w-full flex gap-2"><Image src={"/aws.png"} alt={"aws"} width={14} height={14} />AWS</TabsTrigger>
+                                <TabsTrigger value="azure" className="w-full flex gap-2"><Image src={"/azure.png"} alt={"azure"} width={14} height={14} />Azure</TabsTrigger>
+                                <TabsTrigger value="gcp" className="w-full flex gap-2"><Image src={"/gcp.png"} alt={"gcp"} width={14} height={14} />GCP</TabsTrigger>
+                                <TabsTrigger value="custom" className="w-full">Custom</TabsTrigger>
+                            </TabsList>
+                            <hr className="w-full my-6 h-[1px] bg-[#E2E8F0] border-0" />
+                            <TabsContent value="aws">
+                                <AWSForm done={(id) => {
+                                    setId(id);
+                                    setShowProgress(true);
+                                }} />
+                            </TabsContent>
+                            <TabsContent value="azure">Azure support coming really soon...</TabsContent>
+                            <TabsContent value="gcp">GCP support coming soon...</TabsContent>
+                            <TabsContent value="custom">Custom support coming sooner than you would think!</TabsContent>
+                        </Tabs>
+                    </div>
+                    <footer className="text-slate-500 flex gap-10 text-sm justify-center font-normal my-4">
+                        <Link href={"/privacy-policy"}>Privacy Policy</Link>
+                        <Link href={"/documentation"}>Documentation</Link>
+                        <Link href={"/legal"}>Legal</Link>
+                        <Link href={"/pricing"}>Pricing</Link>
+                        <Link href={"/help"}>Help</Link>
+                    </footer>
                 </div>
-                <footer className="text-slate-500 flex gap-10 text-sm justify-center font-normal my-4">
-                    <Link href={"/privacy-policy"}>Privacy Policy</Link>
-                    <Link href={"/documentation"}>Documentation</Link>
-                    <Link href={"/legal"}>Legal</Link>
-                    <Link href={"/pricing"}>Pricing</Link>
-                    <Link href={"/help"}>Help</Link>
-                </footer>
-            </div>
+            }
+            {showProgess &&
+                <div className="flex flex-col flex-1 bg-[#00000005] h-[100vh] px-6 pt-12 overflow-y-auto overscroll-none">
+                    <div>
+                        <h1 className="text-3xl font-medium mb-12">Deploy Aperture Science to Acme Corp.</h1>
+                        {/* <div className="mb-3 text-sm">Select Platform</div> */}
+                        <Tabs defaultValue="aws" className="w-full">
+                            {/* <TabsList className="w-full justify-between">
+                                <TabsTrigger value="aws" className="w-full flex gap-2"><Image src={"/aws.png"} alt={"aws"} width={14} height={14} />AWS</TabsTrigger>
+                                <TabsTrigger value="azure" className="w-full flex gap-2"><Image src={"/azure.png"} alt={"azure"} width={14} height={14} />Azure</TabsTrigger>
+                                <TabsTrigger value="gcp" className="w-full flex gap-2"><Image src={"/gcp.png"} alt={"gcp"} width={14} height={14} />GCP</TabsTrigger>
+                                <TabsTrigger value="custom" className="w-full">Custom</TabsTrigger>
+                            </TabsList> */}
+                            {/* <hr className="w-full my-6 h-[1px] bg-[#E2E8F0] border-0" /> */}
+                            <TabsContent value="aws">
+                                <ProgressView id={id} />
+                            </TabsContent>
+                            <TabsContent value="azure">Azure support coming really soon...</TabsContent>
+                            <TabsContent value="gcp">GCP support coming soon...</TabsContent>
+                            <TabsContent value="custom">Custom support coming sooner than you would think!</TabsContent>
+                        </Tabs>
+                    </div>
+                    <footer className="text-slate-500 flex gap-10 text-sm justify-center font-normal my-4">
+                        <Link href={"/privacy-policy"}>Privacy Policy</Link>
+                        <Link href={"/documentation"}>Documentation</Link>
+                        <Link href={"/legal"}>Legal</Link>
+                        <Link href={"/pricing"}>Pricing</Link>
+                        <Link href={"/help"}>Help</Link>
+                    </footer>
+                </div>}
+
         </div>
     )
 }
@@ -91,7 +128,42 @@ const EnvironmentVariableItem = ({ envVar }: { envVar: EnvironmentVariable }) =>
 type Day = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday"
 type Time = "12:00 AM" | "1:00 AM" | "2:00 AM" | "3:00 AM" | "4:00 AM" | "5:00 AM" | "6:00 AM" | "7:00 AM" | "8:00 AM" | "9:00 AM" | "10:00 AM" | "11:00 AM" | "12:00 PM" | "1:00 PM" | "2:00 PM" | "3:00 PM" | "4:00 PM" | "5:00 PM" | "6:00 PM" | "7:00 PM" | "8:00 PM" | "9:00 PM" | "10:00 PM" | "11:00 PM"
 
-const AWSForm = () => {
+const ProgressView = (props: { id: string }) => {
+    const [status, setStatus] = useState();
+    useEffect(() => {
+        const getStatus = () => {
+
+            fetch("http://localhost:3001/status", {
+                method: "POST",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                }),
+                body: JSON.stringify({
+                    id: props.id
+                }),
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    setStatus(res.status)
+                    if (res !== "COMPLETE") {
+                        getStatus();
+                    }
+                    console.log(res)
+                    // window.alert(res.url)
+                })
+                .catch((err) => {
+                    console.error(err)
+                    window.alert(err)
+                })
+        }
+        getStatus();
+    }, []);
+
+
+    return <h1>{status}</h1>
+}
+
+const AWSForm = (props: { done: (id: string) => void }) => {
     const [day, setDay] = useState<Day | undefined>(undefined)
     const [time, setTime] = useState<Time | undefined>(undefined)
     const [deploying, setDeploying] = useState(false);
@@ -103,7 +175,7 @@ const AWSForm = () => {
             secret: e.target["secret"].value,
         }))
         setDeploying(true)
-        fetch("http://localhost:3001/", {
+        fetch("http://localhost:3001/start", {
             method: "POST",
             headers: new Headers({
                 "Content-Type": "application/json",
@@ -115,8 +187,10 @@ const AWSForm = () => {
         })
             .then((res) => res.json())
             .then((res) => {
-                console.log(res)
-                window.alert(res.url)
+                props.done(res.id);
+                // debugger;
+                // console.log(res)
+                // window.alert(res.url)
             })
             .then(() => setDeploying(false))
             .catch((err) => {
@@ -125,6 +199,8 @@ const AWSForm = () => {
                 setDeploying(false)
             })
     }
+
+
 
     return (
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
