@@ -42,7 +42,7 @@ export default function Layout({ children }: any) {
                 <AvatarImage src="/aperture.svg" />
                 <AvatarFallback>AS</AvatarFallback>
               </Avatar>
-              Aperture Science
+              Aperture Labs
             </div>
             <div className="flex gap-6 text-slate-400 ml-auto items-center">
               <Link href="/help">Help</Link>
