@@ -54,7 +54,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ link, imageUrl, versio
                     <div>{serviceName}</div>
                     <div className="text-slate-400">{lastUpdated}</div>
                 </div>
-                <div className="ml-auto font-light">{version}</div>
+                <div className="ml-auto font-regular text-slate-500">{version}</div>
             </div>
             <div className="flex gap-2">
                 {badges.map((badge, index) => (
