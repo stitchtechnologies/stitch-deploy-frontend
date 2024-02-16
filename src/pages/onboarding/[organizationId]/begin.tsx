@@ -6,12 +6,14 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
-import { CalendarIcon, ClockIcon, Loader2 } from "lucide-react"
+import { CalendarIcon, ClockIcon, Code, Eye, Loader2 } from "lucide-react"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import Link from "next/link"
+import { EnvironmentVariable } from "@/components/environmentVariablesTable"
+import { Toggle } from "@/components/ui/toggle"
 
 export default function OrganizationOnboarding() {
     const router = useRouter()
@@ -65,6 +67,22 @@ export default function OrganizationOnboarding() {
                     <Link href={"/pricing"}>Pricing</Link>
                     <Link href={"/help"}>Help</Link>
                 </footer>
+            </div>
+        </div>
+    )
+}
+
+const EnvironmentVariableItem = ({ envVar }: { envVar: EnvironmentVariable }) => {
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+    const [value, setValue] = useState<string>("")
+    return (
+        <div className="flex gap-4">
+            <div className="font-bold font-robotomono flex flex-1 gap-2 items-center"><Code width={14} height={14} /> {envVar.key}</div>
+            <div className="flex gap-2 items-center flex-1 min-w-[70%]">
+                <Toggle aria-label="toggle password visability" pressed={isPasswordVisible} onPressedChange={(press) => setIsPasswordVisible(press)} >
+                    <Eye width={14} height={14} />
+                </Toggle>
+                <Input type={isPasswordVisible ? "text" : "password"} placeholder={envVar.value} value={value} onChange={(e) => setValue(e.target.value)} />
             </div>
         </div>
     )
@@ -156,6 +174,25 @@ const AWSForm = () => {
                 <h2 className="text-sm">AWS Secret</h2>
                 <div className="text-sm text-slate-400 mb-3">The secret will not be shared with Aperture Science and is encrypted before its stored.</div>
                 <Input type="password" name="secret" placeholder="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" />
+            </div>
+            <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
+            <div>
+                <h2 className="text-sm">Environment variables</h2>
+                <div className="text-sm text-slate-400 mb-3">Variables below were defined by Aperture Science. All variables stay on your environment and are not reported back to Aperture Science.</div>
+                <div className="flex flex-col gap-2">
+                    {
+                        [
+                            {
+                                key: "DATABASE_URL",
+                                value: "postgres://"
+                            },
+                            {
+                                key: "SECRET_KEY",
+                                value: "supersecret"
+                            }
+                        ].map((envVar: EnvironmentVariable, index) => <EnvironmentVariableItem key={envVar.key} envVar={envVar} />)
+                    }
+                </div>
             </div>
             <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
             <div>
@@ -252,6 +289,6 @@ const AWSForm = () => {
                 </div>
             </div>
             <Button type={"submit"} disabled={deploying}>{deploying ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Deploying services</> : "Deploy services"}</Button>
-        </form>
+        </form >
     )
 }
