@@ -27,12 +27,12 @@ import UsersTable, { User } from "@/components/usersTable";
 export default function NewOrganizationEnvironment() {
     const router = useRouter();
     const [envVariables, setEnvVariables] = useState<EnvironmentVariable[]>([{
-        key: "OPEN_AI_KEY",
-        value: "12345678901234567890"
+        key: "DASHBOARD_USERNAME",
+        value: "supabase"
     },
     {
-        key: "ANTHROPIC_KEY",
-        value: "09876543210987654321"
+        key: "DASHBOARD_PASSWORD",
+        value: "supabase_password"
     }]);
     const [users, setUsers] = useState<User[]>([
         {
@@ -133,7 +133,7 @@ export default function NewOrganizationEnvironment() {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+            {/* <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
                 <div className="flex flex-col gap-2">
                     <div className="text-2xl">Projected costs</div>
                     <div className="text-sm text-slate-400 mb-3">You can inform the recipient about the projected cost of running the services. The costs should not include your license fees, but solely the storage and compute costs.</div>
@@ -141,7 +141,7 @@ export default function NewOrganizationEnvironment() {
                 <div className="flex items-center justify-center">
                     <Textarea placeholder="Describe the projected costs of the services..." />
                 </div>
-            </div>
+            </div> */}
 
             <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
                 <div className="flex">

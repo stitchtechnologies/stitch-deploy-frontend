@@ -31,6 +31,9 @@ export default function UsersTable({ users }: { users: User[] }) {
                 }
                 )
             }
+            {
+                users.length === 0 && <div className="text-center py-6">No users</div>
+            }
         </div>
     )
 }

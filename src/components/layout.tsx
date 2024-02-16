@@ -18,7 +18,7 @@ export default function Layout({ children }: any) {
     // TODO this is bad
     { name: "Organizations", href: "/", altHref: "/organization" },
     { name: "Services", href: "/service", altHref: "/service" },
-    { name: "Settings", href: "/setting", altHref: "/setting" },
+    { name: "Settings", href: "/settings", altHref: "/settings" },
   ]
 
   return (
