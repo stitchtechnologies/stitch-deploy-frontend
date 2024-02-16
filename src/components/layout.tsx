@@ -16,8 +16,8 @@ export default function Layout({ children }: any) {
   const NAVBAR_ITEMS = [
     // Organization is the default route
     { name: "Organizations", href: "/", altHref: "/organization" },
-    { name: "Services", href: "/services", altHref: "/service" },
-    { name: "Settings", href: "/settings", altHref: "/setting" },
+    { name: "Services", href: "/service", altHref: "/service" },
+    { name: "Settings", href: "/setting", altHref: "/setting" },
   ]
 
   return (
