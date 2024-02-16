@@ -15,9 +15,9 @@ export default function Layout({ children }: any) {
 
   const NAVBAR_ITEMS = [
     // Organization is the default route
-    { name: "Organizations", href: "/" },
-    { name: "Services", href: "/services" },
-    { name: "Settings", href: "/settings" },
+    { name: "Organizations", href: "/", altHref: "/organization" },
+    { name: "Services", href: "/services", altHref: "/service" },
+    { name: "Settings", href: "/settings", altHref: "/setting" },
   ]
 
   return (
@@ -55,7 +55,7 @@ export default function Layout({ children }: any) {
             <NavigationMenu>
               <NavigationMenuList>
                 {NAVBAR_ITEMS.map((item, index) => {
-                  const isSelectedRoute = router.pathname === item.href
+                  const isSelectedRoute = router.pathname === item.href || router.pathname.includes(item.altHref)
                   return <NavigationMenuItem key={index} className={cn({
                     "border-b-2 border-black": isSelectedRoute,
                     "mb-[2px] text-slate-400": !isSelectedRoute,
