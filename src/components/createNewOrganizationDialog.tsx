@@ -38,7 +38,7 @@ const CreateNewOrganization = ({ onCreated: handleCreated }: { onCreated: (org: 
                 <DialogHeader>
                     <DialogTitle>Create an organization</DialogTitle>
                     <DialogDescription>
-                        <form className="flex flex-col gap-4 mt-2" onSubmit={(e: any) => {
+                        <form className="flex flex-col gap-6 mt-6" onSubmit={(e: any) => {
                             e.preventDefault()
                             setCreating(true)
                             // sleep for 2 seconds then setcreating to false
@@ -49,11 +49,11 @@ const CreateNewOrganization = ({ onCreated: handleCreated }: { onCreated: (org: 
                             }, 2000)
                         }}>
                             <div className="grid w-full items-center gap-1.5">
-                                <Label htmlFor="name">Organization name</Label>
-                                <Input type="text" name="name" placeholder="Acme Corp." />
+                                <Label className="font-normal" htmlFor="name">Organization name</Label>
+                                <Input type="text" name="name" placeholder="Enter name..." />
                             </div>
                             <div className="grid w-full items-center gap-1.5">
-                                <Label htmlFor="image">Image</Label>
+                                <Label className="font-normal" htmlFor="image">Image</Label>
                                 <Input name="image" type="file" />
                             </div>
                             <Button type={"submit"} disabled={creating}>{creating ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Creating</> : "Create"}</Button>

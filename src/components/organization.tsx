@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { AlertCircle, RefreshCw, Cloud, Hammer } from "lucide-react"
 
 export interface Organization {
     id: string;
@@ -9,7 +10,7 @@ export interface Organization {
     fallbackName: string;
     organizationName: string;
     lastUpdated: string;
-    badges: { variant: "default" | "secondary" | "destructive" | "outline"; text: string; }[];
+    badges: { variant: "default" | "secondary" | "blue" | "destructive" | "outline"; text: string; icon?: any}[];
 }
 
 type OrganizationCardProps = Omit<Organization, "id">;
@@ -29,7 +30,7 @@ export const OrganizationCard: React.FC<OrganizationCardProps> = ({ link, imageU
             </div>
             <div className="flex gap-2">
                 {badges.map((badge, index) => (
-                    <Badge key={index} variant={badge.variant} className="font-normal">{badge.text}</Badge>
+                    <Badge key={index} variant={badge.variant} className="font-normal flex gap-1">{badge.icon} {badge.text}</Badge>
                 ))}
             </div>
         </Link>
@@ -46,8 +47,8 @@ export const ORGANIZATIONS: Organization[] = [
         organizationName: "Apple",
         lastUpdated: "Updated 2d ago",
         badges: [
-            { variant: "destructive", text: "Recalled installation" },
-            { variant: "secondary", text: "Production" },
+            { variant: "destructive", text: "Recalled installation", icon: <AlertCircle size={16} /> },
+            { variant: "secondary", text: "Production", icon: <Cloud size={16} /> },
         ],
     },
     {
@@ -58,8 +59,9 @@ export const ORGANIZATIONS: Organization[] = [
         organizationName: "Google",
         lastUpdated: "Updated 1d ago",
         badges: [
-            { variant: "destructive", text: "Recalled installation" },
-            { variant: "secondary", text: "Production" },
+            { variant: "blue", text: "Updating", icon: <RefreshCw size={16} /> },
+            { variant: "secondary", text: "Production", icon: <Cloud size={16} /> },
+            { variant: "secondary", text: "Staging", icon: <Cloud size={16} /> },
         ],
     },
     {
@@ -70,8 +72,7 @@ export const ORGANIZATIONS: Organization[] = [
         organizationName: "Microsoft",
         lastUpdated: "Updated 3d ago",
         badges: [
-            { variant: "destructive", text: "Recalled installation" },
-            { variant: "secondary", text: "Production" },
+            { variant: "secondary", text: "Production", icon: <Cloud size={16} /> },
         ],
     },
     {
@@ -82,8 +83,8 @@ export const ORGANIZATIONS: Organization[] = [
         organizationName: "Facebook",
         lastUpdated: "Updated 4d ago",
         badges: [
-            { variant: "destructive", text: "Recalled installation" },
-            { variant: "secondary", text: "Production" },
+            { variant: "secondary", text: "Production", icon: <Cloud size={16} /> },
+            { variant: "secondary", text: "Staging", icon: <Cloud size={16} /> },
         ],
     },
     {
@@ -94,8 +95,7 @@ export const ORGANIZATIONS: Organization[] = [
         organizationName: "Amazon",
         lastUpdated: "Updated 5d ago",
         badges: [
-            { variant: "destructive", text: "Recalled installation" },
-            { variant: "secondary", text: "Production" },
+            { variant: "secondary", text: "In progress", icon: <Hammer size={16} /> },
         ],
     },
 ];
