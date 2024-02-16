@@ -13,7 +13,6 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Head from "next/head";
-import CreateNewEnvironmentDialog from "@/components/createNewEnvironmentDialog";
 import { ACME_ORG } from "@/components/createNewOrganizationDialog";
 import Link from "next/link";
 

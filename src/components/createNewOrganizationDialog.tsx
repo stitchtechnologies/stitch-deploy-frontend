@@ -17,8 +17,8 @@ export const ACME_ORG = {
     id: "acme",
     link: "/organization/acme",
     imageUrl: "/acme.png",
-    fallbackName: "Acme Corporation",
-    organizationName: "Acme Corporation",
+    fallbackName: "Acme Corp.",
+    organizationName: "Acme Corp.",
     lastUpdated: "now",
     badges: []
 }

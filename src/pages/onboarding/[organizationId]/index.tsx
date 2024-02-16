@@ -13,12 +13,12 @@ export default function OrganizationOnboarding() {
     return (
         <div className="flex flex-col items-center h-[100vh] bg-[#00000005]">
             <Head>
-                <title>OpenAI x Volkswagen | Onboarding</title>
+                <title>Aperture x Acme | Onboarding</title>
             </Head>
 
             <div className="flex gap-20 mt-[256px] mb-[128px]">
-                <Image src="/openai.png" alt="OpenAI" width={160} height={160} />
-                <Image src="/vw.png" alt="Volkswagen" width={160} height={160} />
+                <Image src="/aperture.png" alt="aperture" width={160} height={160} />
+                <Image src="/acme.png" alt="acme" width={160} height={160} />
             </div>
 
             <div className="flex flex-col gap-4 w-[280px] items-center">

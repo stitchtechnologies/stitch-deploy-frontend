@@ -28,11 +28,11 @@ export default function NewOrganizationEnvironment() {
     const router = useRouter();
     const [envVariables, setEnvVariables] = useState<EnvironmentVariable[]>([{
         key: "OPEN_AI_KEY",
-        value: "1234567890"
+        value: "12345678901234567890"
     },
     {
         key: "ANTHROPIC_KEY",
-        value: "0987654321"
+        value: "09876543210987654321"
     }]);
     const [users, setUsers] = useState<User[]>([
         {

@@ -40,7 +40,7 @@ export default function Layout({ children }: any) {
                 <AvatarImage src="/customer-icon.png" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-              Amazing Corp
+              Aperture Science
             </div>
             <div className="flex gap-4 text-slate-400 ml-auto items-center">
               <Link href="/help">Help</Link>

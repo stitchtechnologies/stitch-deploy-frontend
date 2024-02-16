@@ -20,17 +20,17 @@ export default function OrganizationOnboarding() {
     return (
         <div className="flex flex-row items-center h-[100vh] overscroll-none">
             <Head>
-                <title>OpenAI x Volkswagen | Onboarding</title>
+                <title>Aperture x Acme | Onboarding</title>
             </Head>
 
             {/* Left view */}
             <div className="flex flex-col flex-1 items-center justify-center h-[100vh] overscroll-none">
                 <div className="flex gap-12 bg-white items-center m-auto">
-                    <Image src="/openai.png" alt="OpenAI" width={160} height={160} />
+                    <Image src="/aperture.svg" alt="aperture" width={160} height={160} />
                     <svg width="79" height="72" viewBox="0 0 79 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-pulse">
                         <path d="M35.2574 64.2422C36.3826 65.3674 37.9087 65.9995 39.5 65.9995C41.0913 65.9995 42.6174 65.3674 43.7426 64.2422L62.3878 45.597C66.3475 41.7151 72.1667 35.4809 72.1667 26.6662C72.1667 21.185 69.9893 15.9284 66.1135 12.0526C62.2378 8.17689 56.9811 5.99951 51.5 5.99951C48.5522 5.99951 45.6943 6.42395 42.8441 7.66528C41.6705 8.17644 40.5628 8.7981 39.5 9.5193C38.4373 8.7981 37.3295 8.17644 36.1559 7.66528C33.3058 6.42395 30.4478 5.99951 27.5 5.99951C22.0189 5.99951 16.7622 8.17689 12.8865 12.0526C9.01072 15.9284 6.83334 21.185 6.83334 26.6662C6.83334 35.4912 12.5937 41.709 16.6261 45.6109L35.2574 64.2422Z" fill="#EF4444" stroke="#FEE2E2" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    <Image src="/vw.png" alt="Volkswagen" width={160} height={160} />
+                    <Image src="/acme.svg" alt="acme" width={160} height={160} />
                 </div>
                 <footer className="text-sm text-slate-500 mb-4">
                     Powered by Stitch
@@ -40,7 +40,7 @@ export default function OrganizationOnboarding() {
             {/* Right view */}
             <div className="flex flex-col flex-1 bg-[#00000005] h-[100vh] px-6 pt-12 overflow-y-auto overscroll-none">
                 <div>
-                    <h1 className="text-3xl font-medium mb-12">Deploy OpenAI</h1>
+                    <h1 className="text-3xl font-medium mb-12">Deploy Aperture Science to Acme Corp.</h1>
                     <div className="mb-3 text-sm">Select Platform</div>
                     <Tabs defaultValue="aws" className="w-full">
                         <TabsList className="w-full justify-between">
@@ -58,7 +58,7 @@ export default function OrganizationOnboarding() {
                         <TabsContent value="custom">Custom support coming sooner than you would think!</TabsContent>
                     </Tabs>
                 </div>
-                <footer className="flex gap-10 text-sm justify-center font-normal my-4">
+                <footer className="text-slate-500 flex gap-10 text-sm justify-center font-normal my-4">
                     <Link href={"/privacy-policy"}>Privacy Policy</Link>
                     <Link href={"/documentation"}>Documentation</Link>
                     <Link href={"/legal"}>Legal</Link>
@@ -111,6 +111,43 @@ const AWSForm = () => {
     return (
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
             <div>
+                <h2 className="text-sm">Services being deployed</h2>
+                <div className="text-sm text-slate-400 mb-3">A list of services which will be deployed after completing this form. Deploying additional services require additional confirmation from your side.</div>
+                <div className="gap-x-3 gap-y-3 grid grid-cols-2 xs:grid-cols-2">
+                    <div className="flex w-[330px] flex-col gap-2 border border-slate-300 p-3 rounded-md border-solid cursor-pointer hover:shadow">
+                        <h3 className="text-slate-900 text-base font-semibold flex gap-1">
+                            <Image src={"/supabase.svg"} alt={"supabase"} width={14} height={14} />
+                            Supabase
+                        </h3>
+                        <p className="text-slate-500 text-sm font-normal">Supabase is an open source Firebase alternative, including Postgres database, Authentication, instant APIs, Edge Functions, Realtime subscriptions, Storage, and Vector embeddings.</p>
+                    </div>
+                </div>
+            </div>
+            <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
+            <div>
+                <h2 className="text-sm">System requirements</h2>
+                <div className="text-sm text-slate-400 mb-3">A list of services which will be deployed after completing this form. Deploying additional services require additional confirmation from your side.</div>
+                <div className="gap-x-3 gap-y-3 grid grid-cols-2 xs:grid-cols-2">
+                    <div className="flex w-[330px] flex-col gap-2 border border-slate-300 p-3 rounded-md border-solid cursor-pointer hover:shadow">
+                        <h3 className="text-slate-900 text-base font-semibold">CPU</h3>
+                        <p className="text-slate-500 text-sm font-normal">This deployment is configured to utilise 1 vCPU.</p>
+                    </div>
+                    <div className="flex w-[330px] flex-col gap-2 border border-slate-300 p-3 rounded-md border-solid cursor-pointer hover:shadow">
+                        <h3 className="text-slate-900 text-base font-semibold">GPU</h3>
+                        <p className="text-slate-500 text-sm font-normal">This deployment is not configured to include a GPU.</p>
+                    </div>
+                    <div className="flex w-[330px] flex-col gap-2 border border-slate-300 p-3 rounded-md border-solid cursor-pointer hover:shadow">
+                        <h3 className="text-slate-900 text-base font-semibold">Memory</h3>
+                        <p className="text-slate-500 text-sm font-normal">This deployment is configured to utilise 2 GiB.</p>
+                    </div>
+                    <div className="flex w-[330px] flex-col gap-2 border border-slate-300 p-3 rounded-md border-solid cursor-pointer hover:shadow">
+                        <h3 className="text-slate-900 text-base font-semibold">Storage</h3>
+                        <p className="text-slate-500 text-sm font-normal">This deployment is configured to utilise 1x8 GiB.</p>
+                    </div>
+                </div>
+            </div>
+            <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
+            <div>
                 <h2 className="text-sm">AWS key</h2>
                 <div className="text-sm text-slate-400 mb-3">The key will not be shared with Amazing Corp and is encrypted before its stored.</div>
                 <Input type="text" name="access-key" placeholder="AKIAIOSFODNN7EXAMPLE" />
@@ -120,6 +157,7 @@ const AWSForm = () => {
                 <div className="text-sm text-slate-400 mb-3">The secret will not be shared with Amazing Corp and is encrypted before its stored.</div>
                 <Input type="password" name="secret" placeholder="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" />
             </div>
+            <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
             <div>
                 <h2 className="text-sm">Maintenance window</h2>
                 <div className="text-sm text-slate-400 mb-3">Specify upgrade/downgrade times for automatic new version deployments, which may cause service outages. You can adjust these windows permanently or temporarily at any time. Windows are 2 hours long.</div>
@@ -190,55 +228,17 @@ const AWSForm = () => {
             </div>
             <div>
                 <h2 className="text-sm">Share logs</h2>
-                <div className="text-sm text-slate-400 mb-3">The services collect usage logs which OpenAI can use to improve their products or resolve problems more easily. If you choose to not share logs with OpenAI, logs are still being collected and can be retrieved manually but do not leave your servers.</div>
+                <div className="text-sm text-slate-400 mb-3">The services collect usage logs which Aperture Science can use to improve their products or resolve problems more easily. If you choose to not share logs with Aperture Science, logs are still being collected and can be retrieved manually but do not leave your servers.</div>
                 <div className="flex items-center space-x-2">
                     <Switch id="share-logs" />
-                    <Label htmlFor="share-logs">Share logs with OpenAI</Label>
+                    <Label htmlFor="share-logs">Share logs with Aperture Science</Label>
                 </div>
             </div>
-            <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
-            <div>
-                <h2 className="text-sm">Services being deployed</h2>
-                <div className="text-sm text-slate-400 mb-3">A list of services which will be deployed after completing this form. Deploying additional services require additional confirmation from your side.</div>
-                <div className="gap-x-3 gap-y-3 grid grid-cols-2 xs:grid-cols-2">
-                    <div className="flex w-[330px] flex-col gap-2 border border-slate-300 p-3 rounded-md border-solid cursor-pointer hover:shadow">
-                        <h3 className="text-slate-900 text-base font-semibold">GPT-4</h3>
-                        <p className="text-slate-500 text-sm font-normal">This action cannot be undone. This will permanently delete your account and remove your data from our servers.</p>
-                    </div>
-                    <div className="flex w-[330px] flex-col gap-2 border border-slate-300 p-3 rounded-md border-solid cursor-pointer hover:shadow">
-                        <h3 className="text-slate-900 text-base font-semibold">DALLE-E</h3>
-                        <p className="text-slate-500 text-sm font-normal">This action cannot be undone. This will permanently delete your account and remove your data from our servers.</p>
-                    </div>
-                </div>
-            </div>
-            <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
-            <div>
-                <h2 className="text-sm">System requirements</h2>
-                <div className="text-sm text-slate-400 mb-3">A list of services which will be deployed after completing this form. Deploying additional services require additional confirmation from your side.</div>
-                <div className="gap-x-3 gap-y-3 grid grid-cols-2 xs:grid-cols-2">
-                    <div className="flex w-[330px] flex-col gap-2 border border-slate-300 p-3 rounded-md border-solid cursor-pointer hover:shadow">
-                        <h3 className="text-slate-900 text-base font-semibold">CPU</h3>
-                        <p className="text-slate-500 text-sm font-normal">This action cannot be undone. This will permanently delete your account and remove your data from our servers.</p>
-                    </div>
-                    <div className="flex w-[330px] flex-col gap-2 border border-slate-300 p-3 rounded-md border-solid cursor-pointer hover:shadow">
-                        <h3 className="text-slate-900 text-base font-semibold">GPU</h3>
-                        <p className="text-slate-500 text-sm font-normal">This action cannot be undone. This will permanently delete your account and remove your data from our servers.</p>
-                    </div>
-                    <div className="flex w-[330px] flex-col gap-2 border border-slate-300 p-3 rounded-md border-solid cursor-pointer hover:shadow">
-                        <h3 className="text-slate-900 text-base font-semibold">Memory</h3>
-                        <p className="text-slate-500 text-sm font-normal">This action cannot be undone. This will permanently delete your account and remove your data from our servers.</p>
-                    </div>
-                    <div className="flex w-[330px] flex-col gap-2 border border-slate-300 p-3 rounded-md border-solid cursor-pointer hover:shadow">
-                        <h3 className="text-slate-900 text-base font-semibold">Storage</h3>
-                        <p className="text-slate-500 text-sm font-normal">This action cannot be undone. This will permanently delete your account and remove your data from our servers.</p>
-                    </div>
-                </div>
-            </div>
-            <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
+            {/* <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
             <div>
                 <h2 className="text-sm">Projected running costs</h2>
-                <div className="text-sm text-slate-400 mb-3">A projection of the costs to run the service above. The projections were provided by OpenAI and may vary heavily depending on your usage and can change over time.</div>
-            </div>
+                <div className="text-sm text-slate-400 mb-3">A projection of the costs to run the service above. The projections were provided by Aperture Science and may vary heavily depending on your usage and can change over time.</div>
+            </div> */}
             <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
             <div>
                 <div className="flex items-center space-x-2">
