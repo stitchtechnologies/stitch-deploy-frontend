@@ -33,7 +33,7 @@ const SERVICES: Service[] = [
     fallbackName: "Supabase",
     serviceName: "Supabase",
     version: "v3.8.0",
-    lastUpdated: "1 day ago",
+    lastUpdated: "Updated 1d ago",
     badges: [
       { variant: "destructive", text: "Recalled installation" },
       { variant: "secondary", text: "Production" },
