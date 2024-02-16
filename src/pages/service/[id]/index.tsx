@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { SERVICES } from "..";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 export default function Services() {
     const router = useRouter()
@@ -92,6 +93,8 @@ export default function Services() {
                     </div>
                 </div>
             </div>
+
+            <Image src={"/services-test.png"} alt="Service" width={1920} height={1080} />
         </Layout>
     );
 }
