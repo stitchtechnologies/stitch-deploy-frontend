@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select"
 import Head from "next/head";
 import Link from "next/link";
+import { AlertCircle, RefreshCw, Cloud, Hammer } from "lucide-react"
 
 type Service = {
     id: string;
@@ -21,7 +22,7 @@ type Service = {
     serviceName: string;
     lastUpdated: string;
     version: string;
-    badges: { variant: "default" | "secondary" | "destructive" | "outline"; text: string; }[];
+    badges: { variant: "default" | "secondary" | "destructive" | "outline"; text: string; icon?: any; }[];
 }
 
 export const SERVICES: Service[] = [
@@ -34,8 +35,7 @@ export const SERVICES: Service[] = [
         version: "v3.8.0",
         lastUpdated: "Updated 1d ago",
         badges: [
-            { variant: "destructive", text: "Recalled installation" },
-            { variant: "secondary", text: "Production" },
+            { variant: "destructive", text: "Recalled installation", icon: <AlertCircle size={16} /> },
         ],
     },
 ]
@@ -58,7 +58,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ link, imageUrl, versio
             </div>
             <div className="flex gap-2">
                 {badges.map((badge, index) => (
-                    <Badge key={index} variant={badge.variant} className="font-normal">{badge.text}</Badge>
+                    <Badge key={index} variant={badge.variant} className="font-normal flex gap-1">{badge.icon} {badge.text}</Badge>
                 ))}
             </div>
         </Link>
