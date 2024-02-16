@@ -37,8 +37,8 @@ export default function Layout({ children }: any) {
                 <line x1="0.576001" y1="24.735" x2="15.576" y2="0.735002" stroke="#E2E8F0" />
               </svg>
               <Avatar className="h-6 w-6">
-                <AvatarImage src="/customer-icon.png" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src="/aperture.svg" />
+                <AvatarFallback>AS</AvatarFallback>
               </Avatar>
               Aperture Science
             </div>
@@ -47,7 +47,7 @@ export default function Layout({ children }: any) {
               <Link href="/documentation">Docs</Link>
               <Avatar className="h-6 w-6">
                 <AvatarImage src="/user-icon.png" />
-                <AvatarFallback>zaini</AvatarFallback>
+                <AvatarFallback>user</AvatarFallback>
               </Avatar>
             </div>
           </div>

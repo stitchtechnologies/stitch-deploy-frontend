@@ -16,7 +16,7 @@ import { Organization } from "./organization";
 export const ACME_ORG = {
     id: "acme",
     link: "/organization/acme",
-    imageUrl: "/acme.png",
+    imageUrl: "/acme.svg",
     fallbackName: "Acme Corp.",
     organizationName: "Acme Corp.",
     lastUpdated: "now",
@@ -50,7 +50,7 @@ const CreateNewOrganization = ({ onCreated: handleCreated }: { onCreated: (org: 
                         }}>
                             <div className="grid w-full items-center gap-1.5">
                                 <Label htmlFor="name">Organization name</Label>
-                                <Input type="text" name="name" placeholder="Acme Corporation" />
+                                <Input type="text" name="name" placeholder="Acme Corp." />
                             </div>
                             <div className="grid w-full items-center gap-1.5">
                                 <Label htmlFor="image">Image</Label>
