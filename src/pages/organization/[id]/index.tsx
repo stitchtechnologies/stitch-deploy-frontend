@@ -29,10 +29,10 @@ export interface Environment {
 
 const EnvironmentRow = ({ environment }: { environment: Environment }) => {
     return (
-        <div className="bg-white flex gap-4 py-4 px-6 items-center justify-between text-sm border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+        <div className="flex gap-4 py-4 px-6 items-center justify-between text-sm border-b-slate-200 last:border-b-0 border-b border-solid">
             <div className="flex flex-col w-[320px]">
                 <div className="flex gap-2">
-                    <div>{environment.name}</div>
+                    <div className="font-medium">{environment.name}</div>
                     <div className="text-slate-500">{environment.id}</div>
                 </div>
                 <div className="text-slate-500 text-sm">{environment.provider} {environment.region}</div>
@@ -42,12 +42,12 @@ const EnvironmentRow = ({ environment }: { environment: Environment }) => {
                     <rect x="0.5" y="1.5" width="16" height="16" rx="8" fill="#C0FFD2" />
                 </svg>
                 <div className="flex flex-col text-slate-500">
-                    <div>Healthy</div>
-                    <div className="font-thin">2m ago</div>
+                    <div className="font-medium">Healthy</div>
+                    <div className="font-normal">2m ago</div>
                 </div>
             </div>
-            <div className="text-slate-500 font-thin">{environment.productsToUpgrade} deployed services</div>
-            <div className="text-slate-500 font-thin">{environment.lastUpdate}</div>
+            <div className="text-slate-500 font-normal">{environment.productsToUpgrade} deployed services</div>
+            <div className="text-slate-500 font-normal">{environment.lastUpdate}</div>
             <Button variant="ghost" size="icon">
                 <ChevronRight className="h-4 w-4" />
             </Button>
@@ -149,15 +149,15 @@ export default function Organizations() {
                         </Button>
                     </Link>
                 </div>
-                <div className="rounded shadow">
                     {ENVIRONMENTS.length === 0 ?
                         <div className="rounded border-dashed border-2 border-slate-400 flex justify-center items-center gap-3 self-stretch px-6 py-4 text-slate-500 text-sm">
                             Create their first environment
                         </div>
                         :
-                        ENVIRONMENTS.map((env, index) => <EnvironmentRow key={index} environment={env} />)
+                        <div className="rounded-md bg-white border border-slate-200">
+                            {ENVIRONMENTS.map((env, index) => <EnvironmentRow key={index} environment={env} />)}
+                        </div>
                     }
-                </div>
             </div>
         </Layout>
     );

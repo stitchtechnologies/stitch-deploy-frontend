@@ -23,7 +23,7 @@ export default function Layout({ children }: any) {
 
   return (
     <div>
-      <div className="pt-6 px-10 text-sm">
+      <div className="pt-6 px-10 text-sm border border-solid border-b-[rgba(0,0,0,0.10)]">
         <div className="flex flex-col gap-6">
           <div className="flex">
             <div className="flex gap-4 items-center">
@@ -73,7 +73,7 @@ export default function Layout({ children }: any) {
           </div>
         </div>
       </div>
-      <main className="bg-[#00000005] min-h-screen flex flex-col justify-between shadow-inner">
+      <main className="bg-[#00000005] min-h-screen flex flex-col justify-between">
         <div>
           {children}
         </div>
