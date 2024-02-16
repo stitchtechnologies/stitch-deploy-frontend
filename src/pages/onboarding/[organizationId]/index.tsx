@@ -17,8 +17,8 @@ export default function OrganizationOnboarding() {
             </Head>
 
             <div className="flex gap-20 mt-[256px] mb-[128px]">
-                <Image src="/aperture.png" alt="aperture" width={160} height={160} />
-                <Image src="/acme.png" alt="acme" width={160} height={160} />
+                <Image src="/aperture.svg" alt="aperture" width={160} height={160} />
+                <Image src="/acme.svg" alt="acme" width={160} height={160} />
             </div>
 
             <div className="flex flex-col gap-4 w-[280px] items-center">
