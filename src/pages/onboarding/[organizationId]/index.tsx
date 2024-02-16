@@ -11,7 +11,7 @@ export default function OrganizationOnboarding() {
     const { organizationId } = router.query
 
     return (
-        <div className="flex flex-col items-center h-[100vh] bg-[#00000005]">
+        <div className="flex flex-col items-center h-screen bg-[#00000005]">
             <Head>
                 <title>Aperture x Acme | Onboarding</title>
             </Head>

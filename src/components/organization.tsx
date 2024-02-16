@@ -29,7 +29,7 @@ export const OrganizationCard: React.FC<OrganizationCardProps> = ({ link, imageU
             </div>
             <div className="flex gap-2">
                 {badges.map((badge, index) => (
-                    <Badge key={index} variant={badge.variant} className="font-thin">{badge.text}</Badge>
+                    <Badge key={index} variant={badge.variant} className="font-normal">{badge.text}</Badge>
                 ))}
             </div>
         </Link>

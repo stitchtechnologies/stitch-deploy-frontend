@@ -20,13 +20,13 @@ export default function OrganizationOnboarding() {
     const { organizationId } = router.query
 
     return (
-        <div className="flex flex-row items-center h-[100vh] overscroll-none">
+        <div className="flex flex-row items-center h-screen overscroll-none">
             <Head>
                 <title>Aperture x Acme | Onboarding</title>
             </Head>
 
             {/* Left view */}
-            <div className="flex flex-col flex-1 items-center justify-center h-[100vh] overscroll-none">
+            <div className="flex flex-col flex-1 items-center justify-center h-screen overscroll-none">
                 <div className="flex gap-12 bg-white items-center m-auto">
                     <Image src="/aperture.svg" alt="aperture" width={160} height={160} />
                     <svg width="79" height="72" viewBox="0 0 79 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-pulse">
@@ -40,7 +40,7 @@ export default function OrganizationOnboarding() {
             </div>
 
             {/* Right view */}
-            <div className="flex flex-col flex-1 bg-[#00000005] h-[100vh] px-6 pt-12 overflow-y-auto overscroll-none">
+            <div className="flex flex-col flex-1 bg-[#00000005] h-screen px-6 pt-12 overflow-y-auto overscroll-none">
                 <div>
                     <h1 className="text-3xl font-medium mb-12">Deploy Aperture Science to Acme Corp.</h1>
                     <div className="mb-3 text-sm">Select Platform</div>
