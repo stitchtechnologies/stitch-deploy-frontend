@@ -44,7 +44,7 @@ export default function Layout({ children }: any) {
               </Avatar>
               Aperture Science
             </div>
-            <div className="flex gap-4 text-slate-400 ml-auto items-center">
+            <div className="flex gap-6 text-slate-400 ml-auto items-center">
               <Link href="/help">Help</Link>
               <Link href="/documentation">Docs</Link>
               <Avatar className="h-6 w-6">
