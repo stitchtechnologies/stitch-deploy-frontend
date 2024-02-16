@@ -9,6 +9,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils";
+import { Toaster } from "./ui/toaster";
 
 export default function Layout({ children }: any) {
   const router = useRouter()
@@ -85,6 +86,7 @@ export default function Layout({ children }: any) {
           <Link href={"/help"}>Help</Link>
         </footer>
       </main>
+      <Toaster />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import Layout from "@/components/layout";
 import { ORGANIZATIONS } from "@/components/organization";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { Loader2, MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/router";
 import {
     DropdownMenu,
@@ -23,9 +23,13 @@ import NewEnvironmentVariableDialog from "@/components/createNewEnvironmentVaria
 import { useState } from "react";
 import NewUserDialog from "@/components/createNewUserDialog";
 import UsersTable, { User } from "@/components/usersTable";
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
 
 export default function NewOrganizationEnvironment() {
     const router = useRouter();
+    const { toast } = useToast()
+    const [sending, setSending] = useState(false);
     const [envVariables, setEnvVariables] = useState<EnvironmentVariable[]>([{
         key: "DASHBOARD_USERNAME",
         value: "supabase"
@@ -111,7 +115,7 @@ export default function NewOrganizationEnvironment() {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+            {/* <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
                 <div className="text-2xl">
                     Import Terraform
                 </div>
@@ -121,7 +125,7 @@ export default function NewOrganizationEnvironment() {
                         Connect to GitHub
                     </Button>
                 </div>
-            </div>
+            </div> */}
 
             <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
                 <div className="flex flex-col gap-2">
@@ -168,7 +172,19 @@ export default function NewOrganizationEnvironment() {
 
             <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
                 <Button variant={"outline"} disabled={true}>Preview deployment form</Button>
-                <Button>Send environment creation request</Button>
+                <Button disabled={sending} onClick={() => {
+                    setSending(true)
+                    setTimeout(() => {
+                        toast({
+                            title: "Invitation to create envrionment sent",
+                            description: "When Acme Corp. opens the invitation link, they will be able to create the environment.",
+                            action: (
+                                <ToastAction altText="Open invite link" onClick={() => window.open(`/onboarding/${router.query.id}`)}>Open</ToastAction>
+                            ),
+                        })
+                        setSending(false)
+                    }, 2000)
+                }}>{sending ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Sending</> : "Send environment creation request"}</Button>
             </div>
         </Layout>
     );
