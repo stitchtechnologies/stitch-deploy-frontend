@@ -1,4 +1,5 @@
 import Layout from "@/components/layout";
+import Image from "next/image"
 import { ORGANIZATIONS } from "@/components/organization";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ export interface Environment {
     provider: string;
     region: string;
     lastUpdate: string;
+    image: string;
 }
 
 const EnvironmentRow = ({ environment }: { environment: Environment }) => {
@@ -35,7 +37,7 @@ const EnvironmentRow = ({ environment }: { environment: Environment }) => {
                     <div className="font-medium">{environment.name}</div>
                     <div className="text-slate-500">{environment.id}</div>
                 </div>
-                <div className="text-slate-500 text-sm">{environment.provider} {environment.region}</div>
+                <div className="text-slate-500 flex gap-1 items-center"><Image src={environment.image} alt={"aws"} className="h-3.5" width={14} height={14} />{environment.provider} {environment.region}</div>
             </div>
             <div className="flex gap-2 items-center">
                 <svg width="17" height="19" viewBox="0 0 17 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +72,8 @@ export default function Organizations() {
             productsToUpgrade: 3,
             provider: "aws",
             region: "us-east-1",
-            lastUpdate: "2d to upgrade"
+            lastUpdate: "2d to upgrade",
+            image: "/aws.png",
         },
         {
             id: "474br8r8f7s8u13ju9vuavf",
@@ -80,7 +83,8 @@ export default function Organizations() {
             productsToUpgrade: 3,
             provider: "aws",
             region: "us-east-1",
-            lastUpdate: "2d to upgrade"
+            lastUpdate: "2d to upgrade",
+            image: "/aws.png",
         },
         {
             id: "474br8r8f7s8u13ju9vuavf",
@@ -90,7 +94,8 @@ export default function Organizations() {
             productsToUpgrade: 3,
             provider: "aws",
             region: "us-east-1",
-            lastUpdate: "2d to upgrade"
+            lastUpdate: "2d to upgrade",
+            image: "/aws.png",
         },
     ]
 
