@@ -29,7 +29,7 @@ export interface Environment {
 
 const EnvironmentRow = ({ environment }: { environment: Environment }) => {
     return (
-        <div className="flex gap-4 py-4 px-6 items-center justify-between text-sm border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+        <div className="bg-white flex gap-4 py-4 px-6 items-center justify-between text-sm border-b-[rgba(0,0,0,0.10)] border-b border-solid">
             <div className="flex flex-col w-[320px]">
                 <div className="flex gap-2">
                     <div>{environment.name}</div>
