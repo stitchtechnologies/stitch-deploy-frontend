@@ -40,11 +40,11 @@ export const OrganizationCard: React.FC<OrganizationCardProps> = ({ link, imageU
 // TODO use a DB for this
 export const ORGANIZATIONS: Organization[] = [
     {
-        id: "apple",
-        link: "/organization/apple",
-        imageUrl: "https://github.com/apple.png",
-        fallbackName: "Apple",
-        organizationName: "Apple",
+        id: "nike",
+        link: "/organization/nike",
+        imageUrl: "https://avatars.githubusercontent.com/u/1435711?s=200&v=4",
+        fallbackName: "Nike",
+        organizationName: "Nike",
         lastUpdated: "Updated 2d ago",
         badges: [
             { variant: "destructive", text: "Recalled installation", icon: <AlertCircle size={16} /> },
@@ -52,11 +52,11 @@ export const ORGANIZATIONS: Organization[] = [
         ],
     },
     {
-        id: "google",
-        link: "/organization/google",
-        imageUrl: "https://github.com/google.png",
-        fallbackName: "Google",
-        organizationName: "Google",
+        id: "walmart",
+        link: "/organization/walmart",
+        imageUrl: "https://avatars.githubusercontent.com/u/768298?s=200&v=4",
+        fallbackName: "Walmart",
+        organizationName: "Walmart",
         lastUpdated: "Updated 1d ago",
         badges: [
             { variant: "blue", text: "Updating", icon: <RefreshCw size={16} /> },
@@ -65,22 +65,22 @@ export const ORGANIZATIONS: Organization[] = [
         ],
     },
     {
-        id: "microsoft",
-        link: "/organization/microsoft",
-        imageUrl: "https://github.com/microsoft.png",
-        fallbackName: "Microsoft",
-        organizationName: "Microsoft",
+        id: "coke",
+        link: "/organization/coke",
+        imageUrl: "https://avatars.githubusercontent.com/u/65602748?s=200&v=4",
+        fallbackName: "Coca-Cola",
+        organizationName: "Coca-Cola",
         lastUpdated: "Updated 3d ago",
         badges: [
             { variant: "secondary", text: "Production", icon: <Cloud size={16} /> },
         ],
     },
     {
-        id: "facebook",
-        link: "/organization/facebook",
-        imageUrl: "https://github.com/facebook.png",
-        fallbackName: "Facebook",
-        organizationName: "Facebook",
+        id: "mercedes",
+        link: "/organization/mercedes",
+        imageUrl: "https://avatars.githubusercontent.com/u/34240465?s=200&v=4",
+        fallbackName: "Mercedes-Benz",
+        organizationName: "Mercedes-Benz",
         lastUpdated: "Updated 4d ago",
         badges: [
             { variant: "secondary", text: "Production", icon: <Cloud size={16} /> },
@@ -88,11 +88,11 @@ export const ORGANIZATIONS: Organization[] = [
         ],
     },
     {
-        id: "amazon",
-        link: "/organization/amazon",
-        imageUrl: "https://github.com/amzn.png",
-        fallbackName: "Amazon",
-        organizationName: "Amazon",
+        id: "homedepot",
+        link: "/organization/homedepot",
+        imageUrl: "https://avatars.githubusercontent.com/u/8459218?s=200&v=4",
+        fallbackName: "Home Depot",
+        organizationName: "Home Depot",
         lastUpdated: "Updated 5d ago",
         badges: [
             { variant: "secondary", text: "In progress", icon: <Hammer size={16} /> },
