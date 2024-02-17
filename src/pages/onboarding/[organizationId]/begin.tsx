@@ -49,7 +49,7 @@ export default function OrganizationOnboarding() {
             {!showProgess &&
                 <div className="flex flex-col flex-1 bg-[#00000005] h-screen px-6 pt-12 overflow-y-auto overscroll-none">
                     <div>
-                        <h1 className="text-3xl font-medium mb-12">Deploy Aperture Science to Acme Corp.</h1>
+                        <h1 className="text-3xl font-medium mb-12">Deploy Aperture Labs to Acme Corp.</h1>
                         <div className="mb-3 text-sm">Select Platform</div>
                         <Tabs defaultValue="aws" className="w-full">
                             <TabsList className="w-full justify-between">
@@ -82,7 +82,7 @@ export default function OrganizationOnboarding() {
             {showProgess &&
                 <div className="flex flex-col flex-1 bg-[#00000005] h-[100vh] px-6 pt-12 overflow-y-auto overscroll-none">
                     <div>
-                        <h1 className="text-3xl font-medium mb-12">Deploy Aperture Science to Acme Corp.</h1>
+                        <h1 className="text-3xl font-medium mb-12">Deploy Aperture Labs to Acme Corp.</h1>
                         {/* <div className="mb-3 text-sm">Select Platform</div> */}
                         <Tabs defaultValue="aws" className="w-full">
                             {/* <TabsList className="w-full justify-between">
@@ -252,18 +252,18 @@ const AWSForm = (props: { done: (id: string) => void }) => {
             <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
             <div>
                 <h2 className="text-sm">AWS key</h2>
-                <div className="text-sm text-slate-400 mb-3">The key will not be shared with Aperture Science and is encrypted before its stored.</div>
+                <div className="text-sm text-slate-400 mb-3">The key will not be shared with Aperture Labs and is encrypted before its stored.</div>
                 <Input type="text" name="access-key" placeholder="AKIAIOSFODNN7EXAMPLE" />
             </div>
             <div>
                 <h2 className="text-sm">AWS Secret</h2>
-                <div className="text-sm text-slate-400 mb-3">The secret will not be shared with Aperture Science and is encrypted before its stored.</div>
+                <div className="text-sm text-slate-400 mb-3">The secret will not be shared with Aperture Labs and is encrypted before its stored.</div>
                 <Input type="password" name="secret" placeholder="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" />
             </div>
             <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
             <div>
                 <h2 className="text-sm">Environment variables</h2>
-                <div className="text-sm text-slate-400 mb-3">Variables below were defined by Aperture Science. All variables stay on your environment and are not reported back to Aperture Science.</div>
+                <div className="text-sm text-slate-400 mb-3">Variables below were defined by Aperture Labs. All variables stay on your environment and are not reported back to Aperture Labs.</div>
                 <div className="flex flex-col gap-2">
                     {
                         [
@@ -350,16 +350,16 @@ const AWSForm = (props: { done: (id: string) => void }) => {
             </div>
             <div>
                 <h2 className="text-sm">Share logs</h2>
-                <div className="text-sm text-slate-400 mb-3">The services collect usage logs which Aperture Science can use to improve their products or resolve problems more easily. If you choose to not share logs with Aperture Science, logs are still being collected and can be retrieved manually but do not leave your servers.</div>
+                <div className="text-sm text-slate-400 mb-3">The services collect usage logs which Aperture Labs can use to improve their products or resolve problems more easily. If you choose to not share logs with Aperture Labs, logs are still being collected and can be retrieved manually but do not leave your servers.</div>
                 <div className="flex items-center space-x-2">
                     <Switch id="share-logs" />
-                    <Label htmlFor="share-logs">Share logs with Aperture Science</Label>
+                    <Label htmlFor="share-logs">Share logs with Aperture Labs</Label>
                 </div>
             </div>
             {/* <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
             <div>
                 <h2 className="text-sm">Projected running costs</h2>
-                <div className="text-sm text-slate-400 mb-3">A projection of the costs to run the service above. The projections were provided by Aperture Science and may vary heavily depending on your usage and can change over time.</div>
+                <div className="text-sm text-slate-400 mb-3">A projection of the costs to run the service above. The projections were provided by Aperture Labs and may vary heavily depending on your usage and can change over time.</div>
             </div> */}
             <hr className="w-full h-[1px] bg-[#E2E8F0] border-0" />
             <div>
