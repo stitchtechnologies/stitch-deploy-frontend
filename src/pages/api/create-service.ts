@@ -22,7 +22,7 @@ export default async function handler(
     return;
   }
 
-  const { name, description, slug, externalUrl, script, port, imageUrl, environmentVariables } = req.body;
+  const { name, description, slug, externalUrl, scriptV2, port, validationUrl, imageUrl, environmentVariables } = req.body;
 
   // find users vendor
   const vendor = await prisma.vendor.findFirst({
@@ -58,7 +58,9 @@ export default async function handler(
       description,
       slug,
       externalUrl,
-      script,
+      scriptV2,
+      script: "",
+      validationUrl,
       port,
       readMe: "## Welcome to your new service",
       image: imageUrl,

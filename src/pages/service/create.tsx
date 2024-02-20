@@ -1,6 +1,6 @@
 import Layout from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import { Loader2, Minus, MinusCircle, PlusCircle } from "lucide-react";
+import { FileCode, Loader2, MinusCircle, PlusCircle } from "lucide-react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { Input } from "@/components/ui/input";
@@ -8,8 +8,63 @@ import { useEffect, useState } from "react";
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import Image from "next/image";
 
 const DEFAULT_SLUG_PLACEHOLDER = "Enter slug"
+
+export type DockerPortMapping = {
+    [port: string]: string;
+}
+
+function DockerPortMappingCreator({ portMapping, setPortMapping }: { portMapping: DockerPortMapping, setPortMapping: (value: React.SetStateAction<DockerPortMapping>) => void }) {
+    return (
+        <div>
+            <h2 className="text-sm">Docker Port Mappings</h2>
+            <div className="text-sm text-slate-400 mb-3">Provide a mapping between the internal Docker container ports and the server ports.</div>
+            <div className="flex flex-col gap-2">
+                {
+                    Object.keys(portMapping).map((key, index) => {
+                        return (
+                            <div key={index} className="flex items-center gap-3">
+                                <Input type="text" name="containerPort" placeholder="3000" value={key} onChange={(e) => {
+                                    const newPortMapping = { ...portMapping }
+                                    newPortMapping[e.target.value] = newPortMapping[key]
+                                    delete newPortMapping[key]
+                                    setPortMapping(newPortMapping)
+                                }} />
+                                <Input type="text" name="serverPort" placeholder="8080" value={portMapping[key]} onChange={(e) => {
+                                    const newPortMapping = { ...portMapping }
+                                    newPortMapping[key] = e.target.value
+                                    setPortMapping(newPortMapping)
+                                }} />
+                                <Button variant={"ghost"}
+                                    onClick={() => {
+                                        const newPortMapping = { ...portMapping }
+                                        delete newPortMapping[key]
+                                        setPortMapping(newPortMapping)
+                                    }}>
+                                    <MinusCircle className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+            <div className="mt-2">
+                <Button disabled={("" in portMapping)} className="flex items-center gap-2" variant={"outline"}
+                    onClick={() => {
+                        const newPortMapping = { ...portMapping }
+                        newPortMapping[""] = ""
+                        setPortMapping(newPortMapping)
+                    }}>
+                    <PlusCircle className="h-4 w-4" />
+                    Add
+                </Button>
+            </div>
+        </div>
+    )
+}
 
 export type EnvironmentVariables = {
     [key: string]: string;
@@ -62,12 +117,12 @@ function EnvironmentVariablesCreator({ environmentVariables, setEnvironmentVaria
             </div>
         </div>
     )
-
 }
 
 export default function CreateService() {
     const router = useRouter();
     const { toast } = useToast()
+    const [tab, setTab] = useState<string>("docker");
     const [sending, setSending] = useState(false);
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -77,6 +132,9 @@ export default function CreateService() {
     const [script, setScript] = useState<string>("");
     const [imageUrl, setImageUrl] = useState<string>("");
     const [environmentVariables, setEnvironmentVariables] = useState<EnvironmentVariables>({});
+    const [dockerPortMapping, setDockerPortMapping] = useState<DockerPortMapping>({});
+    const [dockerImage, setDockerImage] = useState<string>("");
+    const [validationUrl, setValidationUrl] = useState<string>("");
     const [slugPlaceholder, setSlugPlaceholder] = useState<string>(DEFAULT_SLUG_PLACEHOLDER);
 
     useEffect(() => {
@@ -95,6 +153,31 @@ export default function CreateService() {
     const handleCreateVendorClick = async (e: any) => {
         e.preventDefault()
         setSending(true)
+        let scriptV2 = {};
+
+        if (tab === "docker") {
+            scriptV2 = {
+                type: "docker",
+                image: dockerImage,
+                portMappings: Object.entries(dockerPortMapping).map(([containerPort, serverPort]) => {
+                    return {
+                        containerPort,
+                        serverPort,
+                    }
+                }),
+            }
+        } else if (tab === "shell") {
+            scriptV2 = {
+                type: "shell",
+                script,
+            }
+        } else if (tab === "docker-compose") {
+            scriptV2 = {
+                type: "docker-compose",
+                composeFile: "",
+            }
+        }
+
         fetch("/api/create-service", {
             method: "POST",
             body: JSON.stringify({
@@ -102,7 +185,8 @@ export default function CreateService() {
                 description,
                 slug,
                 externalUrl,
-                script,
+                scriptV2,
+                validationUrl,
                 port,
                 imageUrl,
                 environmentVariables,
@@ -178,14 +262,53 @@ export default function CreateService() {
                         </div>
                         {/* TODO add README with preview later */}
                         {/* <div>
-                        <h2 className="text-sm">README</h2>
-                        <div className="text-sm text-slate-400 mb-3">This should be a link to the service website, documentation or repository.</div>
-                        <Input type="text" name="externalUrl" placeholder="https://stitch.tech/" onChange={(e) => setExternalUrl(e.target.value)} value={externalUrl} />
-                    </div> */}
+                            <h2 className="text-sm">README</h2>
+                            <div className="text-sm text-slate-400 mb-3">This should be a link to the service website, documentation or repository.</div>
+                            <Input type="text" name="externalUrl" placeholder="https://stitch.tech/" onChange={(e) => setExternalUrl(e.target.value)} value={externalUrl} />
+                        </div> */}
                         <div>
-                            <h2 className="text-sm">Script</h2>
-                            <div className="text-sm text-slate-400 mb-3">Install script that will be run on the provisioned environment.</div>
-                            <Textarea name="script" placeholder="Enter deployment script here" onChange={(e) => setScript(e.target.value)} value={script} />
+                            <h2 className="mb-3 text-sm">Select deployment</h2>
+                            <Tabs className="w-full" value={tab} onValueChange={(newTab) => setTab(newTab)}>
+                                <TabsList className="w-full justify-between">
+                                    <TabsTrigger value="docker" className="w-full flex gap-2">
+                                        <Image src={"/docker.svg"} alt={"docker"} width={16} height={6} />
+                                        Docker
+                                    </TabsTrigger>
+                                    <TabsTrigger value="shell" className="w-full flex gap-2">
+                                        <FileCode className="h-4 w-4" />
+                                        Shell Script
+                                    </TabsTrigger>
+                                    <TabsTrigger value="docker-compose" className="w-full flex gap-2">
+                                        <Image src={"/docker.svg"} alt={"docker"} width={16} height={6} />
+                                        Docker Compose
+                                    </TabsTrigger>
+                                </TabsList>
+                                <TabsContent value="docker">
+                                    <div className="border border-1 p-4">
+                                        <div className="text-sm text-slate-400 mb-3">Docker image to be used for this service.</div>
+                                        <Input name="dockerImage" placeholder="grafana/promtail" onChange={(e) => setDockerImage(e.target.value)} value={dockerImage} />
+                                    </div>
+                                    <div className="border border-1 p-4">
+                                        <DockerPortMappingCreator portMapping={dockerPortMapping} setPortMapping={setDockerPortMapping} />
+                                    </div>
+                                </TabsContent>
+                                <TabsContent value="shell">
+                                    <div className="border border-1 p-4">
+                                        <div className="text-sm text-slate-400 mb-3">Install script that will be run on the provisioned environment.</div>
+                                        <Textarea name="script" placeholder="Enter deployment script here" onChange={(e) => setScript(e.target.value)} value={script} />
+                                    </div>
+                                </TabsContent>
+                                <TabsContent value="docker-compose">
+                                    <div className="border border-1 p-4">
+                                        Docker compose coming soon
+                                    </div>
+                                </TabsContent>
+                            </Tabs>
+                        </div>
+                        <div>
+                            <h2 className="text-sm">Validation URL</h2>
+                            <div className="text-sm text-slate-400 mb-3">When your service is deployed, we will try to open this URL to check that the deployment has succeeded. This should be like the homepage for your deployed service. If there is no specific route then leave this field empty.</div>
+                            <Input type="text" name="validationUrl" placeholder="/play" onChange={(e) => setValidationUrl(e.target.value)} value={validationUrl} />
                         </div>
                         <div>
                             <h2 className="text-sm">Port</h2>
