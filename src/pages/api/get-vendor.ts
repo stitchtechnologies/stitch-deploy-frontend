@@ -11,7 +11,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
-  const { userId } = req.body
+  const userId = req.query.userId as string;
 
   const vendor = await prisma.vendor.findFirst({
     where: {

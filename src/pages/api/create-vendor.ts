@@ -5,24 +5,30 @@ import { v4 } from "uuid"
 import { Vendor } from "@prisma/client";
 
 type Data = {
-  vendor: Vendor;
+  vendor?: Vendor;
 };
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
-  const { userId, vendorTitle, vendorSlug, vendorImage } = req.body
+  const { userId, name, description, slug, imageUrl } = req.body;
 
   const newVentor = await prisma.vendor.create({
     data: {
       id: v4(),
       userId,
-      title: vendorTitle,
-      slug: vendorSlug,
-      image: vendorImage,
+      title: name,
+      description,
+      slug,
+      image: imageUrl,
     }
   })
+
+  if (!newVentor) {
+    res.status(400).json({ vendor: undefined });
+    return;
+  }
 
   res.status(200).json({ vendor: newVentor });
 }

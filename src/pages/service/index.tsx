@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import { Service, Vendor } from "@prisma/client";
-import CreateNewServiceDialog from "@/components/createNewServiceDialog";
+import { Button } from "react-day-picker";
 
 export type VenderWithServices = Vendor & {
     Service: Service[];
@@ -83,28 +83,25 @@ export default function Services() {
     useEffect(() => {
         if (!user) return;
         setLoadingVendor(true)
-        // fetch("/api/get-vendor", {
-        //     method: "POST",
-        //     body: JSON.stringify({
-        //         userId: user.id,
-        //     }),
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        // }).then((res) => res.json())
-        //     .then((data) => {
-        //         console.log(data)
-        //         if (!data.vendor) {
-        //             router.push("/")
-        //         }
-        //         setVendor(data.vendor)
-        //         setLoadingVendor(false)
-        //     })
-        //     .catch((error) => {
-        //         console.error(error)
-        //         setLoadingVendor(false)
-        //     })
-    }, [user])
+        fetch(`/api/get-vendor?userId=${user.id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((res) => res.json())
+            .then((data) => {
+                if (!data.vendor) {
+                    router.push("/vendor/create")
+                    return;
+                }
+                setVendor(data.vendor)
+                setLoadingVendor(false)
+            })
+            .catch((error) => {
+                console.error(error)
+                setLoadingVendor(false)
+            })
+    }, [router, user])
 
     return (
         <Layout>
@@ -124,15 +121,19 @@ export default function Services() {
                             <SelectItem value="name">Sort by name</SelectItem>
                         </SelectContent>
                     </Select>
-                    <CreateNewServiceDialog onCreated={(service) => console.log(service)} />
+                    <Button className="px-6" onClick={() => console.log("hmm")}>
+                        Create new
+                    </Button>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="flex justify-center">
                     {loadingVendor && (
                         <Loader2 className="h-8 w-8 animate-spin" />
                     )}
                     {!loadingVendor && services?.length === 0 && (
                         <p>You have no services.</p>
                     )}
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     {services?.map((service) => (
                         <ServiceCard
                             key={service.id}
