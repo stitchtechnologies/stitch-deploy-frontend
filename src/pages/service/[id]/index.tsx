@@ -14,8 +14,7 @@ import {
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { SERVICES, VenderWithServices } from "..";
-import { Input } from "@/components/ui/input";
+import { VenderWithServices } from "..";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 

@@ -10,14 +10,10 @@ import {
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils";
 import { Toaster } from "./ui/toaster";
-import { UserButton, useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
-import { VenderWithServices } from "@/pages/service";
+import { UserButton } from "@clerk/nextjs";
 
 export default function Layout({ children }: any) {
   const router = useRouter()
-  const { user } = useUser();
-  const [vendor, setVendor] = useState<VenderWithServices>();
 
   const NAVBAR_ITEMS = [
     // Organization is the default route
@@ -26,26 +22,6 @@ export default function Layout({ children }: any) {
     { name: "Services", href: "/", altHref: "/service" },
     // { name: "Settings", href: "/settings", altHref: "/settings" },
   ]
-
-  useEffect(() => {
-    if (!user) return;
-    fetch("/api/get-vendor", {
-      method: "POST",
-      body: JSON.stringify({
-        userId: user.id,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        setVendor(data.vendor)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }, [user])
 
   return (
     <div>
@@ -60,14 +36,14 @@ export default function Layout({ children }: any) {
                   <path d="M12 0V4H6C4.89543 4 4 4.89543 4 6V16L0 16V6C0 2.68629 2.68629 0 6 0H12Z" fill="black" />
                 </svg>
               </Link>
-              <svg width="16" height="25" viewBox="0 0 16 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* <svg width="16" height="25" viewBox="0 0 16 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <line x1="0.576001" y1="24.735" x2="15.576" y2="0.735002" stroke="#E2E8F0" />
-              </svg>
-              <Avatar className="h-6 w-6">
+              </svg> */}
+              {/* <Avatar className="h-6 w-6">
                 <AvatarImage src={vendor?.image} />
                 <AvatarFallback>{vendor?.slug}</AvatarFallback>
-              </Avatar>
-              {vendor?.title}
+              </Avatar> */}
+              {/* {vendor?.title} */}
             </div>
             <div className="flex gap-6 text-slate-400 ml-auto items-center">
               <Link href="/help">Help</Link>

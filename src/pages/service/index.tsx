@@ -1,4 +1,3 @@
-import CreateNewOrganization from "@/components/createNewOrganizationDialog";
 import Layout from "@/components/layout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +11,7 @@ import {
 } from "@/components/ui/select"
 import Head from "next/head";
 import Link from "next/link";
-import { AlertCircle, RefreshCw, Cloud, Hammer, Loader2 } from "lucide-react"
+import { AlertCircle, Loader2 } from "lucide-react"
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
@@ -34,26 +33,26 @@ type FakeService = {
     badges: { variant: "default" | "secondary" | "destructive" | "outline"; text: string; icon?: any; }[];
 }
 
-export const SERVICES: FakeService[] = [
-    {
-        id: "supabase",
-        link: "/service/supabase",
-        imageUrl: "/supabase.svg",
-        fallbackName: "Supabase",
-        serviceName: "Supabase",
-        version: "v3.8.0",
-        lastUpdated: "Updated 1d ago",
-        badges: [
-            { variant: "destructive", text: "Recalled installation", icon: <AlertCircle size={16} /> },
-        ],
-    },
-]
+// export const SERVICES: FakeService[] = [
+//     {
+//         id: "supabase",
+//         link: "/service/supabase",
+//         imageUrl: "/supabase.svg",
+//         fallbackName: "Supabase",
+//         serviceName: "Supabase",
+//         version: "v3.8.0",
+//         lastUpdated: "Updated 1d ago",
+//         badges: [
+//             { variant: "destructive", text: "Recalled installation", icon: <AlertCircle size={16} /> },
+//         ],
+//     },
+// ]
 
 type ServiceCardProps = Omit<FakeService, "id">;
 
 export const ServiceCard: React.FC<ServiceCardProps> = ({ link, imageUrl, version, fallbackName, serviceName, lastUpdated, badges }) => {
     return (
-        <Link href={link} className="flex flex-col gap-4 bg-white rounded-md border-[color:var(--slate-200,#E2E8F0)] border-solid border p-6 text-sm shadow-[0px_2px_6px_0px_rgba(0,0,0,0.09)] hover:shadow-md">
+        <Link href={link} target="_blank" className="flex flex-col gap-4 bg-white rounded-md border-[color:var(--slate-200,#E2E8F0)] border-solid border p-6 text-sm shadow-[0px_2px_6px_0px_rgba(0,0,0,0.09)] hover:shadow-md">
             <div className="flex gap-3 items-center">
                 <Avatar className="h-6 w-6">
                     <AvatarImage src={imageUrl} />
@@ -84,27 +83,27 @@ export default function Services() {
     useEffect(() => {
         if (!user) return;
         setLoadingVendor(true)
-        fetch("/api/get-vendor", {
-            method: "POST",
-            body: JSON.stringify({
-                userId: user.id,
-            }),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }).then((res) => res.json())
-            .then((data) => {
-                console.log(data)
-                if (!data.vendor) {
-                    router.push("/")
-                }
-                setVendor(data.vendor)
-                setLoadingVendor(false)
-            })
-            .catch((error) => {
-                console.error(error)
-                setLoadingVendor(false)
-            })
+        // fetch("/api/get-vendor", {
+        //     method: "POST",
+        //     body: JSON.stringify({
+        //         userId: user.id,
+        //     }),
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        // }).then((res) => res.json())
+        //     .then((data) => {
+        //         console.log(data)
+        //         if (!data.vendor) {
+        //             router.push("/")
+        //         }
+        //         setVendor(data.vendor)
+        //         setLoadingVendor(false)
+        //     })
+        //     .catch((error) => {
+        //         console.error(error)
+        //         setLoadingVendor(false)
+        //     })
     }, [user])
 
     return (
@@ -120,9 +119,9 @@ export default function Services() {
                             <SelectValue placeholder="Sort by activity" />
                         </SelectTrigger>
                         <SelectContent>
+                            <SelectItem value="update">Sort by last update</SelectItem>
                             <SelectItem value="activity">Sort by activity</SelectItem>
                             <SelectItem value="name">Sort by name</SelectItem>
-                            <SelectItem value="update">Sort by last update</SelectItem>
                         </SelectContent>
                     </Select>
                     <CreateNewServiceDialog onCreated={(service) => console.log(service)} />
@@ -132,12 +131,12 @@ export default function Services() {
                         <Loader2 className="h-8 w-8 animate-spin" />
                     )}
                     {!loadingVendor && services?.length === 0 && (
-                        <p>No services for this vendor.</p>
+                        <p>You have no services.</p>
                     )}
                     {services?.map((service) => (
                         <ServiceCard
                             key={service.id}
-                            link={`/service/${vendor?.slug}`}
+                            link={`https://deploy.stitch.tech/${vendor?.slug}/${service.slug}`}
                             imageUrl={service.image}
                             version={"v1.0.0"}
                             fallbackName={service.title}
