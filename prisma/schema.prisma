@@ -7,6 +7,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Vendor {
+  id          String    @id
+  title       String    @db.VarChar(255)
+  description String
+  usedId      String
+  slug        String    @unique @db.VarChar(255)
+  createdAt   DateTime  @default(now()) @db.Timestamp(6)
+  image       String    @db.VarChar(255)
+  Service     Service[]
+}
+
+model Service {
+  id                  String                @id
+  title               String                @db.VarChar(255)
+  slug                String                @unique @db.VarChar(255)
+  description         String
+  image               String                @db.VarChar(255)
+  createdAt           DateTime              @default(now()) @db.Timestamp(6)
+  externalUrl         String                @db.VarChar(255)
+  readMe              String
+  script              String
+  port                String?               @db.VarChar(255)
+  EnvironmentVariable EnvironmentVariable[]
+  Vendor              Vendor?               @relation(fields: [vendorId], references: [id])
+  vendorId            String?
+}
+
 model EnvironmentVariable {
   id        String   @id
   key       String   @db.VarChar(255)
@@ -14,40 +41,4 @@ model EnvironmentVariable {
   createdAt DateTime @default(now()) @db.Timestamp(6)
   serviceId String?
   Service   Service? @relation(fields: [serviceId], references: [id])
-}
-
-model Organization {
-  id        String    @id
-  title     String    @db.VarChar(255)
-  slug      String    @unique @db.VarChar(255)
-  createdAt DateTime  @default(now()) @db.Timestamp(6)
-  image     String    @db.VarChar(255)
-  Service   Service[]
-}
-
-model Service {
-  id                  String                @id
-  title               String                @db.VarChar(255)
-  description         String
-  image               String                @db.VarChar(255)
-  createdAt           DateTime              @default(now()) @db.Timestamp(6)
-  organizationId      String?
-  externalUrl         String                @db.VarChar(255)
-  readMe              String
-  script              String
-  port                String?               @db.VarChar(255)
-  EnvironmentVariable EnvironmentVariable[]
-  Organization        Organization?         @relation(fields: [organizationId], references: [id])
-  Vendor              Vendor?               @relation(fields: [vendorId], references: [id])
-  vendorId            String?
-}
-
-model Vendor {
-  id        String    @id
-  userId    String    @db.VarChar(255)
-  title     String    @db.VarChar(255)
-  slug      String    @unique @db.VarChar(255)
-  createdAt DateTime  @default(now()) @db.Timestamp(6)
-  image     String    @db.VarChar(255)
-  Service   Service[]
 }
