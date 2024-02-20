@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/db"
 import { Vendor } from "@prisma/client";
+import { getAuth } from "@clerk/nextjs/server";
 
 type Data = {
   vendor?: Vendor;
@@ -11,7 +12,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
-  const userId = req.query.userId as string;
+  const { userId } = getAuth(req);
+
+  if (!userId) {
+    res.status(401).json({ vendor: undefined });
+    return;
+  }
 
   const vendor = await prisma.vendor.findFirst({
     where: {

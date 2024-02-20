@@ -19,7 +19,7 @@ import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 
 export default function Services() {
-    const router = useRouter()
+    const router = useRouter();
     const { id } = router.query
     const { user } = useUser();
     const [vendor, setVendor] = useState<VenderWithServices>();
@@ -29,19 +29,16 @@ export default function Services() {
     useEffect(() => {
         if (!user) return;
         setLoadingVendor(true)
-        fetch("/api/get-vendor", {
-            method: "POST",
-            body: JSON.stringify({
-                userId: user.id,
-            }),
+        fetch(`/api/get-vendor`, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
         }).then((res) => res.json())
             .then((data) => {
-                console.log(data)
-                if (!data.vendor.Service || data.vendor.Service.length === 0) {
-                    router.push("/service")
+                if (!data.vendor) {
+                    router.push("/vendor/create")
+                    return;
                 }
                 setVendor(data.vendor)
                 setLoadingVendor(false)
@@ -50,7 +47,7 @@ export default function Services() {
                 console.error(error)
                 setLoadingVendor(false)
             })
-    }, [user])
+    }, [router, user])
 
     if (!services || services?.length === 0) {
         return <div>Service not found</div>

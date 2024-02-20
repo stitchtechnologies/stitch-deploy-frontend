@@ -1,31 +1,12 @@
 import Layout from "@/components/layout";
-import { ORGANIZATIONS } from "@/components/organization";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Loader2, MoreHorizontal } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/router";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import Head from "next/head";
-import { ACME_ORG } from "@/components/createNewOrganizationDialog";
-import Link from "next/link";
 import { Input } from "@/components/ui/input";
-import { ServicesTable } from "@/components/servicesTable";
-import { Textarea } from "@/components/ui/textarea";
-import EnvironmentVariablesTable, { EnvironmentVariable } from "@/components/environmentVariablesTable";
-import NewEnvironmentVariableDialog from "@/components/createNewEnvironmentVariableDialog";
 import { useEffect, useState } from "react";
-import NewUserDialog from "@/components/createNewUserDialog";
-import UsersTable, { User } from "@/components/usersTable";
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
-import { set } from "date-fns";
 import { useUser } from "@clerk/nextjs";
 
 const DEFAULT_SLUG_PLACEHOLDER = "Enter slug"

@@ -83,7 +83,7 @@ export default function Services() {
     useEffect(() => {
         if (!user) return;
         setLoadingVendor(true)
-        fetch(`/api/get-vendor?userId=${user.id}`, {
+        fetch(`/api/get-vendor`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

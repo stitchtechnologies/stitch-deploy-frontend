@@ -15,10 +15,10 @@ const robotoMono = Roboto_Mono({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ClerkProvider {...pageProps}>
-      <main className={`${inter.variable} ${robotoMono.variable} font-inter`}>
+    <main className={`${inter.variable} ${robotoMono.variable} font-inter`}>
+      <ClerkProvider {...pageProps}>
         <Component {...pageProps} />
-      </main>
-    </ClerkProvider>
+      </ClerkProvider>
+    </main>
   )
 }

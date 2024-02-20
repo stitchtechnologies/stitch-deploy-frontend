@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/db"
 import { v4 } from "uuid"
 import { Vendor } from "@prisma/client";
+import { getAuth } from "@clerk/nextjs/server";
 
 type Data = {
   vendor?: Vendor;
@@ -12,7 +13,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
-  const { userId, name, description, slug, imageUrl } = req.body;
+  const { userId } = getAuth(req);
+
+  if (!userId) {
+    res.status(401).json({ vendor: undefined });
+    return;
+  }
+
+  const { name, description, slug, imageUrl } = req.body;
 
   const newVentor = await prisma.vendor.create({
     data: {
