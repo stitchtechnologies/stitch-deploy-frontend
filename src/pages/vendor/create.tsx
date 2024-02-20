@@ -14,7 +14,6 @@ const DEFAULT_SLUG_PLACEHOLDER = "Enter slug"
 export default function CreateVendor() {
     const router = useRouter();
     const { toast } = useToast()
-    const { user } = useUser();
     const [sending, setSending] = useState(false);
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -43,8 +42,7 @@ export default function CreateVendor() {
                 name,
                 description,
                 slug,
-                imageUrl,
-                userId: user?.id || ""
+                imageUrl
             }),
             headers: {
                 "Content-Type": "application/json",
