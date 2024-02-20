@@ -1,15 +1,68 @@
 import Layout from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, Minus, MinusCircle, PlusCircle } from "lucide-react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
-import { useUser } from "@clerk/nextjs";
 
 const DEFAULT_SLUG_PLACEHOLDER = "Enter slug"
+
+export type EnvironmentVariables = {
+    [key: string]: string;
+}
+
+function EnvironmentVariablesCreator({ environmentVariables, setEnvironmentVariables }: { environmentVariables: EnvironmentVariables, setEnvironmentVariables: (value: React.SetStateAction<EnvironmentVariables>) => void }) {
+    return (
+        <div>
+            <h2 className="text-sm">Environment Variables</h2>
+            <div className="text-sm text-slate-400 mb-3">Add environment variables that will be used in the deployment script.</div>
+            <div className="flex flex-col gap-2">
+                {
+                    Object.keys(environmentVariables).map((key, index) => {
+                        return (
+                            <div key={index} className="flex items-center gap-3">
+                                <Input type="text" name="key" placeholder="Key" value={key} onChange={(e) => {
+                                    const newEnvironmentVariables = { ...environmentVariables }
+                                    newEnvironmentVariables[e.target.value] = newEnvironmentVariables[key]
+                                    delete newEnvironmentVariables[key]
+                                    setEnvironmentVariables(newEnvironmentVariables)
+                                }} />
+                                <Input type="text" name="value" placeholder="Value" value={environmentVariables[key]} onChange={(e) => {
+                                    const newEnvironmentVariables = { ...environmentVariables }
+                                    newEnvironmentVariables[key] = e.target.value
+                                    setEnvironmentVariables(newEnvironmentVariables)
+                                }} />
+                                <Button variant={"ghost"}
+                                    onClick={() => {
+                                        const newEnvironmentVariables = { ...environmentVariables }
+                                        delete newEnvironmentVariables[key]
+                                        setEnvironmentVariables(newEnvironmentVariables)
+                                    }}>
+                                    <MinusCircle className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+            <div className="mt-2">
+                <Button disabled={("" in environmentVariables)} className="flex items-center gap-2" variant={"outline"}
+                    onClick={() => {
+                        const newEnvironmentVariables = { ...environmentVariables }
+                        newEnvironmentVariables[""] = ""
+                        setEnvironmentVariables(newEnvironmentVariables)
+                    }}>
+                    <PlusCircle className="h-4 w-4" />
+                    Add
+                </Button>
+            </div>
+        </div>
+    )
+
+}
 
 export default function CreateService() {
     const router = useRouter();
@@ -22,6 +75,7 @@ export default function CreateService() {
     const [port, setPort] = useState<string>("");
     const [script, setScript] = useState<string>("");
     const [imageUrl, setImageUrl] = useState<string>("");
+    const [environmentVariables, setEnvironmentVariables] = useState<EnvironmentVariables>({});
     const [slugPlaceholder, setSlugPlaceholder] = useState<string>(DEFAULT_SLUG_PLACEHOLDER);
 
     useEffect(() => {
@@ -49,13 +103,14 @@ export default function CreateService() {
                 script,
                 port,
                 imageUrl,
+                environmentVariables,
             }),
             headers: {
                 "Content-Type": "application/json",
             },
         }).then((res) => res.json())
             .then((data) => {
-                if (data.vendor) {
+                if (data.service) {
                     toast({
                         title: "Created service",
                         description: "Your service has been created. You can now share the installer.",
@@ -139,6 +194,7 @@ export default function CreateService() {
                         <div className="text-sm text-slate-400 mb-3">This is a link to the image you want to display for the service.</div>
                         <Input type="text" name="imageUrl" placeholder={"https://avatars.githubusercontent.com/u/146327003"} onChange={(e) => setImageUrl(e.target.value)} value={imageUrl} />
                     </div>
+                    <EnvironmentVariablesCreator environmentVariables={environmentVariables} setEnvironmentVariables={setEnvironmentVariables} />
                 </div>
             </div>
 

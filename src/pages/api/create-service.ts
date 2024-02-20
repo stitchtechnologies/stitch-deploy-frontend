@@ -4,6 +4,7 @@ import prisma from "@/lib/db"
 import { v4 } from "uuid"
 import { Service, Vendor } from "@prisma/client";
 import { getAuth } from "@clerk/nextjs/server";
+import { EnvironmentVariables } from "../service/create";
 
 type Data = {
   vendor?: Vendor;
@@ -21,7 +22,7 @@ export default async function handler(
     return;
   }
 
-  const { name, description, slug, externalUrl, script, port, imageUrl, } = req.body;
+  const { name, description, slug, externalUrl, script, port, imageUrl, environmentVariables } = req.body;
 
   // find users vendor
   const vendor = await prisma.vendor.findFirst({
@@ -34,6 +35,19 @@ export default async function handler(
     res.status(400).json({ vendor: undefined });
     return;
   }
+
+  // create environment variables
+  const envVars = environmentVariables as EnvironmentVariables;
+  const envVarsArray = Object.keys(envVars).map((key) => {
+    return {
+      id: v4(),
+      key,
+      value: envVars[key],
+    };
+  });
+  const newEnvVars = await prisma.environmentVariable.createMany({
+    data: envVarsArray,
+  });
 
   // create service for this vendor
   const newService = await prisma.service.create({
@@ -48,6 +62,13 @@ export default async function handler(
       port,
       readMe: "## Welcome to your new service",
       image: imageUrl,
+      EnvironmentVariable: {
+        connect: envVarsArray.map((envVar) => {
+          return {
+            id: envVar.id,
+          };
+        }),
+      },
     }
   })
 
