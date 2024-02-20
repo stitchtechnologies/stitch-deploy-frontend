@@ -209,8 +209,6 @@ const AWSForm = (props: { done: (id: string) => void }) => {
             })
     }
 
-
-
     return (
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
             <div>
