@@ -11,10 +11,10 @@ model Vendor {
   id          String    @id
   title       String    @db.VarChar(255)
   description String
-  userId      String
   slug        String    @unique @db.VarChar(255)
   createdAt   DateTime  @default(now()) @db.Timestamp(6)
   image       String    @db.VarChar(255)
+  userId      String
   Service     Service[]
 }
 
@@ -29,9 +29,10 @@ model Service {
   readMe              String
   script              String
   port                String?               @db.VarChar(255)
+  vendorId            String?
+  scriptV2            Json?
   EnvironmentVariable EnvironmentVariable[]
   Vendor              Vendor?               @relation(fields: [vendorId], references: [id])
-  vendorId            String?
 }
 
 model EnvironmentVariable {
