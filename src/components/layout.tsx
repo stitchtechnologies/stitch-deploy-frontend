@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils";
 import { Toaster } from "./ui/toaster";
+import { UserButton } from "@clerk/nextjs";
 
 export default function Layout({ children }: any) {
   const router = useRouter()
@@ -17,9 +18,9 @@ export default function Layout({ children }: any) {
   const NAVBAR_ITEMS = [
     // Organization is the default route
     // TODO this is bad
-    { name: "Organizations", href: "/", altHref: "/organization" },
-    { name: "Services", href: "/service", altHref: "/service" },
-    { name: "Settings", href: "/settings", altHref: "/settings" },
+    // { name: "Organizations", href: "/", altHref: "/organization" },
+    { name: "Services", href: "/", altHref: "/service" },
+    // { name: "Settings", href: "/settings", altHref: "/settings" },
   ]
 
   return (
@@ -35,22 +36,19 @@ export default function Layout({ children }: any) {
                   <path d="M12 0V4H6C4.89543 4 4 4.89543 4 6V16L0 16V6C0 2.68629 2.68629 0 6 0H12Z" fill="black" />
                 </svg>
               </Link>
-              <svg width="16" height="25" viewBox="0 0 16 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* <svg width="16" height="25" viewBox="0 0 16 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <line x1="0.576001" y1="24.735" x2="15.576" y2="0.735002" stroke="#E2E8F0" />
-              </svg>
-              <Avatar className="h-6 w-6">
-                <AvatarImage src="/aperture.svg" />
-                <AvatarFallback>AS</AvatarFallback>
-              </Avatar>
-              Aperture Labs
+              </svg> */}
+              {/* <Avatar className="h-6 w-6">
+                <AvatarImage src={vendor?.image} />
+                <AvatarFallback>{vendor?.slug}</AvatarFallback>
+              </Avatar> */}
+              {/* {vendor?.title} */}
             </div>
             <div className="flex gap-6 text-slate-400 ml-auto items-center">
               <Link href="/help">Help</Link>
               <Link href="/documentation">Docs</Link>
-              <Avatar className="h-6 w-6">
-                <AvatarImage src="/user-icon.png" />
-                <AvatarFallback>user</AvatarFallback>
-              </Avatar>
+              <UserButton />
             </div>
           </div>
           <div className="flex gap-8">
