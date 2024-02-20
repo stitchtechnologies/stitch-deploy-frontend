@@ -34,7 +34,8 @@ export default function CreateVendor() {
         setSlug(slugPlaceholder)
     }
 
-    const handleCreateVendorClick = async () => {
+    const handleCreateVendorClick = async (e: any) => {
+        e.preventDefault()
         setSending(true)
         fetch("/api/create-vendor", {
             method: "POST",
@@ -86,39 +87,41 @@ export default function CreateVendor() {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
-                <div className="text-2xl">
-                    Details
-                </div>
-                <div className="flex flex-col gap-6">
-                    <div>
-                        <h2 className="text-sm">Vendor name</h2>
-                        <div className="text-sm text-slate-400 mb-3">This is the name of your organization. Users will be see this name when installing services from this vendor.</div>
-                        <Input type="text" name="name" placeholder="Enter name" onChange={(e) => setName(e.target.value)} value={name} />
+            <form onSubmit={handleCreateVendorClick}>
+                <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+                    <div className="text-2xl">
+                        Details
                     </div>
-                    <div>
-                        <h2 className="text-sm">Description</h2>
-                        <div className="text-sm text-slate-400 mb-3">Description for this vendor.</div>
-                        <Input type="text" name="description" placeholder="Enter description" onChange={(e) => setDescription(e.target.value)} value={description} />
+                    <div className="flex flex-col gap-6">
+                        <div>
+                            <h2 className="text-sm">Vendor name</h2>
+                            <div className="text-sm text-slate-400 mb-3">This is the name of your organization. Users will be see this name when installing services from this vendor.</div>
+                            <Input type="text" name="name" placeholder="Enter name" onChange={(e) => setName(e.target.value)} value={name} />
+                        </div>
+                        <div>
+                            <h2 className="text-sm">Description</h2>
+                            <div className="text-sm text-slate-400 mb-3">Description for this vendor.</div>
+                            <Input type="text" name="description" placeholder="Enter description" onChange={(e) => setDescription(e.target.value)} value={description} />
+                        </div>
+                        <div>
+                            <h2 className="text-sm">URL Slug</h2>
+                            <div className="text-sm text-slate-400 mb-2">This is the first part of the URL for your installer. The installer URL will be `/[vendor_slug]/[service_slug]`.</div>
+                            <Input type="text" name="slug" placeholder={slugPlaceholder} onChange={(e) => setSlug(e.target.value)} value={slug} />
+                            {(slugPlaceholder !== DEFAULT_SLUG_PLACEHOLDER && slug !== slugPlaceholder) && <div className="text-xs text-blue-400 hover:text-blue-500 hover:underline hover:cursor-pointer mt-1" onClick={handleUseSuggestedSlugClick}>Use suggested slug</div>}
+                        </div>
+                        <div>
+                            <h2 className="text-sm">Image URL</h2>
+                            <div className="text-sm text-slate-400 mb-3">This is a link to the image your want to display for your vendor.</div>
+                            <Input type="text" name="imageUrl" placeholder={"https://avatars.githubusercontent.com/u/146327003"} onChange={(e) => setImageUrl(e.target.value)} value={imageUrl} />
+                        </div>
                     </div>
-                    <div>
-                        <h2 className="text-sm">URL Slug</h2>
-                        <div className="text-sm text-slate-400 mb-2">This is the first part of the URL for your installer. The installer URL will be `/[vendor_slug]/[service_slug]`.</div>
-                        <Input type="text" name="slug" placeholder={slugPlaceholder} onChange={(e) => setSlug(e.target.value)} value={slug} />
-                        {(slugPlaceholder !== DEFAULT_SLUG_PLACEHOLDER && slug !== slugPlaceholder) && <div className="text-xs text-blue-400 hover:text-blue-500 hover:underline hover:cursor-pointer mt-1" onClick={handleUseSuggestedSlugClick}>Use suggested slug</div>}
-                    </div>
-                    <div>
-                        <h2 className="text-sm">Image URL</h2>
-                        <div className="text-sm text-slate-400 mb-3">This is a link to the image your want to display for your vendor.</div>
-                        <Input type="text" name="imageUrl" placeholder={"https://avatars.githubusercontent.com/u/146327003"} onChange={(e) => setImageUrl(e.target.value)} value={imageUrl} />
-                    </div>
-                </div>
-            </div>
 
-            <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
-                {/* <Button variant={"outline"} disabled={true}>Preview deployment form</Button> */}
-                <Button disabled={sending} onClick={handleCreateVendorClick}>{sending ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Sending</> : "Create vendor"}</Button>
-            </div>
+                    <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+                        {/* <Button variant={"outline"} disabled={true}>Preview deployment form</Button> */}
+                        <Button disabled={sending} type="submit">{sending ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Sending</> : "Create vendor"}</Button>
+                    </div>
+                </div>
+            </form>
         </Layout>
     );
 }
