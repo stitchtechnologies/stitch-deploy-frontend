@@ -18,7 +18,7 @@ function EnvironmentVariablesCreator({ environmentVariables, setEnvironmentVaria
     return (
         <div>
             <h2 className="text-sm">Environment Variables</h2>
-            <div className="text-sm text-slate-400 mb-3">Add environment variables that will be used in the deployment script.</div>
+            <div className="text-sm text-slate-400 mb-3">Add environment variables that will be used in the deployment script. You can provide default values and users will be expected to provide their own values.</div>
             <div className="flex flex-col gap-2">
                 {
                     Object.keys(environmentVariables).map((key, index) => {
@@ -30,7 +30,7 @@ function EnvironmentVariablesCreator({ environmentVariables, setEnvironmentVaria
                                     delete newEnvironmentVariables[key]
                                     setEnvironmentVariables(newEnvironmentVariables)
                                 }} />
-                                <Input type="text" name="value" placeholder="Value" value={environmentVariables[key]} onChange={(e) => {
+                                <Input type="text" name="value" placeholder="Default value" value={environmentVariables[key]} onChange={(e) => {
                                     const newEnvironmentVariables = { ...environmentVariables }
                                     newEnvironmentVariables[key] = e.target.value
                                     setEnvironmentVariables(newEnvironmentVariables)
