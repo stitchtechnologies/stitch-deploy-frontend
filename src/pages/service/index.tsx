@@ -12,9 +12,18 @@ import {
 } from "@/components/ui/select"
 import Head from "next/head";
 import Link from "next/link";
-import { AlertCircle, RefreshCw, Cloud, Hammer } from "lucide-react"
+import { AlertCircle, RefreshCw, Cloud, Hammer, Loader2 } from "lucide-react"
+import { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/router";
+import { Service, Vendor } from "@prisma/client";
+import CreateNewServiceDialog from "@/components/createNewServiceDialog";
 
-type Service = {
+export type VenderWithServices = Vendor & {
+    Service: Service[];
+}
+
+type FakeService = {
     id: string;
     link: string;
     imageUrl: string;
@@ -25,7 +34,7 @@ type Service = {
     badges: { variant: "default" | "secondary" | "destructive" | "outline"; text: string; icon?: any; }[];
 }
 
-export const SERVICES: Service[] = [
+export const SERVICES: FakeService[] = [
     {
         id: "supabase",
         link: "/service/supabase",
@@ -40,7 +49,7 @@ export const SERVICES: Service[] = [
     },
 ]
 
-type ServiceCardProps = Omit<Service, "id">;
+type ServiceCardProps = Omit<FakeService, "id">;
 
 export const ServiceCard: React.FC<ServiceCardProps> = ({ link, imageUrl, version, fallbackName, serviceName, lastUpdated, badges }) => {
     return (
@@ -66,6 +75,38 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ link, imageUrl, versio
 }
 
 export default function Services() {
+    const router = useRouter();
+    const { user } = useUser();
+    const [vendor, setVendor] = useState<VenderWithServices>();
+    const [loadingVendor, setLoadingVendor] = useState<boolean>(false);
+    const services = vendor?.Service;
+
+    useEffect(() => {
+        if (!user) return;
+        setLoadingVendor(true)
+        fetch("/api/get-vendor", {
+            method: "POST",
+            body: JSON.stringify({
+                userId: user.id,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((res) => res.json())
+            .then((data) => {
+                console.log(data)
+                if (!data.vendor) {
+                    router.push("/")
+                }
+                setVendor(data.vendor)
+                setLoadingVendor(false)
+            })
+            .catch((error) => {
+                console.error(error)
+                setLoadingVendor(false)
+            })
+    }, [user])
+
     return (
         <Layout>
             <Head>
@@ -84,19 +125,25 @@ export default function Services() {
                             <SelectItem value="update">Sort by last update</SelectItem>
                         </SelectContent>
                     </Select>
-                    <CreateNewOrganization onCreated={(service) => console.log(service)} />
+                    <CreateNewServiceDialog onCreated={(service) => console.log(service)} />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {SERVICES.map((service, index) => (
+                    {loadingVendor && (
+                        <Loader2 className="h-8 w-8 animate-spin" />
+                    )}
+                    {!loadingVendor && services?.length === 0 && (
+                        <p>No services for this vendor.</p>
+                    )}
+                    {services?.map((service) => (
                         <ServiceCard
                             key={service.id}
-                            link={service.link}
-                            imageUrl={service.imageUrl}
-                            version={service.version}
-                            fallbackName={service.fallbackName}
-                            serviceName={service.serviceName}
-                            lastUpdated={service.lastUpdated}
-                            badges={service.badges}
+                            link={`/service/${vendor?.slug}`}
+                            imageUrl={service.image}
+                            version={"v1.0.0"}
+                            fallbackName={service.title}
+                            serviceName={service.title}
+                            lastUpdated={"Updated 1d ago"}
+                            badges={[{ variant: "destructive", text: "Recalled installation", icon: <AlertCircle size={16} /> },]}
                         />
                     ))}
                 </div>

@@ -10,17 +10,42 @@ import {
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils";
 import { Toaster } from "./ui/toaster";
+import { UserButton, useUser } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
+import { VenderWithServices } from "@/pages/service";
 
 export default function Layout({ children }: any) {
   const router = useRouter()
+  const { user } = useUser();
+  const [vendor, setVendor] = useState<VenderWithServices>();
 
   const NAVBAR_ITEMS = [
     // Organization is the default route
     // TODO this is bad
-    { name: "Organizations", href: "/", altHref: "/organization" },
-    { name: "Services", href: "/service", altHref: "/service" },
-    { name: "Settings", href: "/settings", altHref: "/settings" },
+    // { name: "Organizations", href: "/", altHref: "/organization" },
+    { name: "Services", href: "/", altHref: "/service" },
+    // { name: "Settings", href: "/settings", altHref: "/settings" },
   ]
+
+  useEffect(() => {
+    if (!user) return;
+    fetch("/api/get-vendor", {
+      method: "POST",
+      body: JSON.stringify({
+        userId: user.id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        setVendor(data.vendor)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [user])
 
   return (
     <div>
@@ -39,18 +64,15 @@ export default function Layout({ children }: any) {
                 <line x1="0.576001" y1="24.735" x2="15.576" y2="0.735002" stroke="#E2E8F0" />
               </svg>
               <Avatar className="h-6 w-6">
-                <AvatarImage src="/aperture.svg" />
-                <AvatarFallback>AS</AvatarFallback>
+                <AvatarImage src={vendor?.image} />
+                <AvatarFallback>{vendor?.slug}</AvatarFallback>
               </Avatar>
-              Aperture Labs
+              {vendor?.title}
             </div>
             <div className="flex gap-6 text-slate-400 ml-auto items-center">
               <Link href="/help">Help</Link>
               <Link href="/documentation">Docs</Link>
-              <Avatar className="h-6 w-6">
-                <AvatarImage src="/user-icon.png" />
-                <AvatarFallback>user</AvatarFallback>
-              </Avatar>
+              <UserButton />
             </div>
           </div>
           <div className="flex gap-8">

@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 import type { AppProps } from "next/app";
 import { Inter, Roboto_Mono } from "next/font/google"
 
@@ -14,8 +15,10 @@ const robotoMono = Roboto_Mono({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={`${inter.variable} ${robotoMono.variable} font-inter`}>
-      <Component {...pageProps} />
-    </main>
+    <ClerkProvider {...pageProps}>
+      <main className={`${inter.variable} ${robotoMono.variable} font-inter`}>
+        <Component {...pageProps} />
+      </main>
+    </ClerkProvider>
   )
 }
