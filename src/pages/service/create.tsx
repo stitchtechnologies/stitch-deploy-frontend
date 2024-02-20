@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
+import { Textarea } from "@/components/ui/textarea";
 
 const DEFAULT_SLUG_PLACEHOLDER = "Enter slug"
 
@@ -184,7 +185,7 @@ export default function CreateService() {
                         <div>
                             <h2 className="text-sm">Script</h2>
                             <div className="text-sm text-slate-400 mb-3">Install script that will be run on the provisioned environment.</div>
-                            <Input type="text" name="script" placeholder="Enter deployment script here" onChange={(e) => setScript(e.target.value)} value={script} />
+                            <Textarea name="script" placeholder="Enter deployment script here" onChange={(e) => setScript(e.target.value)} value={script} />
                         </div>
                         <div>
                             <h2 className="text-sm">Port</h2>
