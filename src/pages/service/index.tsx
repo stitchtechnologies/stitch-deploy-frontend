@@ -131,7 +131,7 @@ export default function Services() {
                         <Loader2 className="h-8 w-8 animate-spin" />
                     )}
                     {!loadingVendor && services?.length === 0 && (
-                        <p>You have no services.</p>
+                        <p className="text-slate-500">You have no services.</p>
                     )}
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

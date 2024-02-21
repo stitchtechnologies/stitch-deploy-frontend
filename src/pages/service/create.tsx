@@ -302,6 +302,8 @@ export default function CreateService() {
             })
     }
 
+    const disableCreateService = !name || !description || !externalUrl || !imageUrl || !validationUrl || !port || sending
+
     return (
         <Layout>
             <Head>
@@ -445,7 +447,7 @@ export default function CreateService() {
 
                         <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
                             {/* <Button variant={"outline"} disabled={true}>Preview deployment form</Button> */}
-                            <Button disabled={sending} type="submit">{sending ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Sending</> : "Create service"}</Button>
+                            <Button disabled={disableCreateService} type="submit">{sending ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Sending</> : "Create service"}</Button>
                         </div>
                     </form>
                 )
