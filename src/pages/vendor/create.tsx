@@ -1,6 +1,6 @@
 import Layout from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { InfoIcon, Loader2 } from "lucide-react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,15 @@ import { useEffect, useState } from "react";
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 import { useUser } from "@clerk/nextjs";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import Image from "next/image";
 
 // const DEFAULT_SLUG_PLACEHOLDER = "pied-piper"
 
@@ -131,12 +140,12 @@ export default function CreateVendor() {
                             <div className="flex flex-col gap-6">
                                 <div>
                                     <h2 className="text-sm">Organization name</h2>
-                                    <div className="text-sm text-slate-400 mb-3">This is the name of your organization. Users will be see this name when installing services from this vendor.</div>
+                                    <div className="text-sm text-slate-400 mb-3">Users will be see this name when installing services from this vendor.</div>
                                     <Input type="text" name="name" placeholder="Pied Piper" onChange={(e) => setName(e.target.value)} value={name} />
                                 </div>
                                 <div>
-                                    <h2 className="text-sm">Description</h2>
-                                    <div className="text-sm text-slate-400 mb-3">Description for this organization.</div>
+                                    <h2 className="text-sm mb-3">Description</h2>
+                                    {/* <div className="text-sm text-slate-400 mb-3">Description for this organization.</div> */}
                                     <Input type="text" name="description" placeholder="Piped Piper has the highest Weissman score in history. We provide the best algorithm libraries in the world." onChange={(e) => setDescription(e.target.value)} value={description} />
                                 </div>
                                 {/* <div>
@@ -146,8 +155,24 @@ export default function CreateVendor() {
                                     {(slugPlaceholder !== DEFAULT_SLUG_PLACEHOLDER && slug !== slugPlaceholder) && <div className="text-xs text-blue-400 hover:text-blue-500 hover:underline hover:cursor-pointer mt-1" onClick={handleUseSuggestedSlugClick}>Use suggested slug</div>}
                                 </div> */}
                                 <div>
-                                    <h2 className="text-sm">Image URL</h2>
-                                    <div className="text-sm text-slate-400 mb-3">This is a link to the image your want to display for your vendor.</div>
+                                    <div className="flex gap-2 items-center">
+                                        <h2 className="text-sm">Image URL</h2>
+                                        <Dialog>
+                                            <DialogTrigger>
+                                                <InfoIcon className="h-4 w-4 text-slate-400 hover:text-slate-500 hover:cursor-pointer" />
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>How to get an image from GitHub</DialogTitle>
+                                                    <DialogDescription>
+                                                        <div className="my-4">This should be a URL to an image, ideally a square image. You can use the image URL from your GitHub profile. Go to your GitHub profile, right click on your profile picture and click &quot;Copy image address&quot;. Paste that URL here.</div>
+                                                        <Image src="/how-to-get-image.gif" alt="GitHub profile image" width={1200} height={900} />
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </div>
+                                    <div className="text-sm text-slate-400 mb-3">This is a link to the image your want to display to users for your organization.</div>
                                     <Input type="text" name="imageUrl" placeholder={"https://avatars.githubusercontent.com/u/146327003"} onChange={(e) => setImageUrl(e.target.value)} value={imageUrl} />
                                 </div>
                             </div>
