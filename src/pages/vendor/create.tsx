@@ -119,7 +119,7 @@ export default function CreateVendor() {
             <div className="flex items-center border-b-[rgba(0,0,0,0.10)] px-24 border-b border-solid">
                 <div className="flex items-center gap-4 my-12">
                     <div className="text-4xl">
-                        Create your account
+                        Create your organization
                     </div>
                 </div>
             </div>
