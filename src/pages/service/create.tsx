@@ -15,6 +15,7 @@ import {
     Dialog,
     DialogContent,
     DialogDescription,
+    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -24,6 +25,7 @@ import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-bash';
 import 'prismjs/themes/prism.css';
+import { parseEnvString } from "@/lib/utils";
 
 const DEFAULT_SLUG_PLACEHOLDER = "service-slug"
 
@@ -41,13 +43,13 @@ function DockerPortMappingCreator({ portMapping, setPortMapping }: { portMapping
                     Object.keys(portMapping).map((key, index) => {
                         return (
                             <div key={index} className="flex items-center gap-3">
-                                <Input type="text" name="containerPort" placeholder="3000" value={key} onChange={(e) => {
+                                <Input type="text" name="containerPort" placeholder="Container port e.g. 8080" value={key} onChange={(e) => {
                                     const newPortMapping = { ...portMapping }
                                     newPortMapping[e.target.value] = newPortMapping[key]
                                     delete newPortMapping[key]
                                     setPortMapping(newPortMapping)
                                 }} />
-                                <Input type="text" name="serverPort" placeholder="8080" value={portMapping[key]} onChange={(e) => {
+                                <Input type="text" name="serverPort" placeholder="Server port e.g. 80" value={portMapping[key]} onChange={(e) => {
                                     const newPortMapping = { ...portMapping }
                                     newPortMapping[key] = e.target.value
                                     setPortMapping(newPortMapping)
@@ -84,7 +86,48 @@ export type EnvironmentVariables = {
     [key: string]: string;
 }
 
+function EnvrionmentVariableParserDialog({ setEnvironmentVariables, open, setOpen }: { setEnvironmentVariables: (value: React.SetStateAction<EnvironmentVariables>) => void, open: boolean, setOpen: (value: React.SetStateAction<boolean>) => void }) {
+    const [envString, setEnvString] = useState<string>("")
+
+    const handleParse = () => {
+        try {
+            const parsedEnv = parseEnvString(envString)
+            setEnvironmentVariables(prev => ({ ...prev, ...parsedEnv }))
+            setOpen(false)
+        } catch (error) {
+            window.alert("Failed to parse your .env file. Please check the format and try again.")
+        }
+    }
+
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger>
+                <div className="text-xs text-slate-600 hover:underline">Tip: Click here to paste your .env file and have it parsed!</div>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Parse your .env</DialogTitle>
+                    <DialogDescription>
+                        <div className="my-4">Paste the contents of your .env file here and we will parse it for you.</div>
+                        <Textarea placeholder={`KEY1=value1
+KEY2=value2`}
+                            value={envString}
+                            onChange={(e) => setEnvString(e.target.value)}
+                        />
+                    </DialogDescription>
+                    <DialogFooter>
+                        <Button className="w-full mt-4" disabled={envString.length === 0} onClick={handleParse}>Parse</Button>
+                    </DialogFooter>
+                </DialogHeader>
+            </DialogContent>
+        </Dialog>
+    )
+}
+
 function EnvironmentVariablesCreator({ environmentVariables, setEnvironmentVariables }: { environmentVariables: EnvironmentVariables, setEnvironmentVariables: (value: React.SetStateAction<EnvironmentVariables>) => void }) {
+    // state for the dialog
+    const [open, setOpen] = useState(false)
+
     return (
         <div>
             <h2 className="text-sm">Environment Variables</h2>
@@ -118,7 +161,7 @@ function EnvironmentVariablesCreator({ environmentVariables, setEnvironmentVaria
                     })
                 }
             </div>
-            <div className="mt-2">
+            <div className="mt-2 flex justify-between">
                 <Button disabled={("" in environmentVariables)} className="flex items-center gap-2" variant={"outline"}
                     onClick={() => {
                         const newEnvironmentVariables = { ...environmentVariables }
@@ -128,6 +171,7 @@ function EnvironmentVariablesCreator({ environmentVariables, setEnvironmentVaria
                     <PlusCircle className="h-4 w-4" />
                     Add
                 </Button>
+                <EnvrionmentVariableParserDialog setEnvironmentVariables={setEnvironmentVariables} open={open} setOpen={setOpen} />
             </div>
         </div>
     )
