@@ -51,7 +51,7 @@ export default function CreateVendor() {
             })
             .catch((error) => {
                 console.error(error)
-                window.alert("There was an error checking if you already have a vendor account. Please try again.")
+                window.alert("There was an error checking if you already have an organization account. Please try again.")
                 router.push("/")
                 return;
             })
@@ -89,8 +89,8 @@ export default function CreateVendor() {
             .then((data) => {
                 if (data.vendor) {
                     toast({
-                        title: "Created vendor",
-                        description: "Your vendor has been created. You can now create services for this vendor.",
+                        title: "Created organization",
+                        description: "Your organization has been created. You can now create services for this organization.",
                         action: (
                             <ToastAction altText="Create service" onClick={() => window.open(`/service/create`)}>Create service</ToastAction>
                         ),
@@ -100,7 +100,7 @@ export default function CreateVendor() {
                 } else {
                     toast({
                         title: "Error",
-                        description: data.message ?? "There was an error creating your vendor. Please try again.",
+                        description: data.message ?? "There was an error creating your organization. Please try again.",
                     })
                     setSending(false)
                 }
@@ -140,7 +140,7 @@ export default function CreateVendor() {
                             <div className="flex flex-col gap-6">
                                 <div>
                                     <h2 className="text-sm">Organization name</h2>
-                                    <div className="text-sm text-slate-400 mb-3">Users will be see this name when installing services from this vendor.</div>
+                                    <div className="text-sm text-slate-400 mb-3">Users will be see this name when installing services from this organization.</div>
                                     <Input type="text" name="name" placeholder="Pied Piper" onChange={(e) => setName(e.target.value)} value={name} />
                                 </div>
                                 <div>
@@ -173,7 +173,7 @@ export default function CreateVendor() {
                                         </Dialog>
                                     </div>
                                     <div className="text-sm text-slate-400 mb-3">This is a link to the image your want to display to users for your organization.</div>
-                                    <Input type="text" name="imageUrl" placeholder={"https://avatars.githubusercontent.com/u/146327003"} onChange={(e) => setImageUrl(e.target.value)} value={imageUrl} />
+                                    <Input type="text" name="imageUrl" placeholder={"https://avatars.githubusercontent.com/u/19783067"} onChange={(e) => setImageUrl(e.target.value)} value={imageUrl} />
                                 </div>
                             </div>
 

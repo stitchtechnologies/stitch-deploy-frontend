@@ -1,6 +1,6 @@
 import Layout from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import { FileCode, Loader2, MinusCircle, PlusCircle } from "lucide-react";
+import { FileCode, InfoIcon, Loader2, MinusCircle, PlusCircle } from "lucide-react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { Input } from "@/components/ui/input";
@@ -9,10 +9,23 @@ import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
+import { Vendor } from "@prisma/client";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import Image from "next/image";
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs';
+import 'prismjs/components/prism-bash';
+import 'prismjs/themes/prism.css';
 
-const DEFAULT_SLUG_PLACEHOLDER = "Enter slug"
+const DEFAULT_SLUG_PLACEHOLDER = "service-slug"
 
 export type DockerPortMapping = {
     [port: string]: string;
@@ -128,7 +141,6 @@ export default function CreateService() {
     const [sending, setSending] = useState(false);
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
-    const [slug, setSlug] = useState<string>("");
     const [externalUrl, setExternalUrl] = useState<string>("");
     const [port, setPort] = useState<string>("");
     const [script, setScript] = useState<string>("");
@@ -139,6 +151,7 @@ export default function CreateService() {
     const [validationUrl, setValidationUrl] = useState<string>("");
     const [slugPlaceholder, setSlugPlaceholder] = useState<string>(DEFAULT_SLUG_PLACEHOLDER);
     const [loadingVendor, setLoadingVendor] = useState<boolean>(false);
+    const [vendor, setVendor] = useState<Vendor>();
 
     // Check if user already has a vendor account - otherwise redirect to create vendor page
     useEffect(() => {
@@ -155,6 +168,7 @@ export default function CreateService() {
                     router.push("/vendor/create")
                     return;
                 }
+                setVendor(data.vendor)
                 setLoadingVendor(false)
             })
             .catch((error) => {
@@ -173,10 +187,6 @@ export default function CreateService() {
             setSlugPlaceholder(name.toLowerCase().replace(/ /g, "-"))
         }
     }, [name])
-
-    const handleUseSuggestedSlugClick = () => {
-        setSlug(slugPlaceholder)
-    }
 
     const handleCreateVendorClick = async (e: any) => {
         e.preventDefault()
@@ -211,7 +221,7 @@ export default function CreateService() {
             body: JSON.stringify({
                 name,
                 description,
-                slug,
+                slug: slugPlaceholder,
                 externalUrl,
                 scriptV2,
                 validationUrl,
@@ -254,9 +264,12 @@ export default function CreateService() {
                 <title>Stitch | New Service</title>
             </Head>
             <div className="flex items-center border-b-[rgba(0,0,0,0.10)] px-24 border-b border-solid">
-                <div className="flex items-center gap-4 my-12">
+                <div className="flex flex-col gap-4 my-12">
                     <div className="text-4xl">
                         New Service
+                    </div>
+                    <div className="text-slate-400">
+                        Create an installer that customers can use to deploy your software to their cloud
                     </div>
                 </div>
             </div>
@@ -277,19 +290,18 @@ export default function CreateService() {
                             <div className="flex flex-col gap-6">
                                 <div>
                                     <h2 className="text-sm">Service name</h2>
-                                    <div className="text-sm text-slate-400 mb-3">This is the name of your organization. Users will be see this name when installing the service.</div>
+                                    <div className="text-sm text-slate-400 mb-3">Users will be see this name when installing the service.</div>
                                     <Input type="text" name="name" placeholder="Enter name" onChange={(e) => setName(e.target.value)} value={name} />
                                 </div>
                                 <div>
                                     <h2 className="text-sm">Description</h2>
-                                    <div className="text-sm text-slate-400 mb-3">Description for this service. This will be visible to users when installing your application.</div>
+                                    <div className="text-sm text-slate-400 mb-3">This will be visible to users when installing your application.</div>
                                     <Input type="text" name="description" placeholder="Enter description" onChange={(e) => setDescription(e.target.value)} value={description} />
                                 </div>
                                 <div>
                                     <h2 className="text-sm">URL Slug</h2>
-                                    <div className="text-sm text-slate-400 mb-2">This is the second part of the URL for your installer. The installer URL will be `/[vendor_slug]/[service_slug]`.</div>
-                                    <Input type="text" name="slug" placeholder={slugPlaceholder} onChange={(e) => setSlug(e.target.value)} value={slug} />
-                                    {(slugPlaceholder !== DEFAULT_SLUG_PLACEHOLDER && slug !== slugPlaceholder) && <div className="text-xs text-blue-400 hover:text-blue-500 hover:underline hover:cursor-pointer mt-1" onClick={handleUseSuggestedSlugClick}>Use suggested slug</div>}
+                                    <div className="text-sm text-slate-400 mb-2">This is the second part of the URL for your installer. The installer URL will be `/{vendor?.slug}/{slugPlaceholder}`.</div>
+                                    <Input type="text" name="slug" placeholder={slugPlaceholder} value={slugPlaceholder} disabled readOnly />
                                 </div>
                                 <div>
                                     <h2 className="text-sm">External URL</h2>
@@ -331,7 +343,18 @@ export default function CreateService() {
                                         <TabsContent value="shell">
                                             <div className="border border-1 p-4">
                                                 <div className="text-sm text-slate-400 mb-3">Install script that will be run on the provisioned environment.</div>
-                                                <Textarea name="script" placeholder="Enter deployment script here" onChange={(e) => setScript(e.target.value)} value={script} />
+                                                <Editor
+                                                    className="bg-white rounded border border-solid border-slate-400"
+                                                    value={script}
+                                                    placeholder="#!/bin/bash"
+                                                    onValueChange={code => setScript(code)}
+                                                    highlight={code => highlight(code, languages.bash, "bash")}
+                                                    padding={10}
+                                                    style={{
+                                                        fontFamily: '"Fira code", "Fira Mono", monospace',
+                                                        fontSize: 12,
+                                                    }}
+                                                />
                                             </div>
                                         </TabsContent>
                                         <TabsContent value="docker-compose">
@@ -343,8 +366,8 @@ export default function CreateService() {
                                 </div>
                                 <div>
                                     <h2 className="text-sm">Validation URL</h2>
-                                    <div className="text-sm text-slate-400 mb-3">When your service is deployed, we will try to open this URL to check that the deployment has succeeded. This should be like the homepage for your deployed service. If there is no specific route then leave this field empty.</div>
-                                    <Input type="text" name="validationUrl" placeholder="/play" onChange={(e) => setValidationUrl(e.target.value)} value={validationUrl} />
+                                    <div className="text-sm text-slate-400 mb-3">When your service is deployed, we will check using this URL to ensure that the deployment has succeeded. This should be like the homepage for your deployed service. If there is no specific route then leave this field empty. Use <span className="font-mono">{"{{HOSTNAME}}"}</span> for the main domain.</div>
+                                    <Input type="text" name="validationUrl" placeholder="http://{{HOSTNAME}}/home" onChange={(e) => setValidationUrl(e.target.value)} value={validationUrl} />
                                 </div>
                                 <div>
                                     <h2 className="text-sm">Port</h2>
@@ -352,9 +375,25 @@ export default function CreateService() {
                                     <Input type="text" name="port" placeholder="8080" onChange={(e) => setPort(e.target.value)} value={port} />
                                 </div>
                                 <div>
-                                    <h2 className="text-sm">Image URL</h2>
-                                    <div className="text-sm text-slate-400 mb-3">This is a link to the image you want to display for the service.</div>
-                                    <Input type="text" name="imageUrl" placeholder={"https://avatars.githubusercontent.com/u/146327003"} onChange={(e) => setImageUrl(e.target.value)} value={imageUrl} />
+                                    <div className="flex gap-2 items-center">
+                                        <h2 className="text-sm">Image URL</h2>
+                                        <Dialog>
+                                            <DialogTrigger>
+                                                <InfoIcon className="h-4 w-4 text-slate-400 hover:text-slate-500 hover:cursor-pointer" />
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>How to get an image from GitHub</DialogTitle>
+                                                    <DialogDescription>
+                                                        <div className="my-4">This should be a URL to an image, ideally a square image. You can use the image URL from your GitHub profile. Go to your GitHub profile, right click on your profile picture and click &quot;Copy image address&quot;. Paste that URL here.</div>
+                                                        <Image src="/how-to-get-image.gif" alt="GitHub profile image" width={1200} height={900} />
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </div>
+                                    <div className="text-sm text-slate-400 mb-3">This is a link to the image your want to display to users for your service.</div>
+                                    <Input type="text" name="imageUrl" placeholder={"https://avatars.githubusercontent.com/u/19783067"} onChange={(e) => setImageUrl(e.target.value)} value={imageUrl} />
                                 </div>
                                 <EnvironmentVariablesCreator environmentVariables={environmentVariables} setEnvironmentVariables={setEnvironmentVariables} />
                             </div>
@@ -367,6 +406,6 @@ export default function CreateService() {
                     </form>
                 )
             }
-        </Layout>
+        </Layout >
     );
 }
