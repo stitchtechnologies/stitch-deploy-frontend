@@ -192,6 +192,7 @@ export default function CreateService() {
     const [environmentVariables, setEnvironmentVariables] = useState<EnvironmentVariables>({});
     const [dockerPortMapping, setDockerPortMapping] = useState<DockerPortMapping>({});
     const [dockerImage, setDockerImage] = useState<string>("");
+    const [dockerComposeScript, setDockerComposeScript] = useState<string>("")
     const [validationUrl, setValidationUrl] = useState<string>("");
     const [slugPlaceholder, setSlugPlaceholder] = useState<string>(DEFAULT_SLUG_PLACEHOLDER);
     const [loadingVendor, setLoadingVendor] = useState<boolean>(false);
@@ -256,7 +257,7 @@ export default function CreateService() {
         } else if (tab === "docker-compose") {
             scriptV2 = {
                 type: "docker-compose",
-                composeFile: "",
+                composeFile: dockerComposeScript,
             }
         }
 
@@ -390,7 +391,7 @@ export default function CreateService() {
                                             <div className="border border-1 p-4">
                                                 <div className="text-sm text-slate-400 mb-3">Install script that will be run on the provisioned environment.</div>
                                                 <Editor
-                                                    className="bg-white rounded border border-solid border-slate-400"
+                                                    className="bg-white rounded border border-solid border-slate-400 min-h-32"
                                                     value={script}
                                                     placeholder="#!/bin/bash"
                                                     onValueChange={code => setScript(code)}
@@ -405,8 +406,20 @@ export default function CreateService() {
                                         </TabsContent>
                                         <TabsContent value="docker-compose">
                                             <div className="border border-1 p-4">
-                                                Docker compose coming soon
-                                            </div>
+                                                <div className="text-sm text-slate-400 mb-3">Paste or write your Docker Compose script here.</div>
+                                                <Editor
+                                                    className="bg-white rounded border border-solid border-slate-400 min-h-32"
+                                                    value={dockerComposeScript}
+                                                    placeholder={`version: "3.5"
+    services:`}
+                                                    onValueChange={code => setDockerComposeScript(code)}
+                                                    highlight={code => highlight(code, languages.bash, "bash")}
+                                                    padding={10}
+                                                    style={{
+                                                        fontFamily: '"Fira code", "Fira Mono", monospace',
+                                                        fontSize: 12,
+                                                    }}
+                                                />                                            </div>
                                         </TabsContent>
                                     </Tabs>
                                 </div>
