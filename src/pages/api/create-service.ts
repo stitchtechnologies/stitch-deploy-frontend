@@ -9,6 +9,7 @@ import { EnvironmentVariables } from "../service/create";
 type Data = {
   vendor?: Vendor;
   service?: Service;
+  message?: string;
 };
 
 export default async function handler(
@@ -23,6 +24,23 @@ export default async function handler(
   }
 
   const { name, description, slug, externalUrl, scriptV2, port, validationUrl, imageUrl, environmentVariables } = req.body;
+
+  // check that none of these fields are empty
+  if (!name || !description || !slug || !externalUrl || !imageUrl) {
+    res.status(400).json({ vendor: undefined, message: "Some required fields are missing" });
+    return;
+  }
+
+  // check if slug is taken
+  const existingService = await prisma.service.findFirst({
+    where: {
+      slug,
+    }
+  });
+  if (existingService) {
+    res.status(400).json({ vendor: undefined, message: "This service name is already taken, please try another name or reach out to ali@stitch.tech" });
+    return;
+  }
 
   // find users vendor
   const vendor = await prisma.vendor.findFirst({

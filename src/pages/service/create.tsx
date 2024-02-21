@@ -291,7 +291,7 @@ export default function CreateService() {
                 } else {
                     toast({
                         title: "Error",
-                        description: "There was an error creating your service. Please try again.",
+                        description: data.message ?? "There was an error creating your service. Please try again.",
                     })
                     setSending(false)
                 }
@@ -302,7 +302,7 @@ export default function CreateService() {
             })
     }
 
-    const disableCreateService = !name || !description || !externalUrl || !imageUrl || !validationUrl || !port || sending
+    const disableCreateService = !name || !description || !externalUrl || !imageUrl || sending
 
     return (
         <Layout>
