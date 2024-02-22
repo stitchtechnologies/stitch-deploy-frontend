@@ -46,8 +46,8 @@ export default function Layout({ children }: any) {
               {/* {vendor?.title} */}
             </div>
             <div className="flex gap-6 text-slate-400 ml-auto items-center">
-              <Link href="/help">Help</Link>
-              <Link href="/documentation">Docs</Link>
+              <Link href="https://join.slack.com/t/stitchsupport/shared_invite/zt-2d839m41h-qYy7ZTJ1mRec7zYw4Pl9oQ">Help</Link>
+              <Link href="https://docs.stitch.tech/">Docs</Link>
               <UserButton />
             </div>
           </div>
