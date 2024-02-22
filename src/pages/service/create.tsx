@@ -303,7 +303,7 @@ export default function CreateService() {
             })
     }
 
-    const disableCreateService = !name || !description || !externalUrl || !imageUrl || sending
+    const disableCreateService = !name || sending
 
     return (
         <Layout>
@@ -341,17 +341,12 @@ export default function CreateService() {
                                     <Input type="text" name="name" placeholder="Enter name" onChange={(e) => setName(e.target.value)} value={name} />
                                 </div>
                                 <div>
-                                    <h2 className="text-sm">Description</h2>
+                                    <h2 className="text-sm">Description <span className="text-slate-400 italic">- optional</span></h2>
                                     <div className="text-sm text-slate-400 mb-3">This will be visible to users when installing your application.</div>
                                     <Input type="text" name="description" placeholder="Enter description" onChange={(e) => setDescription(e.target.value)} value={description} />
                                 </div>
                                 <div>
-                                    <h2 className="text-sm">URL Slug</h2>
-                                    <div className="text-sm text-slate-400 mb-2">This is the second part of the URL for your installer. The installer URL will be `/{vendor?.slug}/{slugPlaceholder}`.</div>
-                                    <Input type="text" name="slug" placeholder={slugPlaceholder} value={slugPlaceholder} disabled readOnly />
-                                </div>
-                                <div>
-                                    <h2 className="text-sm">External URL</h2>
+                                    <h2 className="text-sm">External URL <span className="text-slate-400 italic">- optional</span></h2>
                                     <div className="text-sm text-slate-400 mb-3">This should be a link to the service website, documentation or repository.</div>
                                     <Input type="text" name="externalUrl" placeholder="https://stitch.tech/" onChange={(e) => setExternalUrl(e.target.value)} value={externalUrl} />
                                 </div>
@@ -424,18 +419,18 @@ export default function CreateService() {
                                     </Tabs>
                                 </div>
                                 <div>
-                                    <h2 className="text-sm">Validation URL</h2>
+                                    <h2 className="text-sm">Validation URL<span className="text-slate-400 italic">- optional</span></h2>
                                     <div className="text-sm text-slate-400 mb-3">When your service is deployed, we will check using this URL to ensure that the deployment has succeeded. This should be like the homepage for your deployed service. If there is no specific route then leave this field empty. Use <span className="font-mono">{"{{HOSTNAME}}"}</span> for the main domain.</div>
                                     <Input type="text" name="validationUrl" placeholder="http://{{HOSTNAME}}/home" onChange={(e) => setValidationUrl(e.target.value)} value={validationUrl} />
                                 </div>
                                 <div>
-                                    <h2 className="text-sm">Port</h2>
+                                    <h2 className="text-sm">Port<span className="text-slate-400 italic">- optional</span></h2>
                                     <div className="text-sm text-slate-400 mb-3">When your service is deployed, the link provided to the user will use this port. If it is the default port, just leave this empty.</div>
                                     <Input type="text" name="port" placeholder="8080" onChange={(e) => setPort(e.target.value)} value={port} />
                                 </div>
                                 <div>
                                     <div className="flex gap-2 items-center">
-                                        <h2 className="text-sm">Image URL</h2>
+                                        <h2 className="text-sm">Image URL<span className="text-slate-400 italic">- optional</span></h2>
                                         <Dialog>
                                             <DialogTrigger>
                                                 <InfoIcon className="h-4 w-4 text-slate-400 hover:text-slate-500 hover:cursor-pointer" />

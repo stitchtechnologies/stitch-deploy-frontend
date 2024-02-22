@@ -26,7 +26,7 @@ export default async function handler(
   const { name, description, slug, externalUrl, scriptV2, port, validationUrl, imageUrl, environmentVariables } = req.body;
 
   // check that none of these fields are empty
-  if (!name || !description || !slug || !externalUrl || !imageUrl) {
+  if (!name || !slug) {
     res.status(400).json({ vendor: undefined, message: "Some required fields are missing" });
     return;
   }

@@ -52,8 +52,12 @@ export const ServiceCard: React.FC<{ service: Service, vendorSlug: string }> = (
                     <div onClick={handleClick} className="flex flex-col gap-4 bg-white rounded-md border-[color:var(--slate-200,#E2E8F0)] border-solid border p-6 text-sm shadow-[0px_2px_6px_0px_rgba(0,0,0,0.09)] hover:shadow-md">
                         <div className="flex gap-3 items-center">
                             <Avatar className="h-6 w-6">
-                                <AvatarImage src={service.image} />
-                                <AvatarFallback>{service.slug}</AvatarFallback>
+                                {service.image &&
+                                    <>
+                                        <AvatarImage src={service.image} />
+                                        <AvatarFallback>{service.slug}</AvatarFallback>
+                                    </>
+                                }
                             </Avatar>
                             <div className="flex flex-col">
                                 <div>{service.title}</div>
