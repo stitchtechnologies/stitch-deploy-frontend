@@ -130,7 +130,7 @@ function EnvironmentVariablesCreator({ environmentVariables, setEnvironmentVaria
 
     return (
         <div>
-            <h2 className="text-sm">Environment Variables</h2>
+            <h2 className="text-sm">Environment Variables<span className="text-slate-400 italic">- optional</span></h2>
             <div className="text-sm text-slate-400 mb-3">Add environment variables that will be used in the deployment script. You can provide default values and users will be expected to provide their own values.</div>
             <div className="flex flex-col gap-2">
                 {
@@ -414,7 +414,8 @@ export default function CreateService() {
                                                         fontFamily: '"Fira code", "Fira Mono", monospace',
                                                         fontSize: 12,
                                                     }}
-                                                />                                            </div>
+                                                />
+                                            </div>
                                         </TabsContent>
                                     </Tabs>
                                 </div>
@@ -455,7 +456,7 @@ export default function CreateService() {
 
                         <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
                             {/* <Button variant={"outline"} disabled={true}>Preview deployment form</Button> */}
-                            <Button disabled={disableCreateService} type="submit">{sending ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Sending</> : "Create service"}</Button>
+                            <Button disabled={disableCreateService} type="submit">{sending ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Creating</> : "Create service"}</Button>
                         </div>
                     </form>
                 )

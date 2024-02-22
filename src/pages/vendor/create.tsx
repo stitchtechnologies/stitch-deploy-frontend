@@ -70,7 +70,7 @@ export default function CreateVendor() {
     //     setSlug(slugPlaceholder)
     // }
 
-    const disableCreateButton = name === "" || description === "" || imageUrl === "" || sending
+    const disableCreateButton = name === "" || sending
 
     const handleCreateVendorClick = async (e: any) => {
         e.preventDefault()
@@ -144,7 +144,7 @@ export default function CreateVendor() {
                                     <Input type="text" name="name" placeholder="Pied Piper" onChange={(e) => setName(e.target.value)} value={name} />
                                 </div>
                                 <div>
-                                    <h2 className="text-sm mb-3">Description</h2>
+                                    <h2 className="text-sm mb-3">Description<span className="text-slate-400 italic">- optional</span></h2>
                                     {/* <div className="text-sm text-slate-400 mb-3">Description for this organization.</div> */}
                                     <Input type="text" name="description" placeholder="Piped Piper has the highest Weissman score in history. We provide the best algorithm libraries in the world." onChange={(e) => setDescription(e.target.value)} value={description} />
                                 </div>
@@ -156,7 +156,7 @@ export default function CreateVendor() {
                                 </div> */}
                                 <div>
                                     <div className="flex gap-2 items-center">
-                                        <h2 className="text-sm">Image URL</h2>
+                                        <h2 className="text-sm">Image URL<span className="text-slate-400 italic">- optional</span></h2>
                                         <Dialog>
                                             <DialogTrigger>
                                                 <InfoIcon className="h-4 w-4 text-slate-400 hover:text-slate-500 hover:cursor-pointer" />
@@ -179,7 +179,7 @@ export default function CreateVendor() {
 
                             <div className="flex flex-col gap-6 py-6">
                                 {/* <Button variant={"outline"} disabled={true}>Preview deployment form</Button> */}
-                                <Button disabled={disableCreateButton} type="submit">{sending ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Sending</> : "Create organization"}</Button>
+                                <Button disabled={disableCreateButton} type="submit">{sending ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Creating</> : "Create organization"}</Button>
                             </div>
                         </div>
                     </form>

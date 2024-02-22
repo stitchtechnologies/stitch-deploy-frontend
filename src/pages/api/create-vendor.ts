@@ -24,8 +24,8 @@ export default async function handler(
   const { name, description, imageUrl } = req.body;
 
   // check that none of these fields are empty
-  if (!name || !description || !imageUrl) {
-    res.status(400).json({ vendor: undefined, message: "All fields are required" });
+  if (!name) {
+    res.status(400).json({ vendor: undefined, message: "Organization name is a required field" });
     return;
   }
 
