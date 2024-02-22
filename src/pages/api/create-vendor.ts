@@ -7,6 +7,7 @@ import { getAuth } from "@clerk/nextjs/server";
 
 type Data = {
   vendor?: Vendor;
+  message?: string;
 };
 
 export default async function handler(
@@ -20,7 +21,27 @@ export default async function handler(
     return;
   }
 
-  const { name, description, slug, imageUrl } = req.body;
+  const { name, description, imageUrl } = req.body;
+
+  // check that none of these fields are empty
+  if (!name || !description || !imageUrl) {
+    res.status(400).json({ vendor: undefined, message: "All fields are required" });
+    return;
+  }
+
+  // convert name into slug
+  const slug = name.toLowerCase().replace(/ /g, "-");
+
+  // check if slug is taken
+  const existingVendor = await prisma.vendor.findFirst({
+    where: {
+      slug,
+    }
+  });
+  if (existingVendor) {
+    res.status(400).json({ vendor: undefined, message: "This organization name is already taken, please try another name or reach out to ali@stitch.tech" });
+    return;
+  }
 
   const newVentor = await prisma.vendor.create({
     data: {
@@ -34,7 +55,7 @@ export default async function handler(
   })
 
   if (!newVentor) {
-    res.status(400).json({ vendor: undefined });
+    res.status(400).json({ vendor: undefined, message: "Failed to create vendor" });
     return;
   }
 

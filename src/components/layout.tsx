@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { useRouter } from "next/router";
 import {
   NavigationMenu,
@@ -11,6 +18,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Toaster } from "./ui/toaster";
 import { UserButton } from "@clerk/nextjs";
+import { ScrollArea } from "./ui/scroll-area";
 
 export default function Layout({ children }: any) {
   const router = useRouter()
@@ -46,8 +54,8 @@ export default function Layout({ children }: any) {
               {/* {vendor?.title} */}
             </div>
             <div className="flex gap-6 text-slate-400 ml-auto items-center">
-              <Link href="/help">Help</Link>
-              <Link href="/documentation">Docs</Link>
+              <Link href="https://join.slack.com/t/stitchsupport/shared_invite/zt-2d839m41h-qYy7ZTJ1mRec7zYw4Pl9oQ">Help</Link>
+              <Link href="https://docs.stitch.tech/">Docs</Link>
               <UserButton />
             </div>
           </div>
@@ -77,11 +85,26 @@ export default function Layout({ children }: any) {
           {children}
         </div>
         <footer className="flex gap-10 text-sm text-slate-500 font-normal justify-center py-4">
-          <Link href={"/privacy-policy"}>Privacy Policy</Link>
-          <Link href={"/documentation"}>Documentation</Link>
-          <Link href={"/legal"}>Legal</Link>
-          <Link href={"/pricing"}>Pricing</Link>
-          <Link href={"/help"}>Help</Link>
+          <Link href={"https://docs.stitch.tech/"}>Documentation</Link>
+          <Link href={"https://join.slack.com/t/stitchsupport/shared_invite/zt-2d839m41h-qYy7ZTJ1mRec7zYw4Pl9oQ"}>Help</Link>
+          <Dialog>
+            <DialogTrigger>
+              <a>Privacy Policy</a>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Privacy Policy</DialogTitle>
+                <DialogDescription>
+                  <ScrollArea className="mt-4 p-2 h-[600px] rounded-md border">
+                    {/* TODO get real privacy policy that has been checked */}
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+                  </ScrollArea>
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         </footer>
       </main>
       <Toaster />
