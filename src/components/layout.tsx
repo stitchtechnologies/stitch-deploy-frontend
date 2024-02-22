@@ -19,6 +19,8 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "./ui/toaster";
 import { UserButton } from "@clerk/nextjs";
 import { ScrollArea } from "./ui/scroll-area";
+import { Button } from "./ui/button";
+import { SlackIcon } from "lucide-react";
 
 export default function Layout({ children }: any) {
   const router = useRouter()
@@ -54,7 +56,9 @@ export default function Layout({ children }: any) {
               {/* {vendor?.title} */}
             </div>
             <div className="flex gap-6 text-slate-400 ml-auto items-center">
-              <Link href="https://join.slack.com/t/stitchsupport/shared_invite/zt-2d839m41h-qYy7ZTJ1mRec7zYw4Pl9oQ">Help</Link>
+              <Link target="_blank" href="https://join.slack.com/t/stitchsupport/shared_invite/zt-2d839m41h-qYy7ZTJ1mRec7zYw4Pl9oQ">
+                <Button className="text-md flex gap-2"> <SlackIcon height={20} /> Join our Slack channel</Button>
+              </Link>
               <Link href="https://docs.stitch.tech/">Docs</Link>
               <UserButton />
             </div>
