@@ -41,7 +41,11 @@ export const ServiceCard: React.FC<{ service: Service, vendorSlug: string }> = (
         toast({
             title: "Copied!",
             description: "Deploy link copied to clipboard",
-            action: <Button onClick={() => window.open(deployLink)}>Open</Button>,
+            action: (
+                <Link href={deployLink} target="_blank">
+                    <Button>Open</Button>
+                </Link>
+            ),
         })
     }
 

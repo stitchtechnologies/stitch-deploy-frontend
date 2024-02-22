@@ -29,6 +29,7 @@ import { parseEnvString } from "@/lib/utils";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 const MDEditor = dynamic(
     () => import("@uiw/react-md-editor").then((mod) => mod.default),
@@ -294,7 +295,9 @@ export default function CreateService() {
                         title: "Created service",
                         description: "Your service has been created. You can now share the installer.",
                         action: (
-                            <ToastAction altText="Create service" onClick={() => window.open()}>Open installer</ToastAction>
+                            <Link href={`https://deploy.stitch.tech/${vendor?.slug}/${data.service.slug}`} target="_blank">
+                                <Button>Open installer</Button>
+                            </Link>
                         ),
                     })
                     router.push(`/service`)
