@@ -23,7 +23,7 @@ export default async function handler(
     return;
   }
 
-  const { name, description, slug, externalUrl, scriptV2, port, validationUrl, imageUrl, environmentVariables } = req.body;
+  const { name, description, slug, externalUrl, scriptV2, port, validationUrl, imageUrl, environmentVariables, readMe } = req.body;
 
   // check that none of these fields are empty
   if (!name || !slug) {
@@ -80,7 +80,7 @@ export default async function handler(
       script: "",
       validationUrl,
       port,
-      readMe: "## Welcome to your new service",
+      readMe,
       image: imageUrl,
       EnvironmentVariable: {
         connect: envVarsArray.map((envVar) => {

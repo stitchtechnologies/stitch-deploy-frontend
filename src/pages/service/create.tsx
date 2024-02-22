@@ -26,6 +26,21 @@ import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-bash';
 import 'prismjs/themes/prism.css';
 import { parseEnvString } from "@/lib/utils";
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
+import dynamic from "next/dynamic";
+
+const MDEditor = dynamic(
+    () => import("@uiw/react-md-editor").then((mod) => mod.default),
+    { ssr: false }
+);
+const EditerMarkdown = dynamic(
+    () =>
+        import("@uiw/react-md-editor").then((mod) => {
+            return mod.default.Markdown;
+        }),
+    { ssr: false }
+);
 
 const DEFAULT_SLUG_PLACEHOLDER = "service-slug"
 
@@ -189,6 +204,7 @@ export default function CreateService() {
     const [port, setPort] = useState<string>("");
     const [script, setScript] = useState<string>("");
     const [imageUrl, setImageUrl] = useState<string>("");
+    const [readMe, setReadMe] = useState<string>("");
     const [environmentVariables, setEnvironmentVariables] = useState<EnvironmentVariables>({});
     const [dockerPortMapping, setDockerPortMapping] = useState<DockerPortMapping>({});
     const [dockerImage, setDockerImage] = useState<string>("");
@@ -271,6 +287,7 @@ export default function CreateService() {
                 scriptV2,
                 validationUrl,
                 port,
+                readMe,
                 imageUrl,
                 environmentVariables,
             }),
@@ -350,12 +367,6 @@ export default function CreateService() {
                                     <div className="text-sm text-slate-400 mb-3">This should be a link to the service website, documentation or repository.</div>
                                     <Input type="text" name="externalUrl" placeholder="https://stitch.tech/" onChange={(e) => setExternalUrl(e.target.value)} value={externalUrl} />
                                 </div>
-                                {/* TODO add README with preview later */}
-                                {/* <div>
-                            <h2 className="text-sm">README</h2>
-                            <div className="text-sm text-slate-400 mb-3">This should be a link to the service website, documentation or repository.</div>
-                            <Input type="text" name="externalUrl" placeholder="https://stitch.tech/" onChange={(e) => setExternalUrl(e.target.value)} value={externalUrl} />
-                        </div> */}
                                 <div>
                                     <h2 className="mb-3 text-sm">Select deployment</h2>
                                     <Tabs className="w-full" value={tab} onValueChange={(newTab) => setTab(newTab)}>
@@ -428,6 +439,11 @@ export default function CreateService() {
                                     <h2 className="text-sm">Port<span className="text-slate-400 italic">- optional</span></h2>
                                     <div className="text-sm text-slate-400 mb-3">When your service is deployed, the link provided to the user will use this port. If it is the default port, just leave this empty.</div>
                                     <Input type="text" name="port" placeholder="8080" onChange={(e) => setPort(e.target.value)} value={port} />
+                                </div>
+                                <div>
+                                    <h2 className="text-sm">README<span className="text-slate-400 italic">- optional</span></h2>
+                                    <div className="text-sm text-slate-400 mb-3">This will be visible to users after installing your application. It should provide instructions for using your application after deployment.</div>
+                                    <MDEditor value={readMe} onChange={(value) => setReadMe(value || "")} data-color-mode={"light"} highlightEnable={false} />
                                 </div>
                                 <div>
                                     <div className="flex gap-2 items-center">
