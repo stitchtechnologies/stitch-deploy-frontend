@@ -34,13 +34,6 @@ const MDEditor = dynamic(
     () => import("@uiw/react-md-editor").then((mod) => mod.default),
     { ssr: false }
 );
-const EditerMarkdown = dynamic(
-    () =>
-        import("@uiw/react-md-editor").then((mod) => {
-            return mod.default.Markdown;
-        }),
-    { ssr: false }
-);
 
 const DEFAULT_SLUG_PLACEHOLDER = "service-slug"
 
