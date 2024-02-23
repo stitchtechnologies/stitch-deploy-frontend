@@ -26,7 +26,6 @@ export default function Layout({ children }: any) {
   const router = useRouter()
 
   const NAVBAR_ITEMS = [
-    // Organization is the default route
     // TODO this is bad
     // { name: "Organizations", href: "/", altHref: "/organization" },
     { name: "Services", href: "/", altHref: "/service" },
