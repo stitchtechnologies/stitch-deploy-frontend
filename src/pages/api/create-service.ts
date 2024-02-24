@@ -71,7 +71,11 @@ export default async function handler(
   const newService = await prisma.service.create({
     data: {
       id: v4(),
-      vendorId: vendor.id,
+      Vendor: {
+        connect: {
+          id: vendor.id,
+        },
+      },
       title: name,
       description,
       slug,
