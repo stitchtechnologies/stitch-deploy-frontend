@@ -14,9 +14,17 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import Head from "next/head";
 import Link from "next/link";
-import { Loader2 } from "lucide-react"
+import { Clipboard, ClipboardCheck, Loader2, Menu, MoreHorizontal, Pencil } from "lucide-react"
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
@@ -32,7 +40,7 @@ export const ServiceCard: React.FC<{ service: Service, vendorSlug: string }> = (
     const [copied, setCopied] = useState<boolean>(false);
     const deployLink = `https://deploy.stitch.tech/${vendorSlug}/${service.slug}`
 
-    const handleClick = () => {
+    const handleCopyClick = () => {
         navigator.clipboard.writeText(deployLink)
         setCopied(true)
         setTimeout(() => {
@@ -50,33 +58,48 @@ export const ServiceCard: React.FC<{ service: Service, vendorSlug: string }> = (
     }
 
     return (
-        <TooltipProvider delayDuration={100}>
-            <Tooltip>
-                <TooltipTrigger>
-                    <div onClick={handleClick} className="flex flex-col gap-4 bg-white rounded-md border-[color:var(--slate-200,#E2E8F0)] border-solid border p-6 text-sm shadow-[0px_2px_6px_0px_rgba(0,0,0,0.09)] hover:shadow-md">
-                        <div className="flex gap-3 items-center">
-                            <Avatar className="h-6 w-6">
-                                {service.image &&
-                                    <>
-                                        <AvatarImage src={service.image} />
-                                        <AvatarFallback>{service.slug}</AvatarFallback>
-                                    </>
-                                }
-                            </Avatar>
-                            <div className="flex flex-col">
-                                <div>{service.title}</div>
-                            </div>
-                            <div className="ml-auto font-regular text-slate-500">v1.0.0</div>
-                        </div>
-                    </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                    <p>
-                        {copied ? "Copied!" : "Click to copy deploy link"}
-                    </p>
-                </TooltipContent>
-            </Tooltip>
-        </TooltipProvider>
+        <div className="flex flex-col gap-4 bg-white cursor-pointer rounded-md border-[color:var(--slate-200,#E2E8F0)] border-solid border p-6 text-sm shadow-[0px_2px_6px_0px_rgba(0,0,0,0.09)] hover:shadow-md">
+            <div className="flex gap-3 items-center">
+                <Avatar className="h-6 w-6">
+                    {service.image &&
+                        <>
+                            <AvatarImage src={service.image} />
+                            <AvatarFallback>{service.slug}</AvatarFallback>
+                        </>
+                    }
+                </Avatar>
+                <div className="flex flex-col">
+                    <div>{service.title}</div>
+                </div>
+                <DropdownMenu>
+                    <DropdownMenuTrigger className="ml-auto">
+                        <MoreHorizontal className="h-4 w-4" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <Link href={`/service/${service.slug}/edit`} onClick={(e) => { e.stopPropagation() }}>
+                            <DropdownMenuItem>
+                                <Pencil className="h-4 w-4 mr-2" />
+                                Edit
+                            </DropdownMenuItem>
+                        </Link>
+                        {/* <DropdownMenuItem>Delete</DropdownMenuItem> */}
+                        <DropdownMenuItem onClick={handleCopyClick}>
+                            {copied ?
+                                <>
+                                    <ClipboardCheck className="h-4 w-4 mr-2" />
+                                    Copied!
+                                </>
+                                :
+                                <>
+                                    <Clipboard className="h-4 w-4 mr-2" />
+                                    Copy deploy link
+                                </>
+                            }
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+        </div>
     )
 }
 
