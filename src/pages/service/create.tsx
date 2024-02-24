@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
-import { ToastAction } from "@/components/ui/toast"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useToast } from "@/components/ui/use-toast"
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -190,7 +190,7 @@ export default function CreateService() {
     const router = useRouter();
     const { toast } = useToast()
     const { user } = useUser();
-    const [tab, setTab] = useState<string>("docker");
+    const [tab, setTab] = useState<string>("next-js");
     const [sending, setSending] = useState(false);
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -334,6 +334,8 @@ export default function CreateService() {
 
     const disableCreateService = !name || sending
 
+    const selectedDockerOrNextJs = tab === "docker" || tab === "next-js"
+
     return (
         <Layout>
             <Head>
@@ -383,6 +385,10 @@ export default function CreateService() {
                                     <h2 className="mb-3 text-sm">Select deployment</h2>
                                     <Tabs className="w-full" value={tab} onValueChange={(newTab) => setTab(newTab)}>
                                         <TabsList className="w-full justify-between">
+                                            <TabsTrigger value="next-js" className="w-full flex gap-2">
+                                                <Image src={"/next-js.svg"} alt={"next-js"} width={16} height={6} />
+                                                Next.js
+                                            </TabsTrigger>
                                             <TabsTrigger value="docker" className="w-full flex gap-2">
                                                 <Image src={"/docker.svg"} alt={"docker"} width={16} height={6} />
                                                 Docker
@@ -394,10 +400,6 @@ export default function CreateService() {
                                             <TabsTrigger value="docker-compose" className="w-full flex gap-2">
                                                 <Image src={"/docker.svg"} alt={"docker"} width={16} height={6} />
                                                 Docker Compose
-                                            </TabsTrigger>
-                                            <TabsTrigger value="next-js" className="w-full flex gap-2">
-                                                <Image src={"/next-js.svg"} alt={"next-js"} width={16} height={6} />
-                                                Next.js
                                             </TabsTrigger>
                                         </TabsList>
                                         <TabsContent value="docker">
@@ -445,20 +447,25 @@ export default function CreateService() {
                                             </div>
                                         </TabsContent>
                                         <TabsContent value="next-js">
-                                            <div className="border border-1 p-4">
-                                                <Dialog>
-                                                    <DialogTrigger>
-                                                        <Button variant={"link"} type="button" className="text-sm">Click here to view instructions for Dockerising your Next.js for Stitch</Button>
-                                                    </DialogTrigger>
-                                                    <DialogContent>
-                                                        <DialogHeader>
-                                                            <DialogTitle>How to Dockerise your Next.js app</DialogTitle>
-                                                            <DialogDescription>
-                                                                <div className="my-4">To deploy your Next.js app with Stitch, you will need to create a Dockerfile in the root of your project. Here is an example of a Dockerfile for a Next.js app:</div>
-                                                                <Editor
-                                                                    className="bg-white rounded border border-solid border-slate-400 text-black min-h-32"
-                                                                    readOnly
-                                                                    value={`FROM node:18-alpine AS base
+                                            <Dialog>
+                                                <DialogTrigger>
+                                                    <Alert className="shadow cursor-pointer my-4">
+                                                        <InfoIcon className="h-4 w-4" />
+                                                        <AlertTitle>Click here to view instructions for Dockerising your Next.js app</AlertTitle>
+                                                        <AlertDescription className="text-left">
+                                                            Follow this guide to Dockerise your Next.js app for Stitch.
+                                                        </AlertDescription>
+                                                    </Alert>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <DialogHeader>
+                                                        <DialogTitle>How to Dockerise your Next.js app</DialogTitle>
+                                                        <DialogDescription>
+                                                            <div className="my-4">To deploy your Next.js app with Stitch, you will need to create a Dockerfile in the root of your project. Here is an example of a Dockerfile for a Next.js app:</div>
+                                                            <Editor
+                                                                className="bg-white rounded border border-solid border-slate-400 text-black min-h-32"
+                                                                readOnly
+                                                                value={`FROM node:18-alpine AS base
 
 WORKDIR /app
 COPY package*.json ./
@@ -466,52 +473,51 @@ RUN npm install
 COPY . .
 EXPOSE 3000
 CMD ["npm", "run", "start"]`}
-                                                                    onValueChange={code => { }}
-                                                                    highlight={code => highlight(code, languages.bash, "bash")}
-                                                                    padding={10}
-                                                                    style={{
-                                                                        fontFamily: '"Fira code", "Fira Mono", monospace',
-                                                                        fontSize: 12,
-                                                                    }}
-                                                                />
-                                                                <div className="my-4">You can then build and run your Docker container with the following commands:</div>
-                                                                <Editor
-                                                                    className="bg-white rounded border border-solid border-slate-400 text-black min-h-8"
-                                                                    readOnly
-                                                                    value={`docker build -t my-next-app . --platform=linux/amd64`}
-                                                                    onValueChange={code => { }}
-                                                                    highlight={code => highlight(code, languages.bash, "bash")}
-                                                                    padding={10}
-                                                                    style={{
-                                                                        fontFamily: '"Fira code", "Fira Mono", monospace',
-                                                                        fontSize: 12,
-                                                                    }}
-                                                                />
-                                                                <div className="my-4">You can then run your container to test it works:</div>
-                                                                <Editor
-                                                                    className="bg-white rounded border border-solid border-slate-400 text-black min-h-8"
-                                                                    readOnly
-                                                                    value={`docker run -p 3000:3000 my-next-app`}
-                                                                    onValueChange={code => { }}
-                                                                    highlight={code => highlight(code, languages.bash, "bash")}
-                                                                    padding={10}
-                                                                    style={{
-                                                                        fontFamily: '"Fira code", "Fira Mono", monospace',
-                                                                        fontSize: 12,
-                                                                    }}
-                                                                />
-                                                                <div className="my-4">
-                                                                    Once you have tested your container, you can push it to Docker Hub and use it with Stitch.
-                                                                    <br />
-                                                                    <Link href="https://docs.docker.com/guides/walkthroughs/publish-your-image/" target="_blank" className="text-blue-500 hover:underline">
-                                                                        Learn more about pushing your image to Docker Hub.
-                                                                    </Link>
-                                                                </div>
-                                                            </DialogDescription>
-                                                        </DialogHeader>
-                                                    </DialogContent>
-                                                </Dialog>
-                                            </div>
+                                                                onValueChange={code => { }}
+                                                                highlight={code => highlight(code, languages.bash, "bash")}
+                                                                padding={10}
+                                                                style={{
+                                                                    fontFamily: '"Fira code", "Fira Mono", monospace',
+                                                                    fontSize: 12,
+                                                                }}
+                                                            />
+                                                            <div className="my-4">You can then build and run your Docker container with the following commands:</div>
+                                                            <Editor
+                                                                className="bg-white rounded border border-solid border-slate-400 text-black min-h-8"
+                                                                readOnly
+                                                                value={`docker build -t my-next-app . --platform=linux/amd64`}
+                                                                onValueChange={code => { }}
+                                                                highlight={code => highlight(code, languages.bash, "bash")}
+                                                                padding={10}
+                                                                style={{
+                                                                    fontFamily: '"Fira code", "Fira Mono", monospace',
+                                                                    fontSize: 12,
+                                                                }}
+                                                            />
+                                                            <div className="my-4">You can then run your container to test it works:</div>
+                                                            <Editor
+                                                                className="bg-white rounded border border-solid border-slate-400 text-black min-h-8"
+                                                                readOnly
+                                                                value={`docker run -p 3000:3000 my-next-app`}
+                                                                onValueChange={code => { }}
+                                                                highlight={code => highlight(code, languages.bash, "bash")}
+                                                                padding={10}
+                                                                style={{
+                                                                    fontFamily: '"Fira code", "Fira Mono", monospace',
+                                                                    fontSize: 12,
+                                                                }}
+                                                            />
+                                                            <div className="my-4">
+                                                                Once you have tested your container, you can push it to Docker Hub and use it with Stitch.
+                                                                <br />
+                                                                <Link href="https://docs.docker.com/guides/walkthroughs/publish-your-image/" target="_blank" className="text-blue-500 hover:underline">
+                                                                    Learn more about pushing your image to Docker Hub.
+                                                                </Link>
+                                                            </div>
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                </DialogContent>
+                                            </Dialog>
                                             <div className="border border-1 p-4">
                                                 <div className="text-sm mb-3">Docker Image Name</div>
                                                 <Input name="dockerImage" placeholder="pied-piper/algo" onChange={(e) => setDockerImage(e.target.value)} value={dockerImage} />
@@ -532,6 +538,7 @@ CMD ["npm", "run", "start"]`}
                                     <div className="text-sm text-slate-400 mb-3">When your service is deployed, the link provided to the user will use this port. If it is the default port, just leave this empty.</div>
                                     <Input type="text" name="port" placeholder="8080" onChange={(e) => setPort(e.target.value)} value={port} />
                                 </div>
+                                {!selectedDockerOrNextJs && <EnvironmentVariablesCreator environmentVariables={environmentVariables} setEnvironmentVariables={setEnvironmentVariables} />}
                                 <div>
                                     <h2 className="text-sm">README<span className="text-slate-400 italic">- optional</span></h2>
                                     <div className="text-sm text-slate-400 mb-3">This will be visible to users after installing your application. It should provide instructions for using your application after deployment.</div>
@@ -558,14 +565,13 @@ CMD ["npm", "run", "start"]`}
                                     <div className="text-sm text-slate-400 mb-3">This is a link to the image your want to display to users for your service.</div>
                                     <Input type="text" name="imageUrl" placeholder={"https://avatars.githubusercontent.com/u/19783067"} onChange={(e) => setImageUrl(e.target.value)} value={imageUrl} />
                                 </div>
-                                <div>
+                                {/* <div>
                                     <div>
                                         <h2 className="text-sm">Password<span className="text-slate-400 italic">- optional</span></h2>
                                         <div className="text-sm text-slate-400 mb-3">Users will only be able to open the deployment page if they have this password.</div>
                                         <Input type="password" name="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} />
                                     </div>
-                                </div>
-                                <EnvironmentVariablesCreator environmentVariables={environmentVariables} setEnvironmentVariables={setEnvironmentVariables} />
+                                </div> */}
                             </div>
                         </div>
 
