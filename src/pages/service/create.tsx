@@ -204,6 +204,7 @@ export default function CreateService() {
     const [dockerImage, setDockerImage] = useState<string>("");
     const [dockerComposeScript, setDockerComposeScript] = useState<string>("")
     const [validationUrl, setValidationUrl] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
     const [slugPlaceholder, setSlugPlaceholder] = useState<string>(DEFAULT_SLUG_PLACEHOLDER);
     const [loadingVendor, setLoadingVendor] = useState<boolean>(false);
     const [vendor, setVendor] = useState<Vendor>();
@@ -282,6 +283,7 @@ export default function CreateService() {
                 validationUrl,
                 port,
                 readMe,
+                password,
                 imageUrl,
                 environmentVariables,
             }),
@@ -461,6 +463,13 @@ export default function CreateService() {
                                     </div>
                                     <div className="text-sm text-slate-400 mb-3">This is a link to the image your want to display to users for your service.</div>
                                     <Input type="text" name="imageUrl" placeholder={"https://avatars.githubusercontent.com/u/19783067"} onChange={(e) => setImageUrl(e.target.value)} value={imageUrl} />
+                                </div>
+                                <div>
+                                    <div>
+                                        <h2 className="text-sm">Password<span className="text-slate-400 italic">- optional</span></h2>
+                                        <div className="text-sm text-slate-400 mb-3">Users will only be able to open the deployment page if they have this password.</div>
+                                        <Input type="password" name="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} />
+                                    </div>
                                 </div>
                                 <EnvironmentVariablesCreator environmentVariables={environmentVariables} setEnvironmentVariables={setEnvironmentVariables} />
                             </div>

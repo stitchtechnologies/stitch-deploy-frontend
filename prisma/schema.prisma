@@ -32,6 +32,7 @@ model Service {
   vendorId            String?
   scriptV2            Json?
   validationUrl       String?               @db.VarChar(255)
+  password            String?               @db.VarChar(255)
   EnvironmentVariable EnvironmentVariable[]
   Vendor              Vendor?               @relation(fields: [vendorId], references: [id])
 }

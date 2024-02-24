@@ -23,7 +23,7 @@ export default async function handler(
     return;
   }
 
-  const { name, description, slug, externalUrl, scriptV2, port, validationUrl, imageUrl, environmentVariables, readMe } = req.body;
+  const { name, description, slug, externalUrl, scriptV2, port, validationUrl, imageUrl, environmentVariables, readMe, password } = req.body;
 
   // check that none of these fields are empty
   if (!name || !slug) {
@@ -81,6 +81,7 @@ export default async function handler(
       validationUrl,
       port,
       readMe,
+      password,
       image: imageUrl,
       EnvironmentVariable: {
         connect: envVarsArray.map((envVar) => {
