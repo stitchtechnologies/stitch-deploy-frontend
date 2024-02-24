@@ -232,7 +232,7 @@ export default function EditService() {
                 setValidationUrl(data.service.validationUrl)
                 setPort(data.service.port)
                 setReadMe(data.service.readMe)
-                setImageUrl(data.service.imageUrl)
+                setImageUrl(data.service.image)
                 setLoadingService(false)
             })
             .catch((error) => {
