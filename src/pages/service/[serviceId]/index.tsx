@@ -1,6 +1,6 @@
 import Layout from "@/components/layout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Download, GitBranch } from "lucide-react";
+import { Download, GitBranch, Loader2 } from "lucide-react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -45,7 +45,15 @@ export default function Service() {
             })
     }, [router, serviceId, user])
 
-    if (!service || loadingService) return <div>loading...</div>;
+    if (!service || loadingService) {
+        return (
+            <Layout>
+                <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
+                    <Loader2 className="h-8 w-8 animate-spin" />
+                </div>
+            </Layout>
+        )
+    };
 
     return (
         <Layout>
