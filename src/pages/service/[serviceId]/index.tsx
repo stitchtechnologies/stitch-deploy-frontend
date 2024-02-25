@@ -115,7 +115,6 @@ export default function Service() {
                 </div>
                 <InstallsTable installs={service.Installs} />
             </div>
-
             {/* <Image src={"/services-test.png"} alt="Service" width={1920} height={1080} /> */}
         </Layout>
     );
