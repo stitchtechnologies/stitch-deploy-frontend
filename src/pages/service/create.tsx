@@ -42,6 +42,14 @@ export type DockerPortMapping = {
     [port: string]: string;
 }
 
+export type CdkDeploymentMetadata = {
+    repoUrl: string,
+    auth?: {
+        username?: string,
+        accessToken?: string
+    }
+}
+
 function DockerPortMappingCreator({ portMapping, setPortMapping }: { portMapping: DockerPortMapping, setPortMapping: (value: React.SetStateAction<DockerPortMapping>) => void }) {
     return (
         <div>
@@ -208,6 +216,7 @@ export default function CreateService() {
     const [slugPlaceholder, setSlugPlaceholder] = useState<string>(DEFAULT_SLUG_PLACEHOLDER);
     const [loadingVendor, setLoadingVendor] = useState<boolean>(false);
     const [vendor, setVendor] = useState<Vendor>();
+    const [cdkDeploymentMetadata, setCdkDeploymentMetadata] = useState<CdkDeploymentMetadata>();
 
     // Check if user already has a vendor account - otherwise redirect to create vendor page
     useEffect(() => {
@@ -283,6 +292,11 @@ export default function CreateService() {
                         serverPort,
                     }
                 }),
+            }
+        } else if (tab === "cdk") {
+            scriptV2 = {
+                type: "cdk-ts-github",
+                ...cdkDeploymentMetadata
             }
         }
 
@@ -393,6 +407,10 @@ export default function CreateService() {
                                                 <Image src={"/docker.svg"} alt={"docker"} width={16} height={6} />
                                                 Docker
                                             </TabsTrigger>
+                                            <TabsTrigger value="cdk" className="w-full flex gap-2">
+                                                <Image src={"/aws.png"} alt={"aws"} width={16} height={6} />
+                                                Cloud Development Kit
+                                            </TabsTrigger>
                                             <TabsTrigger value="shell" className="w-full flex gap-2">
                                                 <FileCode className="h-4 w-4" />
                                                 Shell Script
@@ -409,6 +427,27 @@ export default function CreateService() {
                                             </div>
                                             <div className="border border-1 p-4">
                                                 <DockerPortMappingCreator portMapping={dockerPortMapping} setPortMapping={setDockerPortMapping} />
+                                            </div>
+                                        </TabsContent>
+                                        <TabsContent value="cdk">
+                                            <div className="border border-1 p-4 flex flex-col gap-6">
+                                                <div>
+                                                    <h2 className="text-sm">Repository URL</h2>
+                                                    <div className="text-sm text-slate-400 mb-3">The link to your github repo containing your CDK scripts</div>
+                                                    <Input type="url" name="cdk-url" placeholder="Enter Github URL" value={cdkDeploymentMetadata?.repoUrl} onChange={e => setCdkDeploymentMetadata(prev => ({ ...prev, repoUrl: e.target.value }))} />
+                                                </div>
+                                                <div>
+                                                    <h2 className="text-sm">Repository username</h2>
+                                                    <div className="text-sm text-slate-400 mb-3">The username that stitch will use to clone the repo, this is only required for private repos.</div>
+                                                    <Input type="text" name="gh-username" placeholder="Username" value={cdkDeploymentMetadata?.auth?.username}
+                                                        onChange={e => setCdkDeploymentMetadata(prev => ({ ...prev, auth: { ...prev?.auth, username: e.target.value } } as CdkDeploymentMetadata))} />
+                                                </div>
+                                                <div>
+                                                    <h2 className="text-sm">Personal access token</h2>
+                                                    <div className="text-sm text-slate-400 mb-3">The personal access token that stitch will use to clone the repo, this is only required for private repos.</div>
+                                                    <Input type="password" name="gh-username" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" value={cdkDeploymentMetadata?.auth?.accessToken}
+                                                        onChange={e => setCdkDeploymentMetadata(prev => ({ ...prev, auth: { ...prev?.auth, accessToken: e.target.value } } as CdkDeploymentMetadata))} />
+                                                </div>
                                             </div>
                                         </TabsContent>
                                         <TabsContent value="shell">
