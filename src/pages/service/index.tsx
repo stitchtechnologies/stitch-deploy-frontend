@@ -1,11 +1,5 @@
 import Layout from "@/components/layout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { Input } from "@/components/ui/input";
 import {
     Select,
@@ -18,13 +12,11 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Head from "next/head";
 import Link from "next/link";
-import { Clipboard, ClipboardCheck, Loader2, Menu, MoreHorizontal, Pencil } from "lucide-react"
+import { Clipboard, ClipboardCheck, Loader2, MoreHorizontal, Pencil } from "lucide-react"
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
@@ -58,7 +50,7 @@ export const ServiceCard: React.FC<{ service: Service, vendorSlug: string }> = (
     }
 
     return (
-        <div className="flex flex-col gap-4 bg-white cursor-pointer rounded-md border-[color:var(--slate-200,#E2E8F0)] border-solid border p-6 text-sm shadow-[0px_2px_6px_0px_rgba(0,0,0,0.09)] hover:shadow-md">
+        <div onClick={() => window.open(`/service/${service.slug}`, "_self")} className="flex flex-col gap-4 bg-white cursor-pointer rounded-md border-[color:var(--slate-200,#E2E8F0)] border-solid border p-6 text-sm shadow-[0px_2px_6px_0px_rgba(0,0,0,0.09)] hover:shadow-md">
             <div className="flex gap-3 items-center">
                 <Avatar className="h-6 w-6">
                     {service.image &&
@@ -83,7 +75,7 @@ export const ServiceCard: React.FC<{ service: Service, vendorSlug: string }> = (
                             </DropdownMenuItem>
                         </Link>
                         {/* <DropdownMenuItem>Delete</DropdownMenuItem> */}
-                        <DropdownMenuItem onClick={handleCopyClick}>
+                        <DropdownMenuItem onClick={(e) => { handleCopyClick(); e.stopPropagation() }}>
                             {copied ?
                                 <>
                                     <ClipboardCheck className="h-4 w-4 mr-2" />
