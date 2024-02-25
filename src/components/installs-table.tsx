@@ -30,6 +30,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Install } from "@prisma/client"
+import Image from "next/image"
 
 export const columns: ColumnDef<Install>[] = [
     {
@@ -62,14 +63,56 @@ export const columns: ColumnDef<Install>[] = [
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    ID
+                    Environment
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
         },
         cell: ({ row }) => {
             return (
-                <div className="text-slate-500">{row.getValue("id")}</div>
+                <div className="flex flex-col gap-2 w-fit">
+                    <div className="flex gap-2 items-center">
+                        <p>Production</p>
+                        <p className="text-slate-500">{row.getValue("id")}</p>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                        <Image src={"/aws.png"} alt={"aws"} width={16} height={16} className="h-4 w-4" />
+                        <p className="text-slate-500">aws us-east-1</p>
+                    </div>
+                </div>
+            )
+        },
+    },
+    {
+        accessorKey: "status",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Health
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        cell: ({ row }) => {
+            return (
+                <div className="text-slate-500">
+                    <div className="flex gap-2 items-center">
+                        <div className="h-4 w-4 rounded-full bg-emerald-300" />
+                        <p>Healthy</p>
+                    </div>
+                </div>
+            )
+        },
+    },
+    {
+        accessorKey: "status",
+        header: "Deployment Status",
+        cell: ({ row }) => {
+            return (
+                <div className="text-slate-500">{(row.getValue("status") as string).toLocaleUpperCase()}</div>
             )
         },
     },
