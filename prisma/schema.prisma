@@ -8,13 +8,14 @@ datasource db {
 }
 
 model Vendor {
-  id          String    @id
-  title       String    @db.VarChar(255)
+  id          String       @id
+  title       String       @db.VarChar(255)
   description String
-  slug        String    @unique @db.VarChar(255)
-  createdAt   DateTime  @default(now()) @db.Timestamp(6)
-  image       String    @db.VarChar(255)
+  slug        String       @unique @db.VarChar(255)
+  createdAt   DateTime     @default(now()) @db.Timestamp(6)
+  image       String       @db.VarChar(255)
   userId      String
+  Deployment  Deployment[]
   Service     Service[]
 }
 
@@ -33,6 +34,7 @@ model Service {
   scriptV2            Json?
   validationUrl       String?               @db.VarChar(255)
   password            String?               @db.VarChar(255)
+  Deployment          Deployment[]
   EnvironmentVariable EnvironmentVariable[]
   Install             Install[]
   Vendor              Vendor?               @relation(fields: [vendorId], references: [id])
@@ -53,4 +55,20 @@ model Install {
   serviceId String
   status    String?  @db.VarChar(255)
   Service   Service  @relation(fields: [serviceId], references: [id])
+}
+
+model Deployment {
+  id              String   @id
+  createdAt       DateTime @default(now()) @db.Timestamp(6)
+  status          String?  @db.VarChar(255)
+  awsInstanceId   String
+  url             String?
+  publicDns       String?
+  vendorId        String
+  serviceId       String
+  validationUrl   String?
+  userFriendlyUrl String?
+  deploymentKey   Json?
+  Service         Service  @relation(fields: [serviceId], references: [id])
+  Vendor          Vendor   @relation(fields: [vendorId], references: [id])
 }
