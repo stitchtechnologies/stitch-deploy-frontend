@@ -30,6 +30,7 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { TooltipContent, TooltipProvider, Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
 
 const MDEditor = dynamic(
     () => import("@uiw/react-md-editor").then((mod) => mod.default),
@@ -419,6 +420,11 @@ export default function CreateService() {
                                                 <Image src={"/docker.svg"} alt={"docker"} width={16} height={6} />
                                                 Docker Compose
                                             </TabsTrigger>
+                                            <TabsTrigger value="terraform" className="w-full flex gap-2">
+                                                <Image src={"/terraform.png"} alt={"terraform"} width={16} height={6} />
+                                                Terraform
+                                            </TabsTrigger>
+
                                         </TabsList>
                                         <TabsContent value="docker">
                                             <div className="border border-1 p-4">
@@ -566,6 +572,18 @@ CMD ["npm", "run", "start"]`}
                                                 <DockerPortMappingCreator portMapping={dockerPortMapping} setPortMapping={setDockerPortMapping} />
                                             </div>
                                         </TabsContent>
+                                        <TabsContent value="terraform">
+                                            <Alert className="shadow cursor-pointer my-4" onClick={() => {
+                                                const slackUrl = "https://join.slack.com/t/stitchsupport/shared_invite/zt-2d839m41h-qYy7ZTJ1mRec7zYw4Pl9oQ";
+                                                window.open(slackUrl, '_blank')?.focus();
+                                            }}>
+                                                <InfoIcon className="h-4 w-4" />
+                                                <AlertTitle>Click here to join our Slack</AlertTitle>
+                                                <AlertDescription className="text-left">
+                                                    Terraform deployments are only avalible on paid plans, message the team to get started.
+                                                </AlertDescription>
+                                            </Alert>
+                                        </TabsContent>
                                     </Tabs>
                                 </div>
                                 <div>
@@ -614,11 +632,21 @@ CMD ["npm", "run", "start"]`}
                                 </div> */}
                             </div>
                         </div>
+                        <TooltipProvider>
+                            <Tooltip>
+                                <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+                                    <TooltipTrigger asChild>
+                                        <Button variant={"secondary"}>Add dependencies</Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        Adding dependencies such as storage, databases and queues is avalible on our paid plan. Message the team on slack to upgrade.
+                                    </TooltipContent>
 
-                        <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
-                            {/* <Button variant={"outline"} disabled={true}>Preview deployment form</Button> */}
-                            <Button disabled={disableCreateService} type="submit">{sending ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Creating</> : "Create service"}</Button>
-                        </div>
+                                    {/* <Button variant={"outline"} disabled={true}>Preview deployment form</Button> */}
+                                    <Button disabled={disableCreateService} type="submit">{sending ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Creating</> : "Create service"}</Button>
+                                </div>
+                            </Tooltip>
+                        </TooltipProvider>
                     </form>
                 )
             }
