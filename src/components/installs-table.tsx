@@ -267,7 +267,7 @@ export function InstallsTable({ installs: data }: { installs: Install[] }) {
                         ) : (
                             <TableRow>
                                 <TableCell
-                                    colSpan={columns.length}
+                                    colSpan={getColumns(router.query.serviceId as string).length}
                                     className="h-24 text-center"
                                 >
                                     No results.
