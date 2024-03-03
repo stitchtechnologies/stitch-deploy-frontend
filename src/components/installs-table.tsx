@@ -32,8 +32,10 @@ import {
 import { Install } from "@prisma/client"
 import Image from "next/image"
 import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
-export const columns: ColumnDef<Install>[] = [
+const getColumns = (serviceId: string): ColumnDef<Install>[] => [
     {
         id: "select",
         header: ({ table }) => (
@@ -140,7 +142,7 @@ export const columns: ColumnDef<Install>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>View install</DropdownMenuItem>
+                        <Link href={`/service/${serviceId}/${row.original.id}`}><DropdownMenuItem>View install</DropdownMenuItem></Link>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
                             <History className="h-4 w-4 mr-2" />
@@ -158,6 +160,8 @@ export const columns: ColumnDef<Install>[] = [
 ]
 
 export function InstallsTable({ installs: data }: { installs: Install[] }) {
+    const router = useRouter()
+
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -168,7 +172,7 @@ export function InstallsTable({ installs: data }: { installs: Install[] }) {
 
     const table = useReactTable({
         data,
-        columns,
+        columns: getColumns(router.query.serviceId as string),
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),

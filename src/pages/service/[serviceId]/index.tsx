@@ -54,7 +54,6 @@ export default function Service() {
             </Layout>
         )
     };
-
     return (
         <Layout>
             <Head>
@@ -63,10 +62,12 @@ export default function Service() {
             <div className="flex items-center border-b-[rgba(0,0,0,0.10)] px-24 border-b border-solid">
                 <div className="flex items-center gap-4 my-12">
                     <Link href={`/service/${service.slug}`}>
-                        <Avatar className="h-8 w-8">
-                            <AvatarImage src={service.image} />
-                            <AvatarFallback>{service.slug}</AvatarFallback>
-                        </Avatar>
+                        {service.image &&
+                            <Avatar className="h-8 w-8">
+                                <AvatarImage src={service.image} />
+                                <AvatarFallback>{service.slug}</AvatarFallback>
+                            </Avatar>
+                        }
                     </Link>
                     <Link href={`/service/${service.slug}`}>
                         <div className="text-4xl">
