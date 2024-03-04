@@ -11,8 +11,8 @@ export default function Install() {
     useEffect(() => {
         const fetchLogs = async () => {
             try {
-                const response = await fetch(`/api/get-logs?installId=prod1`);
-                // const response = await fetch(`/api/get-logs?installId=${router.query.installId}`); 
+                // const response = await fetch(`/api/get-logs?installId=prod1`);
+                const response = await fetch(`/api/get-logs?installId=${router.query.installId}`);
                 if (!response.ok) {
                     throw new Error(`Error: ${response.status}`);
                 }
