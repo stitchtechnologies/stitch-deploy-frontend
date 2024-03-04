@@ -31,6 +31,13 @@ import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { TooltipContent, TooltipProvider, Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 const MDEditor = dynamic(
     () => import("@uiw/react-md-editor").then((mod) => mod.default),
@@ -218,6 +225,9 @@ export default function CreateService() {
     const [loadingVendor, setLoadingVendor] = useState<boolean>(false);
     const [vendor, setVendor] = useState<Vendor>();
     const [cdkDeploymentMetadata, setCdkDeploymentMetadata] = useState<CdkDeploymentMetadata>();
+    const [operatingSystem, setOperatingSystem] = useState<string>("ami-0440d3b780d96b29d");
+    const [instanceType, setInstanceType] = useState<string>("t2.medium");
+    const [storageVolumeSize, setStorageVolumeSize] = useState<string>("8");
 
     // Check if user already has a vendor account - otherwise redirect to create vendor page
     useEffect(() => {
@@ -315,6 +325,9 @@ export default function CreateService() {
                 password,
                 imageUrl,
                 environmentVariables,
+                operatingSystem,
+                instanceType,
+                storageVolumeSize,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -622,6 +635,49 @@ CMD ["npm", "run", "start"]`}
                                     </div>
                                     <div className="text-sm text-slate-400 mb-3">This is a link to the image your want to display to users for your service.</div>
                                     <Input type="text" name="imageUrl" placeholder={"https://avatars.githubusercontent.com/u/19783067"} onChange={(e) => setImageUrl(e.target.value)} value={imageUrl} />
+                                </div>
+                                <div>
+                                    <h2 className="text-sm">Operating system<span className="text-slate-400 italic">- optional</span></h2>
+                                    <div className="text-sm text-slate-400 mb-3">Select the operating system to be used for the EC2 instance of this deployment.</div>
+                                    <Select onValueChange={(newVal) => setOperatingSystem(newVal)}>
+                                        <SelectTrigger>
+                                            <SelectValue defaultValue={operatingSystem} placeholder={"Amazon Linux 2023 AMI"} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="ami-0440d3b780d96b29d">Amazon Linux 2023 AMI</SelectItem>
+                                            <SelectItem value="ami-07d9b9ddc6cd8dd30">Ubuntu Server 22.04 LTS (HVM), SSD Volume Type</SelectItem>
+                                            <SelectItem value="ami-0fe630eb857a6ec83">Red Hat Enterprise Linux 9 (HVM), SSD Volume Type</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div>
+                                    <h2 className="text-sm">Instance type<span className="text-slate-400 italic">- optional</span></h2>
+                                    <div className="text-sm text-slate-400 mb-3">Select the EC2 instance type with storage, memory and CPU configurations for this deployment.</div>
+                                    <Select onValueChange={(newVal) => setInstanceType(newVal)}>
+                                        <SelectTrigger>
+                                            <SelectValue defaultValue={instanceType} placeholder={"t2.medium | 2vCPU | 4GiB memory"} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="t2.micro">t2.micro | 1vCPU | 1GiB memory</SelectItem>
+                                            <SelectItem value="t2.small">t2.small | 1vCPU | 2GiB memory</SelectItem>
+                                            <SelectItem value="t2.medium">t2.medium | 2vCPU | 4GiB memory</SelectItem>
+                                            <SelectItem value="t2.large">t2.large | 2vCPU | 8GiB memory</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div>
+                                    <h2 className="text-sm">Storage volume size<span className="text-slate-400 italic">- optional</span></h2>
+                                    <div className="text-sm text-slate-400 mb-3">Select the size of the root volume for this deployment.</div>
+                                    <Select onValueChange={(newVal) => setStorageVolumeSize(newVal)}>
+                                        <SelectTrigger>
+                                            <SelectValue defaultValue={storageVolumeSize} placeholder={"8 GiB"} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="8">8 GiB</SelectItem>
+                                            <SelectItem value="16">16 GiB</SelectItem>
+                                            <SelectItem value="32">32 GiB</SelectItem>
+                                        </SelectContent>
+                                    </Select>
                                 </div>
                                 {/* <div>
                                     <div>
