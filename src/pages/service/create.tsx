@@ -632,21 +632,21 @@ CMD ["npm", "run", "start"]`}
                                 </div> */}
                             </div>
                         </div>
-                        <TooltipProvider>
-                            <Tooltip>
-                                <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+                        <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+                            <TooltipProvider delayDuration={100}>
+                                <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <Button variant={"secondary"}>Add dependencies</Button>
+                                        <span tabIndex={0}>
+                                            <Button variant={"secondary"} type="button" disabled className="w-full">Add dependencies</Button>
+                                        </span>
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        Adding dependencies such as storage, databases and queues is avalible on our paid plan. Message the team on slack to upgrade.
+                                        Adding dependencies such as storage, databases and queues is available on our paid plan. Message the team on Slack to upgrade.
                                     </TooltipContent>
-
-                                    {/* <Button variant={"outline"} disabled={true}>Preview deployment form</Button> */}
-                                    <Button disabled={disableCreateService} type="submit">{sending ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Creating</> : "Create service"}</Button>
-                                </div>
-                            </Tooltip>
-                        </TooltipProvider>
+                                </Tooltip>
+                            </TooltipProvider>
+                            <Button disabled={disableCreateService} type="submit">{sending ? <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Creating</> : "Create service"}</Button>
+                        </div>
                     </form>
                 )
             }
