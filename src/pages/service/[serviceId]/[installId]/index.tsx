@@ -9,6 +9,9 @@ export default function Install() {
     const [logs, setLogs] = useState([]);
     const router = useRouter()
     useEffect(() => {
+        if (!router.query.installId) {
+            return;
+        }
         const fetchLogs = async () => {
             try {
                 // const response = await fetch(`/api/get-logs?installId=prod1`);
@@ -24,7 +27,7 @@ export default function Install() {
         };
 
         fetchLogs();
-    }, []);
+    }, [router.query.installId]);
 
     return (
         <Layout>
