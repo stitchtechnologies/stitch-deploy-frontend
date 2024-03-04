@@ -4,6 +4,8 @@ Stitch makes deploying services to customer clouds easier.
 
 This repo is for [app.stitch.tech](https://app.stitch.tech/) where users can create their organization account, create services and view information like logs.
 
+[You can find the Stitch backend here, although this repo doesn't currently require it running to work.](https://github.com/stitchtechnologies/stitch-deploy-server)
+
 ## ⚙️ Setup
 
 1. Clone this repo from GitHub
