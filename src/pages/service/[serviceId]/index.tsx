@@ -98,7 +98,7 @@ export default function Service() {
                         <h2 className="text-sm text-slate-500">Installs</h2>
                         <div className="text-sm mb-3 font-robotomono flex gap-2 items-center">
                             <Download className="h-4 w-4" />
-                            {service.Installs.length}
+                            {service.Deployments.length}
                         </div>
                     </div>
                     <div className="flex flex-col gap-1">
@@ -114,7 +114,7 @@ export default function Service() {
                         Installs
                     </div>
                 </div>
-                <InstallsTable installs={service.Installs} />
+                <InstallsTable installs={service.Deployments} />
             </div>
             {/* <Image src={"/services-test.png"} alt="Service" width={1920} height={1080} /> */}
         </Layout>

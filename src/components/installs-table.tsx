@@ -29,13 +29,13 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Install } from "@prisma/client"
+import { Deployment } from "@prisma/client"
 import Image from "next/image"
 import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
-const getColumns = (serviceId: string): ColumnDef<Install>[] => [
+const getColumns = (serviceId: string): ColumnDef<Deployment>[] => [
     {
         id: "select",
         header: ({ table }) => (
@@ -159,7 +159,7 @@ const getColumns = (serviceId: string): ColumnDef<Install>[] => [
     },
 ]
 
-export function InstallsTable({ installs: data }: { installs: Install[] }) {
+export function InstallsTable({ installs: data }: { installs: Deployment[] }) {
     const router = useRouter()
 
     const [sorting, setSorting] = React.useState<SortingState>([])

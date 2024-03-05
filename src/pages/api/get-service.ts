@@ -1,12 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/db"
-import { Install, Service, Vendor } from "@prisma/client";
+import { Deployment, Service, Vendor } from "@prisma/client";
 import { getAuth } from "@clerk/nextjs/server";
 
 export type ServiceWithVendorAndInstalls = Service & {
   Vendor: Vendor;
-  Installs: Install[];
+  Deployments: Deployment[];
 }
 
 type Data = {
@@ -36,7 +36,7 @@ export default async function GET(
     include: {
       EnvironmentVariable: true,
       Vendor: true,
-      Install: true,
+      Deployment: true,
     },
   })
 
@@ -49,7 +49,7 @@ export default async function GET(
     service: {
       ...service,
       Vendor: { ...service.Vendor },
-      Installs: service.Install,
+      Deployments: service.Deployment,
     }
   });
 }

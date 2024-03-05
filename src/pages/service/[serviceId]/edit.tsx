@@ -225,7 +225,6 @@ export default function EditService() {
                     return;
                 }
                 setService(data.service)
-                console.log("service", data.service)
                 setName(data.service.title)
                 setDescription(data.service.description)
                 setExternalUrl(data.service.externalUrl)

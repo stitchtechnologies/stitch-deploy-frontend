@@ -37,7 +37,6 @@ model Service {
   instanceSettings    Json?
   Deployment          Deployment[]
   EnvironmentVariable EnvironmentVariable[]
-  Install             Install[]
   Vendor              Vendor?               @relation(fields: [vendorId], references: [id])
 }
 
@@ -48,14 +47,6 @@ model EnvironmentVariable {
   createdAt DateTime @default(now()) @db.Timestamp(6)
   serviceId String?
   Service   Service? @relation(fields: [serviceId], references: [id])
-}
-
-model Install {
-  id        String   @id
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  serviceId String
-  status    String?  @db.VarChar(255)
-  Service   Service  @relation(fields: [serviceId], references: [id])
 }
 
 model Deployment {
