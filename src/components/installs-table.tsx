@@ -34,8 +34,9 @@ import Image from "next/image"
 import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import UpgradeDialog from "./upgrade-dialog"
 
-const getColumns = (serviceId: string): ColumnDef<Deployment>[] => [
+const getColumns = (serviceId: string, setOpen: (open: boolean) => void): ColumnDef<Deployment>[] => [
     {
         id: "select",
         header: ({ table }) => (
@@ -142,13 +143,15 @@ const getColumns = (serviceId: string): ColumnDef<Deployment>[] => [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <Link href={`/service/${serviceId}/${row.original.id}`}><DropdownMenuItem>View install</DropdownMenuItem></Link>
+                        <Link href={`/service/${serviceId}/${row.original.id}`}>
+                            <DropdownMenuItem>View install</DropdownMenuItem>
+                        </Link>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
                             <History className="h-4 w-4 mr-2" />
                             Rollback
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setOpen(true)}>
                             <ArrowUpCircle className="h-4 w-4 mr-2" />
                             Upgrade
                         </DropdownMenuItem>
@@ -161,7 +164,8 @@ const getColumns = (serviceId: string): ColumnDef<Deployment>[] => [
 
 export function InstallsTable({ installs: data }: { installs: Deployment[] }) {
     const router = useRouter()
-
+    // open for upgrade dialog
+    const [open, setOpen] = React.useState(false)
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -172,7 +176,7 @@ export function InstallsTable({ installs: data }: { installs: Deployment[] }) {
 
     const table = useReactTable({
         data,
-        columns: getColumns(router.query.serviceId as string),
+        columns: getColumns(router.query.serviceId as string, setOpen),
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
@@ -191,6 +195,7 @@ export function InstallsTable({ installs: data }: { installs: Deployment[] }) {
 
     return (
         <div className="w-full">
+            <UpgradeDialog open={open} setOpen={setOpen} />
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter installs..."
@@ -267,7 +272,7 @@ export function InstallsTable({ installs: data }: { installs: Deployment[] }) {
                         ) : (
                             <TableRow>
                                 <TableCell
-                                    colSpan={getColumns(router.query.serviceId as string).length}
+                                    colSpan={getColumns(router.query.serviceId as string, setOpen).length}
                                     className="h-24 text-center"
                                 >
                                     No results.
