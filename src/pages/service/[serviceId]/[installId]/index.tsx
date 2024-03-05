@@ -81,7 +81,7 @@ export default function Install() {
 
     return (
         <Layout>
-            <UpgradeDialog open={upgradeDialogOpen} setOpen={setUpgradeDialogOpen} />
+            <UpgradeDialog open={upgradeDialogOpen} setOpen={setUpgradeDialogOpen} deploymentId={installId as string} />
             <div className="flex items-center border-b-[rgba(0,0,0,0.10)] px-24 border-b border-solid">
                 <div className="flex items-center gap-4 my-12">
                     <Link href={`/service/${service.slug}`}>
