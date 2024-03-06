@@ -45,7 +45,7 @@ export default async function handler(
             data,
             triggeredBy: userId,
             deploymentId,
-            status: "NOT_ACKNOWLEGED",
+            status: "NOT_ACKNOWLEDGED",
         },
     });
 
