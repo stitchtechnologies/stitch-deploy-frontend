@@ -7,14 +7,8 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import { useState } from "react";
+import { Input } from "./ui/input";
 
 const UpgradeDialog = ({ open, setOpen, deploymentId }: { open: boolean, setOpen: (open: boolean) => void, deploymentId: string }) => {
     const [selectedVersion, setSelectedVersion] = useState<string>("");
@@ -36,10 +30,10 @@ const UpgradeDialog = ({ open, setOpen, deploymentId }: { open: boolean, setOpen
             .then((res) => res.json())
             .then((res) => {
                 console.log(res);
-                if (res.ok) {
-                    setOpen(false);
-                } else {
+                if (res.message) {
                     alert("Failed to send upgrade command");
+                } else {
+                    setOpen(false);
                 }
                 setLoading(false);
             })
@@ -51,21 +45,10 @@ const UpgradeDialog = ({ open, setOpen, deploymentId }: { open: boolean, setOpen
                 <DialogHeader>
                     <DialogTitle>Send Upgrade Command {deploymentId}</DialogTitle>
                     <DialogDescription>
-                        This action will send an upgrade command to the agent for this deployment.
+                        This action will send an upgrade command to the agent for this deployment. Enter the new tag for this Docker deployment.
                     </DialogDescription>
                 </DialogHeader>
-                <div>
-                    <Select onValueChange={(v) => setSelectedVersion(v)} value={selectedVersion}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="New version" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="1.0.0">1.0.0</SelectItem>
-                            <SelectItem value="1.0.1">1.0.1</SelectItem>
-                            <SelectItem value="1.0.2">1.0.2</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
+                <Input value={selectedVersion} onChange={(e) => setSelectedVersion(e.target.value)} placeholder="latest" />
                 <DialogFooter>
                     <Button className="w-full" disabled={selectedVersion === "" || loading} onClick={handleUpgradeClick}>
                         Send Upgrade

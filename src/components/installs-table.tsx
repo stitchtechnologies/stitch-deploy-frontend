@@ -122,7 +122,17 @@ const getColumns = (serviceId: string, setOpen: (open: boolean) => void, setDepl
     },
     {
         accessorKey: "createdAt",
-        header: "Last updated",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Created at
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
         cell: ({ row }) => {
             return (
                 <div className="text-slate-500">{row.getValue("createdAt")}</div>
