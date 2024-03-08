@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { FileStack, History, PackagePlus, PowerCircle, RotateCw, StopCircle } from "lucide-react";
 import { Command } from "@prisma/client";
 import { cn } from "@/lib/utils";
+import { Checkbox } from "./ui/checkbox";
 
 const CommandHistory = ({ commands, updateCommands }: { commands: Command[], updateCommands: () => void }) => {
     return (
@@ -71,11 +72,12 @@ const Upgrade = ({ commandData, setCommandData }: { commandData: { [key: string]
 type Tab = "history" | "upgrade" | "rollback" | "start" | "stop" | "restart";
 
 const CommandDialog = ({ open, setOpen, deploymentId }: { open: boolean, setOpen: (open: boolean) => void, deploymentId: string }) => {
-    const [loading, setLoading] = useState<boolean>(false);
+    const [commands, setCommands] = useState<Command[]>([]);
     const [commandType, setCommandType] = useState<"UPGRADE" | "ROLLBACK" | "DESTROY" | "RESTART" | "STOP" | "START">("UPGRADE");
     const [commandData, setCommandData] = useState<{ [key: string]: any }>({});
-    const [commands, setCommands] = useState<Command[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
     const [tab, setTab] = useState<Tab>("history");
+    const [overrideMaintenance, setOverrideMaintenance] = useState<boolean>(false);
 
     const updateCommands = useCallback(() => {
         // get all commands for this deployment
@@ -110,6 +112,7 @@ const CommandDialog = ({ open, setOpen, deploymentId }: { open: boolean, setOpen
                 commandType: commandType,
                 data: commandData,
                 deploymentId,
+                overrideMaintenance,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -178,9 +181,20 @@ const CommandDialog = ({ open, setOpen, deploymentId }: { open: boolean, setOpen
                 <DialogFooter>
                     {
                         tab !== "history" && (
-                            <Button className="w-full" disabled={loading} onClick={handleIssueCommandClick}>
-                                Issue command
-                            </Button>
+                            <div className="flex flex-col gap-4 w-full border-t-[1px] pt-4">
+                                <div className="flex items-center space-x-2">
+                                    <Checkbox id="override-maintenance" checked={overrideMaintenance} onCheckedChange={(e) => setOverrideMaintenance(e.valueOf() as boolean)} />
+                                    <label
+                                        htmlFor="override-maintenance"
+                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                    >
+                                        Override maintenance window
+                                    </label>
+                                </div>
+                                <Button className="w-full" disabled={loading} onClick={handleIssueCommandClick}>
+                                    Issue command
+                                </Button>
+                            </div>
                         )
                     }
                 </DialogFooter>

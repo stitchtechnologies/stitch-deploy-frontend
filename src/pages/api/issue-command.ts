@@ -21,7 +21,7 @@ export default async function handler(
         return;
     }
 
-    const { commandType, data, deploymentId } = req.body;
+    const { commandType, data, deploymentId, overrideMaintenance } = req.body;
 
     // Check that all existing commands for this deployment have status "COMPLETED" or "FAILED"
     const existingCommands = await prisma.command.findMany({
@@ -45,6 +45,7 @@ export default async function handler(
             data,
             triggeredBy: userId,
             deploymentId,
+            overrideMaintenanceWindow: overrideMaintenance,
             status: "NOT_ACKNOWLEDGED",
         },
     });

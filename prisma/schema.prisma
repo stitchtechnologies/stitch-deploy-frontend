@@ -73,13 +73,14 @@ model Deployment {
 }
 
 model Command {
-  id           String     @id
-  createdAt    DateTime   @default(now()) @db.Timestamp(6)
-  completedAt  DateTime?  @db.Timestamp(6)
-  type         String     @db.VarChar(255)
-  data         Json?
-  status       String     @db.VarChar(255)
-  triggeredBy  String?    @db.VarChar(255)
-  deploymentId String
-  Deployment   Deployment @relation(fields: [deploymentId], references: [id])
+  id                        String     @id
+  createdAt                 DateTime   @default(now()) @db.Timestamp(6)
+  completedAt               DateTime?  @db.Timestamp(6)
+  type                      String     @db.VarChar(255)
+  data                      Json?
+  status                    String     @db.VarChar(255)
+  triggeredBy               String?    @db.VarChar(255)
+  deploymentId              String
+  overrideMaintenanceWindow Boolean?   @default(false)
+  Deployment                Deployment @relation(fields: [deploymentId], references: [id])
 }
