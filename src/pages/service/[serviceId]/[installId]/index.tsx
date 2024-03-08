@@ -3,10 +3,10 @@
 import Layout from "@/components/layout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import UpgradeDialog from "@/components/upgrade-dialog";
+import CommandDialog from "@/components/command-dialog";
 import { ServiceWithVendorAndInstalls } from "@/pages/api/get-service";
 import { useUser } from "@clerk/nextjs";
-import { Loader2, PackagePlus } from "lucide-react";
+import { ArrowUpCircle, Loader2, PackagePlus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
@@ -80,7 +80,7 @@ export default function Install() {
 
     return (
         <Layout>
-            <UpgradeDialog open={upgradeDialogOpen} setOpen={setUpgradeDialogOpen} deploymentId={installId as string} />
+            <CommandDialog open={upgradeDialogOpen} setOpen={setUpgradeDialogOpen} deploymentId={installId as string} />
             <div className="flex items-center border-b-[rgba(0,0,0,0.10)] px-24 border-b border-solid">
                 <div className="flex items-center gap-4 my-12">
                     <Link href={`/service/${service.slug}`}>
@@ -102,8 +102,8 @@ export default function Install() {
                         <Button>Open Deploy Page</Button>
                     </Link>
                     <Button className="flex gap-2" onClick={() => setUpgradeDialogOpen(true)}>
-                        <PackagePlus className="h-4 w-4" />
-                        <span>Upgrade</span>
+                        <ArrowUpCircle className="h-4 w-4" />
+                        <span>Issue command</span>
                     </Button>
                 </div>
             </div>
@@ -114,7 +114,7 @@ export default function Install() {
                 </div>
                 <div>
                     <pre>
-                        {logs}
+                        {logs.length === 0 ? "Waiting for logs from this deployment..." : logs}
                     </pre>
                 </div>
             </div>

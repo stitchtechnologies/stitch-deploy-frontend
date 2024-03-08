@@ -34,7 +34,7 @@ import Image from "next/image"
 import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import UpgradeDialog from "./upgrade-dialog"
+import CommandDialog from "./command-dialog"
 
 const getColumns = (serviceId: string, setOpen: (open: boolean) => void, setDeploymentId: (id: string) => void): ColumnDef<Deployment>[] => [
     {
@@ -166,7 +166,7 @@ const getColumns = (serviceId: string, setOpen: (open: boolean) => void, setDepl
                             setOpen(true)
                         }}>
                             <ArrowUpCircle className="h-4 w-4 mr-2" />
-                            Upgrade
+                            Issue command
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -209,7 +209,7 @@ export function InstallsTable({ installs: data }: { installs: Deployment[] }) {
 
     return (
         <div className="w-full">
-            <UpgradeDialog open={open} setOpen={setOpen} deploymentId={deploymentId} />
+            <CommandDialog open={open} setOpen={setOpen} deploymentId={deploymentId} />
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter installs..."
