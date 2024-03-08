@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import CommandDialog from "@/components/command-dialog";
 import { ServiceWithVendorAndInstalls } from "@/pages/api/get-service";
 import { useUser } from "@clerk/nextjs";
-import { ArrowUpCircle, Loader2, PackagePlus } from "lucide-react";
+import { ArrowUpCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
@@ -67,16 +67,23 @@ export default function Install() {
         fetchLogs();
     }, [installId]);
 
+    const LoadingState = (
+        <Layout>
+            <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
+                <Loader2 className="h-8 w-8 animate-spin" />
+            </div>
+        </Layout>
+    )
 
     if (!service || loadingService) {
-        return (
-            <Layout>
-                <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
-                    <Loader2 className="h-8 w-8 animate-spin" />
-                </div>
-            </Layout>
-        )
+        return LoadingState
     };
+
+    const deployment = service.Deployments.find((d) => d.id === installId);
+
+    if (!deployment) {
+        return LoadingState
+    }
 
     return (
         <Layout>
@@ -107,7 +114,16 @@ export default function Install() {
                     </Button>
                 </div>
             </div>
-
+            <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
+                <div className="text-2xl">
+                    Information
+                </div>
+                <div>
+                    <pre>
+                        {deployment.info == undefined ? "Waiting for information to be sent by deployment..." : JSON.stringify(deployment.info, null, 2)}
+                    </pre>
+                </div>
+            </div>
             <div className="flex flex-col gap-6 py-12 px-24 border-b-[rgba(0,0,0,0.10)] border-b border-solid">
                 <div className="text-2xl">
                     Logs
