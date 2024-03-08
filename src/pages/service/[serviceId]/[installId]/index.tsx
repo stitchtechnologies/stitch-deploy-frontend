@@ -10,6 +10,7 @@ import { ArrowUpCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { capitalizeFirstLetter } from "@/lib/utils";
 
 export default function Install() {
     const [logs, setLogs] = useState([]);
@@ -85,6 +86,8 @@ export default function Install() {
         return LoadingState
     }
 
+    const hasMaintenanceWindow = [deployment.maintenanceWindowStartDay, deployment.maintenanceWindowStartTime, deployment.maintenanceWindowEndDay, deployment.maintenanceWindowEndTime].every(m => m != null);
+
     return (
         <Layout>
             <CommandDialog open={upgradeDialogOpen} setOpen={setUpgradeDialogOpen} deploymentId={installId as string} />
@@ -119,6 +122,17 @@ export default function Install() {
                     Information
                 </div>
                 <div>
+                    <div className="flex gap-2">
+                        <h1>Maintenance window:</h1>
+                        <div>
+                            {!hasMaintenanceWindow ? "No maintenance window set" : (
+                                <>
+                                    {capitalizeFirstLetter(deployment.maintenanceWindowStartDay!)} {deployment.maintenanceWindowStartTime} - {capitalizeFirstLetter(deployment.maintenanceWindowEndDay!)} {deployment.maintenanceWindowEndTime}
+                                </>
+                            )}
+                        </div>
+                    </div>
+                    <br />
                     <pre>
                         {deployment.info == undefined ? "Waiting for information to be sent by deployment..." : JSON.stringify(deployment.info, null, 2)}
                     </pre>
